@@ -14,8 +14,9 @@ sys.path[:0]=[str(ROOT/'src'),str(ROOT/'models'),str(ROOT/'scripts')]
 import wistr_reactor as layout
 from textual_graphics.static_scene import SceneBuilder
 from textual_graphics.reactor_geometry import build_reactor
-from textual_graphics.reactor_checks import check_supports, check_bores, check_spider_passage
+from textual_graphics.reactor_checks import check_supports, check_bores, check_spider_passage, check_separator_supports
 from textual_graphics.reactor_air import check_air_system
+from textual_graphics.reactor_tubing import check_absorber_tubing, check_core_tubing
 from render_pms import text_on_camera
 
 
@@ -46,28 +47,34 @@ def presentation(b,d):
         'section':camera(b,'View.ReactorSection',(0,-25,2.925),(0,0,2.925),18,1.7),
         'plan':camera(b,'View.ReactorPlan',(0,0,25),(0,0,0),16),
         'cap':camera(b,'View.CapAndSpider',(-9,-14,17.7),(0,0,d['top_z']+.35),13),
-        'linkage':camera(b,'View.SectorAndLinks',(11,-12,6.7),(1.4,.7,2.8),9),
+        'linkage':camera(b,'View.SectorAndLinks',(11,-12,7.55),(1.4,.7,3.65),11),
         'supports':camera(b,'View.RadialSupports',(6,-8,7),(0,0,.35),8.5),
         'support-detail':camera(b,'View.SupportDetail',(5,-6,3.5),(1.0,.45,.32),4.7),
         'spider':camera(b,'View.SpiderUnderside',(-8,-11,d['top_z']-4.5),(0,0,d['top_z']),11.5),
         'pattern':camera(b,'View.TriangularBores',(4,-5,8),(1.0,.6,2.9),10),
+        'separator-supports':camera(b,'View.SeparatorSupports',(-10,-16,11),(0,0,2.8),18),
+        'core-tubes':camera(b,'View.CoreTubeDetail',(5,-10,8.5),(1,.3,3.85),11.8),
+        'absorber-tubes':camera(b,'View.AbsorberTubing',(-10,-15,16),(0,0,4.5),16),
+        'absorber-tube-detail':camera(b,'View.AbsorberTubeDetail',(6,-8,7.5),(2.4,0,5.45),5.7),
     }
     number=layout.MAINTENANCE['sector'];turn=math.radians((number-1)*60)
     length=b.assemblies[f'reactor.fourbar_{number}']['link_length']
     def raised_point(point):
         x,y,z=point;x+=length*math.cos(math.pi/6);y+=length*.5;z+=length
         return (x*math.cos(turn)-y*math.sin(turn),x*math.sin(turn)+y*math.cos(turn),z)
-    cameras['maintenance']=camera(b,'View.MaintenanceSector',raised_point((11,-12,6.7)),raised_point((1.4,.7,2.8)),9)
+    cameras['maintenance']=camera(b,'View.MaintenanceSector',raised_point((11,-12,7.55)),raised_point((1.4,.7,3.65)),11)
     cameras['plan'].rotation_euler=(0,0,0)
     return cameras
 
 
 def annotations(b,cameras,d):
+    connection_count=layout.CONNECTIONS['count_per_level']
+    stagger=(layout.CONNECTIONS['hot_angle_offset']-layout.CONNECTIONS['cold_angle_offset'])%360
     for view,cam in cameras.items():
         col=b.collection('Labels.'+view)
         def text(name,value,x,y,size=.19,color='#314553'):
-            scale={'cutaway':19/15,'section':18/14,'plan':16/11.5,'cap':13/10,'linkage':1,'supports':8.5/7.5,'maintenance':1,
-                   'support-detail':4.7/7.5,'spider':11.5/10,'pattern':10/9,'air-system':20/23,'air-section':18.5/23}[view]
+            scale={'cutaway':19/15,'section':18/14,'plan':16/11.5,'cap':13/10,'linkage':11/9,'supports':8.5/7.5,'maintenance':11/9,
+                   'support-detail':4.7/7.5,'spider':11.5/10,'pattern':10/9,'separator-supports':18/10,'core-tubes':1.18,'absorber-tubes':16/10,'absorber-tube-detail':5.7/10,'air-system':20/23,'air-section':18.5/23}[view]
             return text_on_camera(view+'.'+name,value,x*scale,y*scale,size*scale,cam,col,color)
         if view in ('air-system','air-section'):
             text('title','WISTR | Vessel air cooling',-10.4,7.65,.46)
@@ -85,18 +92,18 @@ def annotations(b,cameras,d):
             for i,(name,color) in enumerate(items):
                 text('swatch'+str(i),'●',4.1,2.5-i*.47,.20,color)
                 text('legend'+str(i),name,4.43,2.5-i*.47,.18)
-            text('core_dimension','Core: Ø3.6 m × 3.4 m',4.1,-.65,.20)
+            text('core_dimension',f'Core: Ø{layout.CORE["diameter"]:.1f} m × {layout.CORE["height"]:.1f} m',4.1,-.65,.20)
             text('body_dimension',f'Lower vessel: Ø{2*d["vessel_inner_radius"]:.1f} m',4.1,-1.03,.18)
             text('height',f'Internal stack: {d["top_z"]:.2f} m',4.1,-1.39,.18)
             text('plenum',f'Hot plenum: Ø{2*d["hot_inner_radius"]:.2f} m × 1.6 m',4.1,-1.94,.16)
-            text('pipe','6 hot + 6 cold pipes: Ø1.4 m',4.1,-2.25,.16)
+            text('pipe',f'{connection_count} hot + {connection_count} cold pipes: Ø1.4 m',4.1,-2.25,.16)
             text('downcomer','Downcomer: 1.0 m radially',4.1,-2.57,.16)
             text('supports','12 pedestals + 6 absorber supports',4.1,-2.89,.15)
             text('mounts','Wall pins: 0.30 m from inner wall',4.1,-3.25,.16)
             text('foot','Dimensions from owner; unspecified hardware and air clearances remain illustrative.',-6.8,-5.0,.16)
         elif view=='section':
             text('title','WISTR | Flow paths & vertical stack',-6.35,4.5,.34)
-            text('subtitle','Seated reference; cold-inlet section with hot outlets staggered 30°.',-6.35,4.08,.17)
+            text('subtitle',f'Seated reference; cold-inlet section with hot outlets staggered {stagger:g}°.',-6.35,4.08,.17)
             rows=[('Hot plenum   1.60 m',(d['hot_plenum_z']+d['top_z'])/2,'#A8791C'),
                   ('Top reflector   0.25 m',(d['top_reflector_z']+d['hot_plenum_z'])/2,'#586B78'),
                   ('Core   3.40 m',(d['core_z']+d['top_reflector_z'])/2,'#8C5B29'),
@@ -112,8 +119,8 @@ def annotations(b,cameras,d):
         elif view=='plan':
             text('title','WISTR | Six-sector arrangement',-5.15,5.02,.32)
             text('subtitle','Sector 3 moved outward; cap and spider hidden',-5.15,4.56,.17)
-            text('size',f'Lower vessel Ø6.2 m  /  upper vessel Ø{2*d["hot_inner_radius"]:.2f} m  /  downcomer 1.0 m',-5.15,-4.38,.18)
-            text('tanks','6 hot outlets + 6 cold inlets, staggered by 30°.',-5.15,-4.75,.18)
+            text('size',f'Lower vessel Ø{2*d["vessel_inner_radius"]:.1f} m  /  upper vessel Ø{2*d["hot_inner_radius"]:.2f} m  /  downcomer 1.0 m',-5.15,-4.38,.18)
+            text('tanks',f'{connection_count} hot outlets + {connection_count} cold inlets, staggered by {stagger:g}°.',-5.15,-4.75,.18)
             text('foot','Triangular through-bores; rows parallel to sector edges. Pitch and bore diameter remain illustrative.',-5.15,-5.15,.135)
         elif view=='cap':
             text('title','WISTR | Segmented cap & spider',-4.5,3.25,.29)
@@ -146,7 +153,24 @@ def annotations(b,cameras,d):
             text('title','WISTR | Spider underside',-4.5,3.25,.29)
             text('subtitle',f'Legs {d["spider_beam_width"]:.3f} m wide, sized to clear the raised sector',-4.5,2.85,.16)
             text('web','Welded vertical webs: 15 mm thick × 50 mm high',-4.5,-2.85,.16)
-            text('foot','Nominal 30 mm passage clearance at the legs and outer ring; cap hidden.',-4.5,-3.25,.145)
+            text('foot','Circular opening clears core, top reflector and tubes; cap hidden.',-4.5,-3.25,.145)
+        elif view=='core-tubes':
+            text('title','WISTR | Core service tubes',-4.5,3.25,.27)
+            text('subtitle','Three pairs: 25 mm from top (blue), 50 mm from bottom (copper)',-4.5,2.88,.15)
+            text('end','Common radial edge slot; ends 100 mm above cap plate.',-4.5,-2.96,.15)
+            text('foot','Core hidden to expose the stacked edge runs and common radial slot.',-4.5,-3.30,.13)
+        elif view in ('absorber-tubes','absorber-tube-detail'):
+            text('title','WISTR | Absorber tube connections',-4.5,3.25,.27)
+            text('subtitle','Two pairs per absorber: top centre (blue) and outer top edge (gold)',-4.5,2.88,.15)
+            text('tube','25 + 50 mm OD per pair; 55 mm vertical pitch; provisional 2 mm wall.',-4.5,-2.65,.15)
+            text('end','Side-by-side wall risers; ends extend 100 mm above the cap plates.',-4.5,-2.96,.15)
+            text('foot','Vessel and sector geometry hidden; sector and link clearances checked at sampled motion positions.',-4.5,-3.30,.12)
+        elif view=='separator-supports':
+            text('title','WISTR | Separator ledge & absorber braces',-4.5,3.25,.27)
+            text('subtitle','Sector cores and separators hidden to expose fixed supports',-4.5,2.88,.16)
+            text('ledge',f'Wall ledge: {d["ledge_width"]*1000:.1f} mm wide × {d["ledge_height"]*1000:.1f} mm high',-4.5,-2.55,.16)
+            text('braces',f'18 radial braces: 200 mm high × {d["absorber_brace_width"]*1000:.0f} mm thick',-4.5,-2.88,.16)
+            text('foot','Bearing faces 40 mm below hot-plenum floor; 30 mm clearance to upright links.',-4.5,-3.25,.135)
         elif view=='pattern':
             text('title','WISTR | Triangular through-hole pattern',-4.05,2.9,.27)
             text('subtitle','Top reflector, core and bottom reflector share the same hole centres',-4.05,2.52,.15)
@@ -156,19 +180,25 @@ def annotations(b,cameras,d):
 
 def select_view(b,cameras,cut_objects,view):
     scene=bpy.context.scene;scene.camera=cameras[view]
+    scene['tubing_detail_view']=view=='absorber-tube-detail'
+    scene['core_tube_detail_view']=view=='core-tubes'
     visible={
         'air-system':set(b.collections)-{'Flow arrows','Air path arrows'},
         'air-section':set(b.collections)-{'Flow arrows'},
         'cutaway':set(b.collections)-{'Flow arrows'},
         'section':set(b.collections)-{'Cap pieces','Four-bar hardware'},
         'plan':set(b.collections)-{'Cap pieces','Spider','Flow arrows'},
-        'cap':{'Cap pieces','Spider','Presentation'},
-        'linkage':{'Core sectors','Four-bar hardware','Presentation'},
+        'cap':{'Cap pieces','Spider','Absorber tubing','Presentation'},
+        'linkage':{'Core sectors','Core tubing','Four-bar hardware','Presentation'},
         'supports':{'Core supports','Vessel supports','Presentation'},
-        'maintenance':{'Core sectors','Four-bar hardware','Presentation'},
+        'maintenance':{'Core sectors','Core tubing','Four-bar hardware','Presentation'},
         'support-detail':{'Core supports','Presentation'},
-        'spider':{'Spider','Presentation'},
+        'spider':{'Spider','Absorber tubing','Presentation'},
         'pattern':{'Core sectors','Presentation'},
+        'separator-supports':{'Separator supports','Absorber tanks','Vessel','Four-bar hardware','Presentation'},
+        'core-tubes':{'Core sectors','Core tubing','Cap pieces','Presentation'},
+        'absorber-tubes':{'Absorber tubing','Absorber tanks','Tube wall mounts','Spider','Presentation'},
+        'absorber-tube-detail':{'Absorber tubing','Absorber tanks','Tube wall mounts','Spider','Presentation'},
     }[view]
     if view not in ('air-system','air-section'):
         visible-= {'Air collectors','Air ducts','Air path arrows'}
@@ -177,23 +207,29 @@ def select_view(b,cameras,cut_objects,view):
         # The cutter must stay evaluable even when hidden as an object.
         if name=='Presentation tools':show=True
         col.hide_render=not show;col.hide_viewport=not show
-    scene['section_cutaway']=view in ('cutaway','section','air-section')
-    scene['maintenance_position']=view not in ('section','linkage','pattern','air-system','air-section')
+    scene['section_cutaway']=view in ('cutaway','section','air-section','separator-supports')
+    scene['maintenance_position']=view not in ('section','linkage','pattern','air-system','air-section','absorber-tubes','absorber-tube-detail','core-tubes')
     bpy.data.objects['study.stage.ground'].hide_render=view=='spider'
     bpy.data.objects['study.stage.ground'].hide_set(view=='spider')
     scene.update_tag()
     scene.frame_set(scene.frame_current)
     for i in range(6):
         obj=b.assemblies[f'reactor.cap_{i+1}']
+        for child in obj.children:
+            child.hide_set(False)
+            if i+1!=layout.MAINTENANCE['sector']:child.hide_render=False
         a=math.radians(30+i*60)
         obj.location=(.18*math.cos(a),.18*math.sin(a),1.05) if view=='cap' else (0,0,0)
         for category in ('sector','fourbar'):
             root=b.assemblies[f'reactor.{category}_{i+1}']
-            isolated=0 if view in ('linkage','pattern') else layout.MAINTENANCE['sector']-1
-            hide=view in ('linkage','maintenance','pattern') and i!=isolated
+            isolated=0 if view in ('linkage','pattern','core-tubes') else layout.MAINTENANCE['sector']-1
+            hide=view in ('linkage','maintenance','pattern','core-tubes') and i!=isolated
             for child in [root,*root.children_recursive]:
                 child.hide_render=hide
                 child.hide_set(hide)
+                if view=='core-tubes' and category=='sector' and child.type=='MESH':
+                    child.hide_render=hide or (child.parent==root and child.name.rsplit('.',1)[-1] not in ('bottom_reflector','top_reflector','radial_reflector','separator'))
+                    child.hide_set(child.hide_render)
                 if view=='pattern' and category=='sector' and child.type=='MESH':
                     part=child.name.rsplit('.',1)[-1]
                     child.hide_render=hide or part not in ('core','top_reflector','bottom_reflector')
@@ -201,7 +237,20 @@ def select_view(b,cameras,cut_objects,view):
         for part,offset in (('top_reflector',(.45,.60,.45)),('bottom_reflector',(-.55,-.3,-.3))):
             obj=bpy.data.objects[f'reactor.sector_{i+1}.{part}']
             obj.location=offset if view=='pattern' and i==0 else (0,0,0)
+    if view=='core-tubes':
+        for i in range(1,7):
+            for obj in b.assemblies[f'reactor.cap_{i}'].children:
+                obj.hide_render=i!=1;obj.hide_set(i!=1)
     for root in b.assemblies.values():
+        if root.get('category') in ('Absorber tanks','Absorber tubing','Tube wall mounts'):
+            isolated=root.name in ('reactor.absorber_1','reactor.absorber_tubes_1','reactor.absorber_tube_mounts_1')
+            for obj in (root,*root.children_recursive):
+                obj.hide_render=view=='absorber-tube-detail' and not isolated
+                obj.hide_set(obj.hide_render)
+        if root.get('category')=='Spider':
+            for obj in root.children:
+                obj.hide_render=view=='absorber-tube-detail' and obj.name not in ('reactor.spider.outer_ring','reactor.spider.arm_1','reactor.spider.underside_web_1')
+                obj.hide_set(obj.hide_render)
         if root.get('category')!='Core supports':continue
         keep=root.name in ('reactor.core_support_1','reactor.core_support_2','reactor.core_absorber_support_1','reactor.core_absorber_support_2')
         for obj in (root,*root.children_recursive):
@@ -265,7 +314,7 @@ def report(b,d,output):
     scene['maintenance_position']=False
     scene.update_tag()
     bpy.context.view_layer.update()
-    assert math.isclose(d['vessel_inner_radius']*2,6.2)
+    assert math.isclose(d['vessel_inner_radius']*2,layout.CORE['diameter']+2*(layout.LAYERS['radial_reflector']+layout.LAYERS['downcomer']))
     assert d['hot_inner_radius']*2<8.2
     assert d['hot_inner_radius']>d['raised_separator_radius']
     assert math.isclose(d['top_z'],6.30)
@@ -277,7 +326,7 @@ def report(b,d,output):
     assert counts==expected_counts,counts
     for i in range(1,7):
         vertices=bpy.data.objects[f'reactor.sector_{i}.core'].data.vertices
-        assert math.isclose(max(math.hypot(v.co.x,v.co.y) for v in vertices),1.8,abs_tol=1e-6)
+        assert math.isclose(max(math.hypot(v.co.x,v.co.y) for v in vertices),layout.CORE['diameter']/2,abs_tol=1e-6)
         assert math.isclose(max(v.co.z for v in vertices)-min(v.co.z for v in vertices),3.4,abs_tol=1e-6)
         top=bpy.data.objects[f'reactor.sector_{i}.top_reflector'].data.vertices
         radial=bpy.data.objects[f'reactor.sector_{i}.radial_reflector'].data.vertices
@@ -319,7 +368,8 @@ def report(b,d,output):
     root.location-=shift;bpy.context.view_layer.update()
     connections=[o for o in b.assemblies.values() if o.get('connection_type')]
     connection_counts={name:sum(o['connection_type']==name for o in connections) for name in ('hot_outlet','cold_inlet')}
-    assert connection_counts=={'hot_outlet':6,'cold_inlet':6}
+    expected_connections=layout.CONNECTIONS['count_per_level']
+    assert connection_counts=={name:expected_connections for name in ('hot_outlet','cold_inlet')}
     # Verify actual shell perforations with local-space ray tests.
     for name in ('reactor.vessel.wall','reactor.baffle.vertical_sheet','reactor.well.wall'):
         obj=bpy.data.objects[name]
@@ -333,15 +383,20 @@ def report(b,d,output):
              for name in ('wistr-reactor-1.svg','fourbar-retract.svg','sectors-with-regions.jpg')}
     maintenance=check_maintenance(b,d)
     spider_checks=check_spider_passage(b,d,layout)
+    separator_checks=check_separator_supports(b,d,layout)
+    tubing_checks=check_absorber_tubing(b,layout,d)
+    core_tubing_checks=check_core_tubing(b,layout,d)
     summary={'units':'metres; Z up','core':layout.CORE,'layers':layout.LAYERS,
-             'connections':layout.CONNECTIONS,'supports':layout.SUPPORTS,'derived_dimensions':d,
+             'connections':layout.CONNECTIONS,'supports':layout.SUPPORTS,'separator_support_parameters':layout.SEPARATOR_SUPPORTS,'derived_dimensions':d,
              'presentation_dimensions':layout.PRESENTATION,'counts':counts,
              'connection_counts':connection_counts,'separator_count':separator_count,'link_bar_count':link_count,
              'maintenance':maintenance,'bore_pattern':bore_checks,'spider_passage':spider_checks,'air_system':air_checks,
+             'separator_supports':separator_checks,
+             'absorber_tubing':tubing_checks,'core_tubing':core_tubing_checks,
              'source_sha256':sources,'assumptions':layout.ASSUMPTIONS,
              'checks':['Six sectors, tanks, cap pieces and four-bar assemblies; twelve pedestals and six sheets per level',
                        'Core mesh radii and heights checked against supplied dimensions',
-                       f'6.2 m lower and {2*d["hot_inner_radius"]:.3f} m upper inside diameters; 6.30 m internal height',
+                       f'{2*d["vessel_inner_radius"]:.1f} m lower and {2*d["hot_inner_radius"]:.3f} m upper inside diameters; 6.30 m internal height',
                        'Top reflector seats directly on the core inside the peripheral reflector',
                        'Six separator pieces are attached to their sectors and move with the reflectors',
                        'Four equal-length parallel bars per sector, each 0.26 by 0.30 m in cross-section',
@@ -350,9 +405,9 @@ def report(b,d,output):
                        'Four links stand vertical; reflector clears the links; wall pins stay fixed; selected cap is hidden',
                        'Triangular bores align through the core and both reflectors; all perforated meshes are closed',
                        'Links extend past each pin and contain clear through-holes for the pins',
-                       'Raised sector and attached lugs fit vertically between spider legs, hub and ring with 30 mm nominal clearance',
+                       'Raised core, top reflector and tubes pass the circular spider opening',
                        'Each spider leg has an attached 15 mm by 50 mm underside web',
-                       'Six hot and six cold nozzle ray checks pass through vessel, baffle and well',
+                       f'{expected_connections} hot and {expected_connections} cold nozzle ray checks pass through vessel, baffle and well',
                        'Stepped vessel, baffle and well remain closed meshes after the viewing cut']+support_checks,
              'installation_modified':False}
     scene['section_cutaway']=True
@@ -371,7 +426,7 @@ def report(b,d,output):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--draft',action='store_true')
-    views=['air-system','air-section','cutaway','section','plan','cap','linkage','supports','maintenance','support-detail','spider','pattern']
+    views=['air-system','air-section','cutaway','section','plan','cap','linkage','supports','maintenance','support-detail','spider','pattern','separator-supports','absorber-tubes','absorber-tube-detail','core-tubes']
     parser.add_argument('--views',nargs='+',choices=views,default=views)
     args=parser.parse_args(sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else [])
     output=ROOT/'outputs/reactor-study';output.mkdir(parents=True,exist_ok=True)

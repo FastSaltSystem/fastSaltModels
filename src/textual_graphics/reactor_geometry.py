@@ -204,15 +204,35 @@ def build_vessel(b,layout,d):
             flange.location=(end-.10,0,z);flange.rotation_euler.y=math.pi/2
 
 
+def build_separator_supports(b,layout,d):
+    root=b.assembly('reactor.separator_supports','Separator supports')
+    seat=d['separator_seat_z']
+    ring=b.annulus('wall_ledge',root,d['ledge_inner_radius'],d['vessel_inner_radius'],
+                   seat-d['ledge_height'],seat,'steel')
+    ring['radial_projection']=d['ledge_width'];ring['height']=d['ledge_height']
+    ring['attachment']='fixed to vessel; separator bears on upper face'
+    # Embed 10 mm into the wall so rectangular ends meet the curved shell.
+    start=d['reflector_radius'];end=d['vessel_inner_radius']+.01
+    for i in range(6):
+        for level,z in zip(('bottom','middle','top'),d['absorber_brace_centres']):
+            x,y=xy((start+end)/2,i*60)
+            brace=b.box(f'absorber_{i+1}_{level}',root,
+                        (end-start,d['absorber_brace_width'],layout.SEPARATOR_SUPPORTS['radial_height']),
+                        (x,y,z),'steel')
+            brace.rotation_euler.z=math.radians(i*60)
+            brace['level']=level;brace['absorber_number']=i+1
+            brace['attachment']='fixed between absorber outer end and vessel wall'
+
+
 def build_cap(b,layout,d):
     p=layout.PRESENTATION
     root=b.assembly('reactor.spider','Spider')
-    b.annulus('outer_ring',root,d['hot_inner_radius']-p['spider_ring_inset'],d['hot_outer_radius']+.12,
+    b.annulus('outer_ring',root,d['cap_opening_radius'],d['hot_outer_radius']+.12,
               d['top_z'],d['top_z']+.15,'steel')
     hub=[(*xy(d['spider_hub_radius'],30+i*60),z) for z in (d['top_z'],d['top_z']+.15) for i in range(6)]
     b.mesh('hub',root,hub,[tuple(reversed(range(6))),tuple(range(6,12))]+[(i,(i+1)%6,(i+1)%6+6,i+6) for i in range(6)],'steel')
     for i in range(6):
-        a=i*60;start=d['spider_hub_radius']*math.cos(math.pi/6);end=d['hot_inner_radius']-p['spider_ring_inset']
+        a=i*60;start=d['spider_hub_radius']*math.cos(math.pi/6);end=d['cap_opening_radius']
         x,y=xy((start+end)/2,a)
         beam=b.box(f'arm_{i+1}',root,(end-start,d['spider_beam_width'],p['spider_beam_depth']),
                    (x,y,d['top_z']+p['spider_beam_depth']/2),'steel',.012)
@@ -222,9 +242,9 @@ def build_cap(b,layout,d):
         web.rotation_euler.z=math.radians(a)
         web['attachment']='welded vertically to the underside centre line of spider arm'
         cap=b.assembly(f'reactor.cap_{i+1}','Cap pieces',angle=a)
-        sector(b,'plate',cap,.22,d['hot_inner_radius']-.015,
+        sector(b,'plate',cap,.22,d['cap_opening_radius']+.015,
                d['top_z']+.15,d['top_z']+.15+p['cap_thickness'],.02,'cap')
-        for r in (d['hot_inner_radius']*.3,d['hot_inner_radius']*.72):
+        for r in (d['cap_opening_radius']*.3,d['cap_opening_radius']*.72):
             x,y=xy(r,30)
             b.box(f'lifting_lug_{r}',cap,(.12,.22,.14),(x,y,d['top_z']+.15+p['cap_thickness']+.07),'links',.01)
     for i in range(6):
@@ -281,6 +301,11 @@ def pose_driver(obj,path,index,expression):
     variable=driver.variables.new();variable.name='raised';variable.type='SINGLE_PROP'
     variable.targets[0].id_type='SCENE';variable.targets[0].id=bpy.context.scene
     variable.targets[0].data_path='["maintenance_position"]'
+    if path in ('hide_render','hide_viewport'):
+        variable=driver.variables.new();variable.name='detail';variable.type='SINGLE_PROP'
+        variable.targets[0].id_type='SCENE';variable.targets[0].id=bpy.context.scene
+        variable.targets[0].data_path='["core_tube_detail_view"]'
+        expression='('+expression+') or detail'
     driver.expression=expression
 
 
@@ -328,8 +353,8 @@ def build_flow(b,layout,d):
     for i,x in enumerate((-.8,.8)):
         arrow(b,f'core_up_{i}',root,[(x,y,d['core_z']+.15),(x,y,d['top_reflector_z']-.25)],'hot',.035)
     arrow(b,'to_hot_plenum',root,[(-.8,y,d['top_reflector_z']+.03),(-.8,y,d['hot_plenum_z']+.4)],'hot',.045)
-    # The hot outlet is staggered, so its path is oblique to the cold-inlet section.
-    hot_angle=layout.CONNECTIONS['hot_angle_offset']+120
+    # Follow the second hot outlet; its azimuth derives from the connection layout.
+    hot_angle=layout.CONNECTIONS['hot_angle_offset']+360/layout.CONNECTIONS['count_per_level']
     hx,hy=xy(end,hot_angle)
     arrow(b,'hot_exit',root,[(0,0,d['hot_outlet_z']),(hx,hy,d['hot_outlet_z'])],'hot',.045)
     outer=(d['baffle_outer_radius']+d['well_inner_radius'])/2
@@ -378,9 +403,12 @@ def add_cutaway(b):
 
 def build_reactor(b,layout):
     from .reactor_air import build_air_system
+    from .reactor_tubing import build_absorber_tubing, build_core_tubing
     d=layout.dimensions()
     palette(b);build_core(b,layout,d);build_supports(b,layout,d);build_well(b,layout,d)
-    build_vessel(b,layout,d);build_cap(b,layout,d);build_flow(b,layout,d)
+    build_vessel(b,layout,d);build_separator_supports(b,layout,d);build_cap(b,layout,d);build_flow(b,layout,d)
+    build_core_tubing(b,layout,d)
     build_maintenance_pose(b,layout)
+    build_absorber_tubing(b,layout,d)
     build_air_system(b,layout,d)
     return d,add_cutaway(b)

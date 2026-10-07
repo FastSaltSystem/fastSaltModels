@@ -1,0 +1,15 @@
+{
+  "baseline_date": "2026-10-07",
+  "scope": "Approved isolated reactor with 3.8 m core, three coolant legs, separator supports, absorber and core service tubing, radial reflector slots, and larger caps over a smooth circular spider opening.",
+  "files": {
+    "wistr-reactor-study.blend": {
+      "sha256": "c847cfed7ed5347a00a5abd38ab3d75637e771cb5ffd797936e77c28c15bb29e",
+      "bytes": 7895933
+    },
+    "reactor-study-report.json": {
+      "sha256": "ecf6243e9bd960a680fc5f08a14b03c0b2111f9df5e13b1a9307b1c963767789",
+      "bytes": 19929
+    }
+  },
+  "validation": "Full Blender build and geometry checks passed; saved-file reload and closed section meshes verified in reactor-study-report.json. Sampled motion checks are not a continuous collision proof."
+}

@@ -3,6 +3,72 @@ import math
 import bpy
 import bmesh
 from mathutils import Vector, Matrix
+from mathutils.bvhtree import BVHTree
+
+
+def check_separator_supports(b,d,layout):
+    scene=bpy.context.scene;raised=scene['maintenance_position']
+    root=b.assemblies['reactor.separator_supports'];ring=bpy.data.objects[root.name+'.wall_ledge']
+    braces=[o for o in root.children if o.get('level')]
+    assert len(braces)==18
+    assert math.isclose(d['ledge_height'],2*d['ledge_width'])
+    assert math.isclose(max(v.co.z for v in ring.data.vertices),d['hot_plenum_z']-layout.PRESENTATION['downcomer_roof_thickness'],abs_tol=1e-6)
+    assert math.isclose(d['absorber_brace_width'],2*layout.PRESENTATION['absorber_tank_width'])
+    initial={o.name:o.matrix_world.copy() for o in root.children}
+    for obj in root.children:closed_mesh(obj)
+    scene['maintenance_position']=False;scene.update_tag();bpy.context.view_layer.update()
+    for i in range(1,7):
+        separator=bpy.data.objects[f'reactor.sector_{i}.separator']
+        radius=(d['ledge_inner_radius']+d['vessel_inner_radius'])/2
+        # Ring contact below the middle of each seated separator's outer edge.
+        local=Vector((radius*math.cos(math.pi/6),radius*.5,d['separator_seat_z']+.01))
+        point=separator.matrix_world @ local
+        hit,where,*_=ring.ray_cast(point,Vector((0,0,-1)))
+        assert hit and abs(where.z-d['separator_seat_z'])<1e-6
+        for level,z in zip(('bottom','middle','top'),d['absorber_brace_centres']):
+            brace=bpy.data.objects[f'{root.name}.absorber_{i}_{level}']
+            assert math.isclose(brace.dimensions.z,.20,abs_tol=1e-6)
+            assert math.isclose(brace.dimensions.y,d['absorber_brace_width'],abs_tol=1e-6)
+            # Each beam starts at the absorber's outer end and reaches the wall.
+            assert math.isclose(brace.location.z,z,abs_tol=1e-6)
+            if level=='top':
+                assert math.isclose(z+.1,d['separator_seat_z'],abs_tol=1e-6)
+                a=math.radians((i-1)*60);radius=(d['reflector_radius']+d['ledge_inner_radius'])/2
+                for side,number in ((1,i),(-1,(i-2)%6+1)):
+                    point=Vector((radius*math.cos(a)-side*.04*math.sin(a),
+                                  radius*math.sin(a)+side*.04*math.cos(a),d['separator_seat_z']-.01))
+                    sep=bpy.data.objects[f'reactor.sector_{number}.separator']
+                    assert sep.ray_cast(sep.matrix_world.inverted() @ point,Vector((0,0,1)))[0]
+    inlet_top=d['cold_inlet_z']+layout.CONNECTIONS['pipe_diameter']/2
+    lowest_top_support=d['separator_seat_z']-max(d['ledge_height'],layout.SEPARATOR_SUPPORTS['radial_height'])
+    assert lowest_top_support-inlet_top>=layout.SEPARATOR_SUPPORTS['inlet_clearance']-1e-6
+    def tree(obj):
+        return BVHTree.FromPolygons([obj.matrix_world @ v.co for v in obj.data.vertices],
+                                   [tuple(p.vertices) for p in obj.data.polygons])
+    supports=[(o,tree(o)) for o in root.children]
+    number=layout.MAINTENANCE['sector']
+    moving=b.assemblies[f'reactor.sector_{number}']
+    hardware=b.assemblies[f'reactor.fourbar_{number}']
+    tested=[o for o in hardware.children if o.get('role')=='fourbar_link']
+    tested += [o for o in moving.children if '_moving_pin' in o.name or '_moving_cheek_' in o.name]
+    for pose in (False,True):
+        scene['maintenance_position']=pose;scene.update_tag();bpy.context.view_layer.update()
+        for obj in tested:
+            mesh=tree(obj)
+            for support,bvh in supports:
+                assert not mesh.overlap(bvh),(pose,obj.name,support.name)
+        assert all(o.matrix_world==initial[o.name] for o in root.children)
+    links=[o for o in tested if o.get('role')=='fourbar_link']
+    envelope=max(math.hypot(*(o.matrix_world @ v.co)[:2]) for o in links for v in o.data.vertices)
+    clearance=d['ledge_inner_radius']*math.cos(math.pi/128)-envelope
+    assert clearance>=layout.SEPARATOR_SUPPORTS['link_clearance']-2e-6
+    scene['maintenance_position']=raised;scene.update_tag();bpy.context.view_layer.update()
+    return {'ledge_radial_width':d['ledge_width'],'ledge_height':d['ledge_height'],
+            'bearing_elevation':d['separator_seat_z'],'upright_link_radial_clearance':clearance,
+            'radial_support_count':len(braces),'radial_support_height':.20,
+            'radial_support_width':d['absorber_brace_width'],'cold_inlet_top_clearance':lowest_top_support-inlet_top,
+            'seated_separator_contacts_checked':True,'links_and_moving_hardware_clear_in_both_poses':True,
+            'full_motion_sweep_checked':False,'leakage_or_load_analysis':False}
 
 
 def closed_mesh(obj):
@@ -96,15 +162,15 @@ def check_bores(b,d,layout):
 
 def check_spider_passage(b,d,layout):
     p=layout.PRESENTATION;number=layout.MAINTENANCE['sector'];root=b.assemblies[f'reactor.sector_{number}']
-    # Project the complete raised sector and attached hardware into the opening.
+    # Project the raised core and top reflector into the reduced opening.
     unrotate=Matrix.Rotation(-root.rotation_euler.z,4,'Z')
-    points=[unrotate @ (obj.matrix_world @ v.co) for obj in root.children if obj.type=='MESH' for v in obj.data.vertices]
+    points=[unrotate @ (obj.matrix_world @ v.co) for obj in root.children if obj.name.rsplit('.',1)[-1] in ('core','top_reflector') for v in obj.data.vertices]
     edge_distance=min(min(v.y,math.sqrt(3)*v.x/2-v.y/2) for v in points)
     leg_clearance=edge_distance-d['spider_beam_width']/2
-    ring_apothem=(d['hot_inner_radius']-p['spider_ring_inset'])*math.cos(math.pi/128)
+    ring_apothem=d['cap_opening_radius']*math.cos(math.pi/128)
     ring_clearance=ring_apothem-max(math.hypot(v.x,v.y) for v in points)
     assert leg_clearance>=p['extraction_clearance']-2e-6,leg_clearance
-    assert ring_clearance>=p['extraction_clearance']-2e-6,ring_clearance
+    assert ring_clearance>=p['cap_radial_clearance']-2e-6,ring_clearance
     assert min(math.hypot(v.x,v.y) for v in points)>d['spider_hub_radius']+p['extraction_clearance']
     for i in range(1,7):
         arm=bpy.data.objects[f'reactor.spider.arm_{i}'];web=bpy.data.objects[f'reactor.spider.underside_web_{i}']
@@ -114,5 +180,5 @@ def check_spider_passage(b,d,layout):
         assert math.isclose(web.location.z+.025,d['top_z'],abs_tol=1e-6)
     return {'leg_width_metres':d['spider_beam_width'],'minimum_leg_clearance_metres':leg_clearance,
             'minimum_ring_clearance_metres':ring_clearance,'underside_web_thickness_metres':.015,
-            'underside_web_height_metres':.05,'raised_sector_vertical_projection_checked':True,
+            'underside_web_height_metres':.05,'raised_core_and_top_reflector_vertical_projection_checked':True,
             'full_mechanism_collision_sweep_performed':False}

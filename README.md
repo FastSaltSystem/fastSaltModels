@@ -11,10 +11,19 @@ reads a detached `Sim3D.document(model)` from PracticalMechanicalSimulation
 Git tag `wistr-reactor-baseline-2026-10-07` marks the approved isolated reactor,
 including the enclosing cold-air hood and short central hot/cold duct stubs,
 before adding fuel/absorber tubing or integrating it into the installation.
+That tagged snapshot retains the earlier 3.6 m core diameter. The working model
+now uses the owner-confirmed 3.8 m from slide 6 of Fast Salt System 5.pptx.
 `baselines/wistr-reactor-2026-10-07/` preserves the exact Blender model, its
 geometry-check report, and a SHA-256 manifest. Open that saved `.blend` for the
 baseline; use `outputs/reactor-study/` for ongoing work. Routine generated
 outputs and working backups remain excluded from Git.
+
+The subsequent approved tubing snapshot is preserved in
+`baselines/wistr-reactor-tubing-2026-10-07/`, including its Blender file,
+validation report and SHA-256 manifest. It incorporates the 3.8 m core,
+three coolant legs, separator supports, absorber and core service tubing,
+radial reflector slots, and larger caps over a smooth circular spider opening.
+The original baseline remains unchanged.
 
 ### Isolated reactor review
 
@@ -34,25 +43,102 @@ Outputs in `outputs/reactor-study/` include `wistr-reactor-study.blend` and
 `reactor-cap.png`, `reactor-linkage.png`, `reactor-supports.png`, and
 `reactor-maintenance.png`. Detail views are `reactor-support-detail.png`,
 `reactor-spider.png` (underside), and `reactor-pattern.png` (exploded bore layout).
+`reactor-separator-supports.png` exposes the wall ledge and three levels of
+absorber-to-vessel braces, with sector cores and separators hidden.
+`reactor-absorber-tubes.png` shows all six absorber tube sets and the spider;
+`reactor-absorber-tube-detail.png` isolates one set with a cropped tank top and
+spider segment to expose both attachment pairs and the terminations.
 `reactor-air-system.png` shows the complete air collectors and ductwork;
 `reactor-air-section.png` opens them to show the separate inlet and return paths.
 Use `-- --draft` for previews or `-- --views section plan`
 for selected renders. Building the study does not change the installation scene.
 
 `models/wistr_reactor.py` holds the supplied and provisional dimensions separately.
-The core is 3.6 m diameter and 3.4 m high, excluding the reflectors and plenums.
+The core is 3.8 m diameter and 3.4 m high, excluding the reflectors and plenums.
 The radial reflector adds 0.3 m and the downcomer adds 1.0 m radially, giving a
-6.2 m lower vessel internal diameter. The upper vessel now fits around the raised
-separator and spider ring, with provisional 30 mm extraction clearance, giving
-about 7.465 m hot-plenum inside diameter. The well and air baffle follow this
+6.4 m lower vessel internal diameter. The upper vessel now fits around the raised
+separator envelope, retaining the previous vessel allowance, giving
+about 7.663 m hot-plenum inside diameter. The well and air baffle follow this
 stepped profile. Bottom reflector, top reflector, and bottom plenum heights
 are 0.3 m, 0.25 m, and 0.75 m respectively. The bottom plenum was reduced by 25%.
 The hot plenum remains 1.6 m high to fit the 1.4 m side outlet, giving 6.30 m
-total internal stack height. The inlet lies immediately below that plenum.
-There are six hot and six cold side pipes, all 1.4 m diameter, spaced every
-60 degrees within each set and staggered by 30 degrees between the sets.
+total internal stack height. Cold-inlet centres are at Z=3.73 m, lowered
+0.17 m to clear the new top absorber braces by 30 mm.
+There are three hot outlets and three cold inlets for three coolant legs,
+spaced every 120 degrees within each set and staggered by 30 degrees between
+the sets. Hot outlets are at 30, 150 and 270 degrees, shifted 30 degrees
+toward the cold inlets to clear the absorber tubing routes at 60-degree intervals.
+The shared hot plenum and cold downcomer distribute coolant among
+the six sectors; there are no external branch manifolds. All side pipes retain
+their 1.4 m outside diameter and illustrative 35 mm wall (1.33 m clear bore).
 The cold stubs extend 0.35 m farther outward for presentation; stub lengths
 do not define the installation routing.
+
+A fixed annular ledge projects 89.3 mm inward from the lower vessel wall.
+Its height is twice its radial width (178.6 mm); its top at Z=4.66 m seats
+the underside of the 40 mm separator below the Z=4.70 m hot-plenum floor.
+The ledge width derives from the outer envelope of the upright four-bar links
+plus 30 mm provisional running clearance, allowing for the faceted ring mesh.
+At each of the six absorber positions, three fixed radial braces join the
+absorber outer end to the vessel wall (18 total). They are 200 mm tall and
+160 mm thick, twice the current illustrative 80 mm absorber thickness.
+The top braces share the separator bearing elevation and support both
+adjacent separator edges. Bottom braces start at the absorber bottom,
+Z=0.75 m; middle braces are equally spaced between the top and bottom levels.
+Braces extend 10 mm into the vessel wall to connect their flat ends to its
+curved surface. Checks verify separator contact, inlet clearance, fixed support
+positions, and clearance from the selected sector's links and moving mounts
+in seated and raised poses. Leakage reduction is a geometric design intent;
+leakage, load capacity, and a continuous motion sweep are not calculated.
+
+The removable caps cover openings for the core, top reflector and attached
+service tubes.
+Opening radius is approximately 2.667 m, allowing at least 100 mm radial clearance
+around the raised core and 20 mm around the conservative raised tube envelope.
+The spider outer band is narrowed to provide this continuous circular opening.
+Peripheral/bottom reflectors and separators stay below
+this opening. The cap plate radius is approximately 2.682 m, including its
+15 mm overlap onto the spider band. Its outer arc is smooth.
+Plate tops remain at Z=6.57 m.
+
+Each absorber carries two pairs of tubes, each with one 25 mm and one 50 mm OD
+tube (24 tubes total). Across the hot plenum, the four lines are stacked at
+55 mm pitch, with the lowest centreline 250 mm above the plenum floor. Near the
+wall they spread into four side-by-side risers at 60 mm pitch, with
+individual passages through the enlarged spider. Provisional saddles provide
+wall attachment locations. Tube ends are at Z=6.67 m, 100 mm above cap plates.
+The 2 mm tube walls, bends, offsets, saddles and hole allowances are provisional.
+
+Each core sector carries three service pairs (36 tubes total). Each 25 mm
+blue tube starts at the core top; each 50 mm copper tube starts at the core
+bottom. All six tubes stay in one radial plane 75 mm from the sector boundary
+until the top runs reach their bottom partners. Three vertically stacked bottom
+runs share one edge-open groove, and their risers occupy one radial slot in the
+peripheral reflector. The slot reaches 110 mm from the boundary (62 mm beyond
+the reflector edge), limiting its footprint to the first illustrative bore row.
+The bottom groove intersects 19 illustrative bore footprints per sector, versus 49 with the
+previous three L-shaped routes. This is a geometric comparison, not a coolant
+flow-loss calculation.
+Bottom risers at radial coordinates 2.11, 2.04 and 1.97 m are nested in the same
+plane. Top runs retain the extra 300 mm rise; staggered meeting heights avoid
+crossings. Only after meeting do the pairs fan into the existing cap opening.
+The six cap risers lie at radius 1.95 m and terminate 100 mm above the cap.
+The enlarged circular spider opening clears the raised radial tube row during
+vertical core withdrawal, with a provisional 20 mm allowance around its
+conservative envelope. Larger circular caps cover this opening; local spider
+reliefs and matching cap extensions have been removed. The cap-edge tube
+penetration notches and absorber tube passages through the ring remain.
+`reactor-core-tubes.png` hides the core to expose the stacked edge runs and slot.
+External connections and disconnections are not modeled.
+
+Checks cover counts, diameters, open bores, closed pipe walls, reflector/cap
+notches, tube separation and spider passages. The complete tube projection
+fits through the spider in the raised pose; sampled vertical lifts check
+that the bottom tubes can leave their open reflector slots. Fixed absorber
+tubes are checked against the moving sector and links; moving core tubes are checked against
+fixed tubing, mounts and the spider at 31 positions on the actual four-bar arc.
+These sampled checks do not constitute a continuous collision proof or a
+thermal-expansion or structural analysis.
 
 The file opens in the air-system section view, with all sectors seated and
 all six vessel cap pieces installed beneath the new air hood.
@@ -107,7 +193,7 @@ still has six tanks and six sectors. The cap render shows the five remaining
 caps lifted for inspection; sector 3's cap is hidden. Each sector owns its neutron reflectors and
 one separator segment spanning the downcomer; these parts move together when
 the sector parent is moved. The separator is not part of the vessel assembly.
-The top reflector has the same 1.8 m outer radius as the core and rests directly
+The top reflector has the same 1.9 m outer radius as the core and rests directly
 on it, inside the peripheral reflector. The peripheral reflector extends up
 alongside the top reflector and carries the separator at its upper outer edge.
 Each sector has two upper bars
@@ -131,20 +217,23 @@ Seals and detailed hardware clearances remain to be specified.
 The core and both reflectors now contain actual aligned through-bores in a
 triangular lattice, with row families parallel to both radial sector edges.
 The previous illustrative 85 mm pitch and 48 mm bore diameter are retained.
-There are 230 visual bores per sector, giving 1,380 aligned passages; the count
+There are 257 lattice positions per sector, giving 1,542 aligned passage
+positions. Top-reflector service notches open into a few edge bores. The count
 and dimensions do not specify a tube design. The pattern render offsets the
 two reflectors for inspection and resets them before saving the assembled scene.
 
 Spider legs are widened to approximately 0.465 m, derived from the raised
 separator's edge offsets. A matching hexagonal hub joins their inner ends.
-The full raised sector footprint, including attached lugs and pins, clears
-the legs, central hub and outer ring for vertical passage. The leg and ring
-clearance is 30 mm provisionally. A vertical sheet 15 mm thick and 50 mm high
+The circular opening clears the raised core and top reflector, with at least
+100 mm radial clearance, and also accommodates their attached service tubes.
+The larger peripheral reflector,
+bottom reflector and separator remain below the opening; they are not part of
+the vertical extraction envelope. A vertical sheet 15 mm thick and 50 mm high
 is welded along the underside centre line of each radial leg. This projected
 passage check does not constitute a full mechanism collision sweep or structural
 analysis.
 The reactor report records dimensions, source hashes, assumptions, assembly
-counts, checks that all twelve pipes pass through the vessel, baffle, and well,
+counts, checks that all six pipes pass through the vessel, baffle, and well,
 checks sector/reflector/separator parenting, and verifies four equal-length
 parallel bars per sector (24 link bars total). It also checks the wall-pin
 setback, fixed wall mounts, bar-to-pin coincidence in both poses, upright links,
@@ -153,9 +242,9 @@ verify through-bores, closed perforated meshes, pin overhang and the spider's
 vertical passage envelope.
 
 Twelve cylindrical pedestals now support the peripheral reflector, two in each
-sector at 15° and 45°, centred at radius 1.95 m. Their owner-specified 0.30 m
+sector at 15° and 45°, centred at radius 2.05 m. Their owner-specified 0.30 m
 diameter matches the peripheral reflector's radial thickness. Six 20 mm radial
-sheets, one beneath each absorber, extend from radius 0.15 m to 2.1 m. Provisional
+sheets, one beneath each absorber, extend from radius 0.15 m to 2.2 m. Provisional
 200 mm wide, 20 mm thick lips support each absorber and both adjoining bottom
 reflectors. Each sheet has eighteen 100 mm through-holes in two rows. Hollow
 half-tube stiffeners (20 mm outside diameter, provisional 2 mm tube wall) are
