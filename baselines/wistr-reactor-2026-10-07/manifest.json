@@ -1,0 +1,16 @@
+{
+  "baseline_date": "2026-10-07",
+  "tag": "wistr-reactor-baseline-2026-10-07",
+  "scope": "Approved isolated reactor with enclosing cold-air hood and short central hot/cold duct stubs; before fuel/absorber tubing and installation integration.",
+  "files": {
+    "wistr-reactor-study.blend": {
+      "sha256": "a03bda8dbc935a2c73af5f8bc41a9b89e6da3c557fcd039cef2ef495a1b4b0b8",
+      "bytes": 3340570
+    },
+    "reactor-study-report.json": {
+      "sha256": "5df3a4a33a68cc15324ddc42cd7bd9869072abecef5ebefdac5fe0e5364b39f0",
+      "bytes": 12743
+    }
+  },
+  "validation": "Build geometry checks and saved-file reload verification recorded in reactor-study-report.json."
+}
