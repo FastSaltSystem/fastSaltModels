@@ -25,6 +25,13 @@ three coolant legs, separator supports, absorber and core service tubing,
 radial reflector slots, and larger caps over a smooth circular spider opening.
 The original baseline remains unchanged.
 
+The approved handling and tube-plug design is preserved separately in
+`baselines/wistr-reactor-handling-2026-10-08/`. It includes the exact Blender
+file, geometry report, lifting-head animation and SHA-256 manifest. This snapshot
+adds the centered pivoting lifting head, opposed hooks, remote maintenance
+catches, removable tube plugs and simplified routing. Both earlier baselines
+remain unchanged; continue editing the working outputs rather than this snapshot.
+
 ### Isolated reactor review
 
 The newer reactor study is separate from the installation. Its sources are
@@ -92,20 +99,130 @@ in seated and raised poses. Leakage reduction is a geometric design intent;
 leakage, load capacity, and a continuous motion sweep are not calculated.
 
 The removable caps cover openings for the core, top reflector and attached
-service tubes.
-Opening radius is approximately 2.667 m, allowing at least 100 mm radial clearance
-around the raised core and 20 mm around the conservative raised tube envelope.
+service tubes and the core-owned tube plug.
+Opening radius is approximately 2.975 m, allowing at least 100 mm radial clearance
+around the raised core and 20 mm around the conservative raised tube-and-plug envelope.
 The spider outer band is narrowed to provide this continuous circular opening.
 Peripheral/bottom reflectors and separators stay below
-this opening. The cap plate radius is approximately 2.682 m, including its
+this opening. The cap plate radius is approximately 2.990 m, including its
 15 mm overlap onto the spider band. Its outer arc is smooth.
 Plate tops remain at Z=6.57 m.
+
+Caps, top reflectors and cores each have two opposed pairs of parallel lifting
+hooks, 25 mm thick and 255 mm high. The outer pair is reversed so the mouths
+face away from the centre of the pickup head. Two 40 mm bars engage from outside,
+then sit beneath the crowns behind the retaining lips.
+
+The common head has two pivoting arms on parallel hinge axes. Their bars remain
+parallel as they spread. A split release cable pulls offset horns on the arms;
+releasing it permits gravity-closing motion in principle. The closed bars are
+750 mm apart and 500 / 1370 mm long. Pin centres are 80 mm inward and 480 mm
+above their respective closed bars; the open arm angle is 30 degrees from vertical.
+The mast top remains 1.30 m above the bars. Its upright, mounting block and
+hoist connection are centered between the two pivot axes on all three pickup
+types; the former offset suspension settings are removed. Actual load sharing
+depends on the lifted assembly’s centre of mass. The cap hook pattern is displaced outward
+1250 mm to retain space around its tube plug.
+
+The checked approach keeps the bars together while descending past the service
+tubes, spreads them 170 mm above their carrying position, then lowers the head
+88 mm below that position before closing. Hoisting seats the bars behind the
+lips. After setting down the item, lower the unloaded head 88 mm, pull the release
+cable to spread the bars, and withdraw along the reverse path. Setting the load
+down alone is not modeled as opening the bars. The plug-support upright was
+narrowed and shifted within its existing reflector relief to clear the bar ends;
+no new reflector slot was added.
+
+`lifting_bars_open` varies from 0 (together) to 1 (spread), and
+`lifting_head_lowered` varies from 0 (carrying height) to 1 (lowered 88 mm).
+These are presentation controls, not a release interlock. The `cap-handling` and
+`cap-handling-open` views show the engaged and spread positions.
+`outputs/reactor-study/reactor-lifting-head-motion.gif` illustrates closing,
+seating, lowering after set-down, and cable-operated spreading. Repeated heads
+in inspection views depict the same tool. Checks cover engagement, withdrawal,
+bar parallelism, arm/body clearance, cable geometry and obstruction by all four
+hook lips at carrying height. Gravity return, friction, load capacity, balance,
+load sharing, welds and release-under-load prevention remain unqualified.
+
+The remote-handling concept adds two dedicated pickup eyes and two separate
+U-bar keepers to each peripheral reflector. The pickup eyes are 0.70 m apart;
+the keeper bars are 1.30 m apart. In the raised position, paired wall-mounted
+rotary catches capture the keepers. Outward stops define the maintenance endpoint.
+Braced brackets reach inward from mounting plates beside the hot nozzles.
+A curved plate crossbar, 10 mm thick and 50 mm high, links each pair of catches
+through 10 mm rod uprights. Bent rod ends pass
+through 16 mm holes in the hooks and have captive end retainers. Two small U-shaped
+guides stand off from brackets attached to the spider's inner edge. Their loose
+openings let the rod slide and rock as the hook holes move through their arcs.
+Fixed rests define the hooks’ closed position. The crossbar follows the spider curve. A temporary secondary crane hook or robot
+pulls its centre upward through the removed cap opening. The model constrains
+both lower connections to the hook holes throughout the release stroke.
+
+The previous catch locking pins, powered drive housings, release rockers and
+secondary cable yoke are removed. This is now a gravity-return catch concept;
+there is no independent positive locking pin. Gravity return, resistance to
+load-induced opening, friction, wear and release force require engineering checks.
+All 24 former catch-release shaft holes in the spider remain closed. There are
+no permanent catch-release penetrations; other pressure boundaries are not
+qualified by this geometry.
+
+The peripheral-reflector pickup head retains guided forks and captive powered-pin
+envelopes as the second tool type. Both heads have a top stud for a remote
+crane tool-changing coupling. The reflector
+head fits through the spider opening in the maintenance position. The tool heads
+are in **Remote lifting tools**, hidden in the normal assembled scene. New views:
+`remote-handling` shows the raised sector and attached head; `latch-detail` shows
+the closed catches; `latch-released` shows the common bar raised and catches open;
+`cap-handling` shows the cap pickup head; `release-tool` shows the temporary
+secondary hook and cable together with the primary reflector lifting head. All attachment and release interfaces
+assume remote equipment, with no hands-on work at the vessel.
+
+Scene Properties **maintenance_release** varies the selected pair continuously
+from 0 (down/closed) to 1 (fully raised/open). **maintenance_locks_engaged** is
+retained as a display shortcut: disabling it fully opens that pair. Other pairs
+stay closed. **maintenance_position** controls the sector pose independently;
+**remote_grapple_engaged** still controls powered pins in the removable lifting
+head for the peripheral reflector only. These are visual controls, not dynamic simulations or safety interlocks.
+
+The intended sequence is to support the sector with the main crane, hold the
+catches open while raising the sector, then lower the release bar and verify
+both catches have engaged before transferring support. To lower the sector,
+re-engage the main lifting head and take the load before pulling the release bar.
+Position confirmation, load retention, welds, remote handling equipment,
+temperature/radiation qualification, service disconnections and jam recovery
+remain engineering work. The report distinguishes geometric checks from these
+unverified functions.
+
+Each core has four parallel hooks anchored to its two radial side edges (two
+per edge), with short inward tabs carried by straps into the side structure.
+Each top reflector has four independent parallel hooks farther inward. Edge-open
+reliefs clear the core hooks during independent top-reflector removal; a narrow
+continuous opening clears the service-tube edge. The shortened bar ends clear
+the core tubes during reflector withdrawal. Local top-reflector hook reinforcement
+still needs design; the contact-area check only confirms partial bearing on
+remaining steel between illustrative cooling holes.
+
+`top-reflector-removal` shows the reflector lifted away; `core-lifting` exposes
+the core-edge attachments; `core-removal` shows the core and its attached tubes
+above the retained peripheral and bottom reflectors. The latter stay in the
+latched maintenance position. **Extraction tools** and **Remote release tools**
+are hidden in the normal assembled scene. These inspection views use exploded
+poses; they do not add a programmed removal cycle. The checks cover the top
+reflector body's vertical swept volume, sampled pickup-head clearance from the
+service tubes, sampled core-tube withdrawal past the fixed catches, and the
+core/reflector/tool envelopes through the spider opening. The temporary release
+hook and common bar are checked against the primary lifting head, tubes and
+spider at 2-degree hook-angle intervals over the 60-degree release stroke. The
+bent rod ends stay aligned with the hook holes, and the rods fit inside the
+U-guides throughout those samples.
+Lifting capacity, crane stability, remote engagement verification and service
+disconnections require further design.
 
 Each absorber carries two pairs of tubes, each with one 25 mm and one 50 mm OD
 tube (24 tubes total). Across the hot plenum, the four lines are stacked at
 55 mm pitch, with the lowest centreline 250 mm above the plenum floor. Near the
 wall they spread into four side-by-side risers at 60 mm pitch, with
-individual passages through the enlarged spider. Provisional saddles provide
+a shared removable plug through the spider. Provisional saddles provide
 wall attachment locations. Tube ends are at Z=6.67 m, 100 mm above cap plates.
 The 2 mm tube walls, bends, offsets, saddles and hole allowances are provisional.
 
@@ -121,18 +238,66 @@ previous three L-shaped routes. This is a geometric comparison, not a coolant
 flow-loss calculation.
 Bottom risers at radial coordinates 2.11, 2.04 and 1.97 m are nested in the same
 plane. Top runs retain the extra 300 mm rise; staggered meeting heights avoid
-crossings. Only after meeting do the pairs fan into the existing cap opening.
-The six cap risers lie at radius 1.95 m and terminate 100 mm above the cap.
-The enlarged circular spider opening clears the raised radial tube row during
-vertical core withdrawal, with a provisional 20 mm allowance around its
-conservative envelope. Larger circular caps cover this opening; local spider
-reliefs and matching cap extensions have been removed. The cap-edge tube
-penetration notches and absorber tube passages through the ring remain.
+crossings. A single rising diagonal now takes each tube to its plug terminal, replacing
+the intermediate riser and upper doglegs. Each 50 mm bottom tube has four bends;
+each 25 mm top tube has three. The tubes form three pairs in a circular plug centred at sector-local (2.16, 0.50) m. The plug is outboard of
+the core outline, so the top reflector can lift past it. Tube ends remain 100 mm
+above the seated cap. A 300 mm enclosed circular cap opening replaces the
+rectangular edge notch. The larger circular spider opening clears the raised
+plug flange with a provisional 20 mm allowance; fixed bridges reconnect the
+release-guide brackets to the remaining outer ring.
+
+The four cap hooks have moved 200 mm outward, retaining the common two-bar
+crane head. The `cap-service` view shows the seated cap and connection space. A 700 mm diameter workspace around the plug axis is checked clear
+of the hooks; external fittings still need their own layout. The support frame
+passes outside the simplified sloping tubes and stays attached to the core.
+
+Each absorber's four tubes now pass through one removable plug beneath the
+spider: six plugs in all, each with a provisional 400 mm flange, 260 mm pilot,
+270 mm spider opening, circular face-seal placeholder and six captive screws.
+The risers sit farther inward, at radius 3.53 m. Extended wall saddles hold the
+risers; two separate wall shelves carry each plug independently of the tubes.
+The screws and seals remain with the spider; tubes and plugs remain below it.
+`absorber_plug_bolts_retracted` controls screw withdrawal. The
+`absorber-plug-detail` view raises the locally cropped spider 300 mm to show the
+interface. Both inspection properties reset in the assembled view.
+
+Spider removal also requires disconnecting external services and detaching the
+separate release-guide bridges and other roof attachments. Those attachment
+removal operations are not modeled. The tube-interface check withdraws all
+screws and samples a 1 m vertical spider lift in 25 mm steps against stationary
+plugs, shelves and tubes; it is not a complete spider-handling procedure.
+
+Each plug has a provisional 470 mm flange, 290 mm pilot and 120 mm body height.
+The six tubes pass through bores and have illustrative seal-weld rings. Six M16
+socket-head screws enter 60 mm blind holes; their 75 mm withdrawal leaves the
+plug free while retaining the screws inside cages on the cap. Threads are
+represented by smooth shafts and bores. An annular metallic-seal placeholder
+sits in the cap's underside groove outside the bolt circle. Its actual seal
+section and retention detail require design. A separate core-owned support
+frame carries the unbolted plug through an existing core-hook relief and the
+existing reflector edge opening. No additional reflector cutouts are needed.
+
+Tubes, plug and frame are parented to the core in Blender, so moving the core
+keeps the complete assembly together.
+
+The maintenance sequence assumes depressurization and external service
+isolation/disconnection: retract screws, lift cap over tube ends, raise and
+latch sector, remove top reflector, then withdraw core, tubes, frame and plug.
+The `plug-detail` view shows the cap lifted 350 mm and the seal exploded 100 mm
+below its groove for visibility; cap and tubes are locally cropped and the
+support frame is hidden. `sector_plug_bolts_retracted` controls the screw display
+pose. `sector_plug_detail_view` controls the inspection crop. Both are off in
+the saved assembled scene. `Sector tube plugs` is a separate Blender collection.
+
+The model checks screw withdrawal, cap lift, the sector's maintenance arc,
+top-reflector passage, and core/plug extraction. These are geometric checks;
+pressure and leak tightness, seal selection, welds, bolt preload, differential
+thermal movement, support capacity and remote failure recovery remain unverified.
 `reactor-core-tubes.png` hides the core to expose the stacked edge runs and slot.
 External connections and disconnections are not modeled.
 
-Checks cover counts, diameters, open bores, closed pipe walls, reflector/cap
-notches, tube separation and spider passages. The complete tube projection
+Checks cover counts, diameters, open bores, closed pipe walls, reflector slots and circular cap openings, tube separation and spider passages. The complete tube projection
 fits through the spider in the raised pose; sampled vertical lifts check
 that the bottom tubes can leave their open reflector slots. Fixed absorber
 tubes are checked against the moving sector and links; moving core tubes are checked against

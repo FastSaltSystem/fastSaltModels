@@ -34,6 +34,40 @@ SUPPORTS = {
     "stiffener_pitch": .20,
 }
 MAINTENANCE = {"sector": 3, "enabled": True}
+CAP_LIFTING = {"hook_count": 4, "hook_thickness": .025, "hook_height": .255}
+LIFTING_INTERFACE = {
+    "stations": [.65, 1.40], "bar_half_lengths": [.25, .685], "bar_diameter": .040,
+    "hook_thickness": .025, "core_edge_offset": .135, "top_edge_offset": .270,
+    "cap_radial_shift": 1.25, "loaded_bar_height": .183,
+    "entry_bar_height": .095, "mast_above_bars": 1.30,
+    "pivot_inset": .080, "pivot_above_bar": .480, "open_angle_degrees": 30.0,
+}
+REMOTE_HANDLING = {
+    # Visual layout only; operating equipment needs mechanical and safety design.
+    "pair_half_spacing": .65,
+    "pickup_half_spacing": .35,
+    "pickup_radius": 2.0,
+    "keeper_radius": 2.15,
+    "wall_half_spacing": 1.05,
+}
+SECTOR_PLUG = {
+    # Concept geometry, not a pressure-boundary or fastener qualification.
+    "centre": [2.16, .50], "flange_radius": .235, "body_height": .12,
+    "pilot_radius": .145, "pilot_height": .015, "opening_radius": .150,
+    "bolt_count": 6, "bolt_circle": .180, "bolt_radius": .008,
+    "blind_depth": .060, "bolt_retraction": .075,
+    "seal_radius": .211, "seal_width": .006,
+    "pair_pitch": .090, "tube_x_offset": .045,
+}
+
+ABSORBER_PLUG = {
+    "centre_radius": 3.53, "flange_radius": .20, "body_height": .12,
+    "pilot_radius": .13, "pilot_height": .015, "opening_radius": .135,
+    "bolt_count": 6, "bolt_circle": .16, "bolt_radius": .008,
+    "blind_depth": .060, "bolt_retraction": .075,
+    "seal_radius": .181, "seal_width": .006,
+}
+
 ABSORBER_TUBES = {
     "diameters": [.025, .050],
     "wall_thickness": .002,  # Provisional visual wall thickness.
@@ -42,20 +76,15 @@ ABSORBER_TUBES = {
     "pair_connection_spacing": .055,
     "riser_pitch": .060,  # Four side-by-side wall risers.
     "above_cap": .10,
-    "wall_clearance": .015,
     "bend_radius": .05,
-    "spider_hole_clearance": .001,
 }
 CORE_TUBES = {
     "diameters": [.025, .050], "wall_thickness": .002,
     "radial_positions": [.35, .95, 1.70],
-    "cap_riser_radius": 1.95,
     "radial_edge_lane": .075,
     "bottom_slot_radii": [2.11, 2.04, 1.97],
     "top_pair_radial_offset": .05,
     "pair_vertical_offset": .06,
-    "bottom_riser_lanes": [.30, .42, .54],
-    "top_riser_lanes": [.36, .48, .60],
     "bottom_run_heights": [.82, .90, .98],
     "additional_rise_before_bend": .30,
 
@@ -141,6 +170,17 @@ def hole_centres():
     return centres
 
 
+def core_tube_terminal(rank, connection):
+    p=SECTOR_PLUG
+    return (p['centre'][0]+(1 if connection=='bottom' else -1)*p['tube_x_offset'],
+            p['centre'][1]+(rank-1)*p['pair_pitch'])
+
+
+def raised_plug_envelope():
+    p=SECTOR_PLUG;travel=linkage_dimensions()['length']
+    return math.hypot(p['centre'][0]+travel*math.cos(math.pi/6),p['centre'][1]+travel*.5)+p['flange_radius']
+
+
 def raised_core_tube_envelope():
     """Conservative radial bound for every tube, including its curved meeting bends.
 
@@ -153,10 +193,9 @@ def raised_core_tube_envelope():
     for rank,x in enumerate(t['radial_positions']):
         for connection,diameter in zip(('top','bottom'),t['diameters']):
             gather=t['bottom_slot_radii'][rank]-(t['top_pair_radial_offset'] if connection=='top' else 0)
-            lane=t['radial_edge_lane'];gy=t[connection+'_riser_lanes'][rank]
-            cap_x=math.sqrt(t['cap_riser_radius']**2-gy**2)
+            lane=t['radial_edge_lane'];cap_x,gy=core_tube_terminal(rank,connection)
             radii.extend(math.hypot(px+dx,py+dy)+diameter/2
-                         for px,py in ((x,lane),(gather,lane),(gather,gy),(cap_x,gy)))
+                         for px,py in ((x,lane),(gather,lane),(cap_x,gy)))
     return max(radii)
 
 
@@ -206,7 +245,7 @@ def dimensions():
                 maintenance_travel=travel,
                 raised_core_tube_radius=raised_core_tube_envelope(),
                 cap_opening_radius=max(r+travel+PRESENTATION['cap_radial_clearance'],
-                                       raised_core_tube_envelope()+PRESENTATION['cap_tube_clearance'])/math.cos(math.pi/128),
+                                       max(raised_core_tube_envelope(),raised_plug_envelope())+PRESENTATION['cap_tube_clearance'])/math.cos(math.pi/128),
                 separator_seat_z=seat_z,ledge_inner_radius=ledge_inner,
                 ledge_width=ledge_width,ledge_height=ledge_height,
                 absorber_brace_width=SEPARATOR_SUPPORTS['absorber_thickness_multiple']*PRESENTATION['absorber_tank_width'],
@@ -227,11 +266,14 @@ def dimensions():
 
 
 ASSUMPTIONS = [
-    'Caps cover openings sized for the raised core, top reflector and attached service tubes, with at least 100 mm radial clearance for the core. The spider outer band fills the remaining roof area. Peripheral and bottom reflectors and separators remain below this opening.',
-    'Each absorber has two pairs of 25/50 mm OD tubes, vertically stacked at 55 mm pitch across the plenum, with the lowest centreline 250 mm above the plenum floor. At the wall they fan out to four side-by-side risers at 60 mm pitch, through the enlarged spider, ending 100 mm above cap plate tops. Walls, bends, wall attachment clips and route offsets are provisional.',
-    'Each sector carries three core service pairs. All six tubes remain in one radial plane 75 mm inside the sector edge until the top tubes meet the bottom tubes. Bottom 50 mm runs are vertically stacked in a single upward/edge-open groove and rise in one radial slot in the peripheral reflector. Top 25 mm runs retain the extra 300 mm rise and follow that same plane to their paired bottom tube. Above the reflector, the paired bundles offset into the existing cap opening, ending 100 mm above its seated top.',
+    'Each sector has a provisional 470 mm flange, 290 mm pilot and 300 mm circular cap opening, with six smooth-represented M16 screws in 60 mm blind holes. A retained circular seal placeholder lies outside the bolt circle. Screw cages retain the screws during their 75 mm withdrawal. Seal retention details, threads, weld qualification, leakage, pressure rating, thermal movement and support strength are not engineered. The plug and its support frame belong to the core; external service disconnection is assumed before maintenance.',
+    'Gravity-return maintenance catches share a curved 10 mm thick by 50 mm high plate crossbar on 10 mm rod uprights with bent ends through hook holes, retained ends and loose stand-off U-guides on the spider. A temporary secondary crane hook pulls the bar through the removed cap opening. Former catch locking pins and powered drives are removed; all former release roof holes remain closed. Hook/bar motion and sampled clearances are checked, but gravity return, resistance to load-induced opening, strength, friction and failure recovery are unverified. The peripheral-reflector powered-pin head remains conceptual. Four parallel hooks each on caps, cores and top reflectors share a common two-bar head. Clearances and attachment geometry do not establish load capacity or retention.',
+    'Caps, top reflectors and cores use four parallel hooks each, with the outer pair reversed so both pairs open away from the head centre. A common head has two 40 mm bars at 750 mm engaged spacing on parallel pivot arms. An offset-horn split cable opens the arms to 30 degrees from vertical; gravity closure is an intent, not a dynamics result. Approach closed past the services, spread 170 mm above carrying height, lower 88 mm below carrying height, close, then lift. After setting down, lower 88 mm and actively pull the release cable; set-down alone does not open the bars. Kinematic controls do not implement release interlocks. The cap hooks are shifted 200 mm farther outward, leaving a checked 700 mm diameter hook-free connection workspace around the sector plug axis. The lifting upright, mounting block and hoist connection are centered between the pivot axes on all three pickup types. Symmetric head geometry does not establish the actual load split; mass distribution, strength, weld, reinforcement and retention details remain unverified.',
+    'Caps cover openings sized for the raised core, top reflector, attached service tubes and cylindrical tube plug, with at least 100 mm radial clearance for the core. The spider outer band fills the remaining roof area. Peripheral and bottom reflectors and separators remain below this opening.',
+    'Each absorber has two pairs of 25/50 mm OD tubes, vertically stacked at 55 mm pitch across the plenum, with the lowest centreline 250 mm above the plenum floor. Near the wall they fan out to four side-by-side risers at 60 mm pitch and radius 3.53 m, ending 100 mm above cap plate tops. Each group has a removable 400 mm flange plug beneath a 270 mm spider opening, a circular face-seal placeholder, six captive screws and two independent wall shelves. The tube interfaces permit vertical spider removal; separate release-guide bridges and other roof attachments must first be detached. Those detachment operations are not modeled. Walls, bends, wall attachment clips and route offsets are provisional.',
+    'Each sector carries three core service pairs. All six tubes remain in one radial plane 75 mm inside the sector edge until the top tubes meet the bottom tubes. Bottom 50 mm runs are vertically stacked in a single upward/edge-open groove and rise in one radial slot in the peripheral reflector. Top 25 mm runs retain the extra 300 mm rise and follow that same plane to their paired bottom tube. Above the reflector, a single sloping approach groups the tubes into a circular plug. Bottom tubes have four bends and top tubes three, ending 100 mm above the seated cap. The independent support frame passes outside the slopes.',
     'The common slot reaches 110 mm from the nominal sector boundary, only 62 mm into the reflector beyond its 48 mm edge gap. Bottom riser positions 2.11, 2.04 and 1.97 m are nested to avoid crossings. Staggered heights, pair offsets, cap fan-out, 2 mm tube walls and 10 mm slot clearance remain provisional. Bore-footprint comparisons use the illustrative 85 mm lattice and measure geometric intersections, not coolant flow loss. External service disconnections are not modeled.',
-    'The caps have smooth enlarged outer arcs and the spider has a correspondingly narrower outer annulus, without local tube reliefs or cap extensions. The circular opening is sized from the conservative raised core-tube envelope plus 20 mm, while retaining at least 100 mm radial clearance for the core/top reflector. Tube penetrations in the cap edge and absorber penetrations through the ring remain.',
+    'The caps have smooth enlarged outer arcs and the spider has a correspondingly narrower outer annulus, without local tube reliefs or cap extensions. The circular opening is sized from the conservative raised core-tube envelope plus 20 mm, while retaining at least 100 mm radial clearance for the core/top reflector. Sector tube edge notches are replaced by enclosed circular plug openings. Absorber penetrations through the ring remain. Static bridges reconnect the release-bar guide brackets to the resized spider ring.',
     'A fixed annular vessel ledge seats the separator underside, 0.04 m below the hot-plenum floor. Its radial projection is limited by the upright link envelope plus provisional 0.03 m clearance; its height is twice its projection.',
     'Three fixed radial braces at each of six absorber locations join the absorber outer end to the vessel wall. Braces are 0.20 m tall and twice the current 0.08 m absorber thickness. Top braces share the separator bearing elevation; bottom braces start at the absorber bottom, with middle braces equally spaced vertically.',
     'Cold inlets are lowered as needed to clear the ledge and top radial braces by a provisional 0.03 m. The ledge and braces extend the leakage path geometrically; leakage rate and load capacity are not calculated.',

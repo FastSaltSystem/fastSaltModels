@@ -1,0 +1,19 @@
+{
+  "baseline_date": "2026-10-08",
+  "scope": "Approved WISTR handling and tube-plug concept: opposed lifting hooks, common pivoting two-bar head with centered upright, remote maintenance catches and release crossbars, independent reflector/core extraction, removable sector and absorber tube plugs, and simplified four-bend bottom tubes.",
+  "files": {
+    "wistr-reactor-study.blend": {
+      "sha256": "853e58a5a66a92bd3a0e8d5e9ba8ab555ad3fa6b6e53d5861e9ba9c261e2c93c",
+      "bytes": 9534751
+    },
+    "reactor-study-report.json": {
+      "sha256": "49d8b8a9cdf9996bc3b759d9462c4286e1861f3b22b0e7a7e35b299610e4f953",
+      "bytes": 30593
+    },
+    "reactor-lifting-head-motion.gif": {
+      "sha256": "5b0db8465eba5ed6abc55489e871be2bd28a3594b5d8b70eb46037662d0c77e9",
+      "bytes": 2159185
+    }
+  },
+  "validation": "Blender geometry and sampled motion checks passed. Centered suspension pickup/extraction clearances and saved-file state were rechecked. Previous baseline hashes remain unchanged. Gravity return, load capacity, pressure seals and complete remote maintenance procedures remain unqualified."
+}

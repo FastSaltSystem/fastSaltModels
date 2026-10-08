@@ -60,7 +60,7 @@ def build_absorber_tubing(b,layout,d):
     b.material('absorber_centre_tube','#27859F',metallic=.55,roughness=.3)
     b.material('absorber_outer_tube','#D7943E',metallic=.55,roughness=.3)
     ring=bpy.data.objects['reactor.spider.outer_ring']
-    xwall=d['hot_inner_radius']*math.cos(math.pi/128)-t['wall_clearance']-outer-.001
+    xwall=layout.ABSORBER_PLUG['centre_radius']
     floor=d['hot_plenum_z']+t['floor_centre_height']
     top=d['top_z']+.15+p['cap_thickness']+t['above_cap']
     for i in range(6):
@@ -90,36 +90,15 @@ def build_absorber_tubing(b,layout,d):
                 socket=b.cylinder('tank_socket',root,outer-t['wall_thickness'],.05,
                                   (x,y,d['hot_plenum_z']-.015),None,vertices=24,bevel=0)
                 b.cut(tank,socket)
-                for target in (ring,bpy.data.objects[f'reactor.spider.arm_{i+1}'],
-                               bpy.data.objects[f'reactor.spider.underside_web_{i+1}']):
-                    ring_edge=d['cap_opening_radius']
-                    if (target==ring)!=(riser>ring_edge):continue
-                    for modifier in list(target.modifiers):
-                        if modifier.type=='BEVEL':
-                            bpy.context.view_layer.objects.active=target
-                            bpy.ops.object.modifier_apply(modifier=modifier.name)
-                    cutter=b.cylinder('spider_passage',root,outer+t['spider_hole_clearance'],.40,
-                                      (riser,wall_y,d['top_z']+.05),None,vertices=32,bevel=0)
-                    # Manifold booleans avoid degenerate edges where a centred
-                    # penetration crosses a radial seam in the revolved ring.
-                    mesh=bmesh.new();mesh.from_mesh(target.data)
-                    bmesh.ops.triangulate(mesh,faces=list(mesh.faces))
-                    mesh.to_mesh(target.data);mesh.free();target.data.update()
-                    bpy.context.view_layer.update()
-                    modifier=target.modifiers.new('Absorber tube passage','BOOLEAN')
-                    modifier.operation='DIFFERENCE';modifier.solver='MANIFOLD';modifier.object=cutter
-                    bpy.context.view_layer.objects.active=target
-                    bpy.ops.object.modifier_apply(modifier=modifier.name)
-                    bpy.data.objects.remove(cutter,do_unlink=True)
-                    closed_mesh(target)
     for i in range(6):
         mounts=b.assembly(f'reactor.absorber_tube_mounts_{i+1}','Tube wall mounts',angle=i*60)
         for z in (d['hot_plenum_z']+.8,d['top_z']-.2):
             for j in range(4):
                 outer=t['diameters'][j%2]/2
                 y=(j-1.5)*t['riser_pitch']
-                saddle=b.box(f'saddle_{z}_{j}',mounts,(.05,2*outer+.009,.025),
-                             (xwall+.025,y,z),'steel')
+                width=d['hot_inner_radius']-xwall+.01
+                saddle=b.box(f'saddle_{z}_{j}',mounts,(width,2*outer+.009,.025),
+                             (xwall+width/2,y,z),'steel')
                 bore=b.cylinder('saddle_bore',mounts,outer+.0005,.04,(xwall,y,z),None,vertices=24,bevel=0)
                 b.cut(saddle,bore)
     # A reversible presentation crop exposes one route without the far side of
@@ -219,7 +198,7 @@ def check_absorber_tubing(b,layout,d):
                 assert not mesh.overlap(tubetree),(degrees,obj.name,tube.name)
     scene['maintenance_position']=previous;scene.update_tag();bpy.context.view_layer.update()
     return {'tube_count':len(tubes),'pairs_per_absorber':2,'outside_diameters':t['diameters'],
-            'wall_thickness':t['wall_thickness'],'spider_penetrations':len(tubes),
+            'wall_thickness':t['wall_thickness'],'spider_penetrations':6,'tubes_per_removable_plug':4,
             'minimum_hot_nozzle_clearance':minimum_nozzle_clearance,'open_bores_checked':True,
             'wall_and_pair_clearances_checked':True,'floor_bundle_width':max(t['diameters']),'wall_bundle_width':3*t['riser_pitch']+sum(t['diameters'])/2,
             'stack_pitch':t['stack_pitch'],'above_cap':t['above_cap'],
@@ -250,7 +229,7 @@ def build_core_tubing(b,layout,d):
     for i in range(1,7):
         owner=b.assemblies[f'reactor.sector_{i}']
         root=b.assembly(f'reactor.core_tubes_{i}','Core tubing')
-        root.parent=owner;root['sector_number']=i
+        root.parent=bpy.data.objects[owner.name+'.core'];root['sector_number']=i
         top_reflector=bpy.data.objects[f'{owner.name}.top_reflector']
         bottom_reflector=bpy.data.objects[f'{owner.name}.bottom_reflector']
         peripheral=bpy.data.objects[f'{owner.name}.radial_reflector']
@@ -273,18 +252,24 @@ def build_core_tubing(b,layout,d):
             # Inner origins use the outer, higher meeting points; nested paths do not cross.
             meeting=d['hot_plenum_z']+t['additional_rise_before_bend']+.34+(2-rank)*.14
             for connection,diameter in [('top',t['diameters'][0]),('bottom',t['diameters'][1])]:
-                gy=t[connection+'_riser_lanes'][rank]
-                cap_x=math.sqrt(t['cap_riser_radius']**2-gy**2)
+                cap_x,gy=layout.core_tube_terminal(rank,connection)
                 z=d['top_reflector_z'] if connection=='top' else d['core_z']
                 gather=bottom_x-t['top_pair_radial_offset'] if connection=='top' else bottom_x
                 turn=meeting+t['pair_vertical_offset'] if connection=='top' else meeting
                 level=turn if connection=='top' else t['bottom_run_heights'][rank]
                 points=[(x,lane,z),(x,lane,level),(gather,lane,level)]
-                if connection=='bottom':points.append((gather,lane,turn))
-                points.extend([(gather,gy,turn),(cap_x,gy,turn),(cap_x,gy,top)])
+                # A single rising diagonal replaces the orthogonal side-step and
+                # return doglegs. Keep the lower radial slot and rise above the latches.
+                upper=d['top_z']-.03-rank*.03
+                if connection=='bottom':
+                    points.append((gather,lane,turn))
+                points.extend([(cap_x,gy,upper-(.14 if connection=='top' else 0)),(cap_x,gy,top)])
+                # Omit coincident control points when a lane already aligns.
+                points=[q for j,q in enumerate(points) if j==0 or Vector(q)!=Vector(points[j-1])]
                 tube=hollow_tube(b,f'pair_{rank+1}_{connection}_{int(diameter*1000)}mm',root,
                                  rounded_path(points,t['bend_radius']),diameter/2,t['wall_thickness'],
                                  f'core_tube_{int(diameter*1000)}')
+                tube['bend_count']=len(points)-2;tube['control_points']=points
                 tube['bend_centre_height']=level;tube['connection_type']=connection
                 tube['meeting_height']=turn;tube['radial_gather_x']=gather
                 tube['pair_number']=rank+1;tube['connection_point']=(x,lane,z)
@@ -295,13 +280,6 @@ def build_core_tubing(b,layout,d):
                     cutter=b.box('top_reflector_notch',root,(2*margin,lane+margin+.05,.35),
                                  (x,(lane+margin-.05)/2,d['top_reflector_z']+.125),None)
                     cut_passage(b,top_reflector,cutter)
-        cap=bpy.data.objects[f'reactor.cap_{i}.plate']
-        xmin=min(x-r-t['cutout_clearance'] for x,y,r in ends)
-        xmax=max(x+r+t['cutout_clearance'] for x,y,r in ends)
-        depth=max(y+r+t['cutout_clearance'] for x,y,r in ends)
-        cutter=b.box('cap_edge_notch',b.assemblies[f'reactor.cap_{i}'],(xmax-xmin,depth+.05,.3),
-                     ((xmin+xmax)/2,(depth-.05)/2,d['top_z']+.15+p['cap_thickness']/2),None)
-        cut_passage(b,cap,cutter)
 
 
 def check_core_tubing(b,layout,d):
@@ -315,15 +293,16 @@ def check_core_tubing(b,layout,d):
                                    [tuple(p.vertices) for p in obj.data.polygons])
     tubes=[]
     for root in roots:
-        assert len(root.children)==6 and root.parent.name==f'reactor.sector_{root["sector_number"]}'
+        assert len(root.children)==6 and root.parent.name==f'reactor.sector_{root["sector_number"]}.core'
         assert sorted(o['outside_diameter'] for o in root.children)==[.025]*3+[.05]*3
-        reflectors=[bpy.data.objects[root.parent.name+'.'+part] for part in ('top_reflector','bottom_reflector','radial_reflector')]
+        reflectors=[bpy.data.objects[f'reactor.sector_{root["sector_number"]}.'+part] for part in ('top_reflector','bottom_reflector','radial_reflector')]
         for obj in reflectors:closed_mesh(obj)
         cap=bpy.data.objects[f'reactor.cap_{root["sector_number"]}.plate']
         assert math.isclose(max(math.hypot(v.co.x,v.co.y) for v in cap.data.vertices),d['cap_opening_radius']+.015,abs_tol=1e-6)
         for obj in root.children:
             closed_mesh(obj);tubes.append(obj)
             rank=obj['pair_number']-1;connection=obj['connection_type']
+            assert obj['bend_count']==(4 if connection=='bottom' else 3)
             assert obj['outside_diameter']==(.025 if connection=='top' else .05)
             assert math.isclose(obj['connection_point'][2],d['top_reflector_z'] if connection=='top' else d['core_z'],abs_tol=1e-6)
             expected=(d['hot_plenum_z']+.30+.34+(2-rank)*.14+layout.CORE_TUBES['pair_vertical_offset'] if connection=='top'
@@ -340,12 +319,12 @@ def check_core_tubing(b,layout,d):
                 assert not obj.ray_cast(point,Vector((0,0,-sign)),distance=.01)[0]
             for reflector in reflectors:
                 assert not tree(obj).overlap(tree(reflector)),(obj.name,reflector.name)
-            assert not tree(obj).overlap(tree(cap)),(obj.name,'cap notch')
+            assert not tree(obj).overlap(tree(cap)),(obj.name,'circular cap opening')
     meshes=[tree(o) for o in tubes]
     for j,mesh in enumerate(meshes):
         for i in range(j):assert not mesh.overlap(meshes[i]),(tubes[j].name,tubes[i].name)
     # Full core tube assemblies are sampled along the same true parallelogram arc.
-    fixed=[o for category in ('Absorber tubing','Spider','Tube wall mounts','Core supports','Separator supports','Absorber tanks')
+    fixed=[o for category in ('Absorber tubing','Absorber plugs','Spider','Tube wall mounts','Core supports','Separator supports','Absorber tanks')
            for root in b.assemblies.values() if root.get('category')==category
            for o in root.children if o.type=='MESH']
     obstacles=[(o,tree(o)) for o in fixed]
@@ -424,7 +403,7 @@ def check_core_tubing(b,layout,d):
     old_bores=touched(old);new_bores=touched(current)
     assert len(new_bores)<len(old_bores)
     scene['maintenance_position']=previous;scene.update_tag();bpy.context.view_layer.update()
-    return {'tube_count':len(tubes),'pairs_per_sector':3,'outside_diameters':[.025,.05],
+    return {'tube_count':len(tubes),'pairs_per_sector':3,'bottom_tube_bends':4,'top_tube_bends':3,'outside_diameters':[.025,.05],
             'additional_rise_before_bend':layout.CORE_TUBES['additional_rise_before_bend'],
             'above_seated_cap':.1,'gather_at':'peripheral reflector',
             'top_connection_diameter':.025,'bottom_connection_diameter':.05,
@@ -440,6 +419,6 @@ def check_core_tubing(b,layout,d):
             'tube_vertical_passage_leg_clearance':tube_leg_clearance,
             'slot_extraction_sample_heights':extraction_heights,
             'cap_opening_radius':d['cap_opening_radius'],'radial_core_extraction_clearance':radius-d['core_radius']-length,
-            'reflector_and_cap_edge_notches_checked':True,'open_ends_and_pair_clearances_checked':True,
+            'reflector_edge_slots_and_circular_cap_openings_checked':True,'open_ends_and_pair_clearances_checked':True,
             'sampled_motion_degrees':list(range(0,91,3)),'sampled_motion_clear':True,
             'continuous_collision_proof':False}

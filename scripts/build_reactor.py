@@ -16,6 +16,9 @@ from textual_graphics.static_scene import SceneBuilder
 from textual_graphics.reactor_geometry import build_reactor
 from textual_graphics.reactor_checks import check_supports, check_bores, check_spider_passage, check_separator_supports
 from textual_graphics.reactor_air import check_air_system
+from textual_graphics.reactor_handling import check_remote_handling
+from textual_graphics.reactor_extraction import check_extraction
+from textual_graphics.reactor_plugs import check_sector_plugs, check_absorber_plugs
 from textual_graphics.reactor_tubing import check_absorber_tubing, check_core_tubing
 from render_pms import text_on_camera
 
@@ -63,6 +66,22 @@ def presentation(b,d):
         x,y,z=point;x+=length*math.cos(math.pi/6);y+=length*.5;z+=length
         return (x*math.cos(turn)-y*math.sin(turn),x*math.sin(turn)+y*math.cos(turn),z)
     cameras['maintenance']=camera(b,'View.MaintenanceSector',raised_point((11,-12,7.55)),raised_point((1.4,.7,3.65)),11)
+    a=math.radians(30+(number-1)*60)
+    def radial_point(point):
+        x,y,z=point
+        return (x*math.cos(a)-y*math.sin(a),x*math.sin(a)+y*math.cos(a),z)
+    cameras['remote-handling']=camera(b,'View.RemoteSectorHandling',radial_point((-6,10,9)),radial_point((1.6+length,0,4.2+length)),12)
+    cameras['latch-detail']=camera(b,'View.MaintenanceLocks',radial_point((-1.5,-5,8)),radial_point((2.9,0,5.85)),5.4)
+    cameras['latch-released']=camera(b,'View.MaintenanceLocksReleased',radial_point((-1.5,-5,8)),radial_point((2.9,0,5.85)),5.4)
+    cameras['cap-handling-open']=camera(b,'View.RemoteCapHandlingOpen',(5,-7,11),(1.3,.75,7.05),5.8)
+    cameras['cap-handling']=camera(b,'View.RemoteCapHandling',(5,-7,11),(1.3,.75,7.05),5.8)
+    cameras['release-tool']=camera(b,'View.LocalPullRelease',radial_point((7,-8,9.0)),radial_point((2.5,0,6.65)),7.6)
+    cameras['top-reflector-removal']=camera(b,'View.TopReflectorRemoval',radial_point((-7,10,12)),radial_point((1.5,0,6.4)),16)
+    cameras['core-lifting']=camera(b,'View.CoreEdgeLifting',radial_point((-6,10,8)),radial_point((1.7,0,5.2)),13.0)
+    cameras['core-removal']=camera(b,'View.CoreRemoval',radial_point((-8,12,14)),radial_point((1.7,0,8.0)),23)
+    cameras['cap-service']=camera(b,'View.CapService',(1.55,-1.3,12.5),(1.55,1.05,6.50),5.5)
+    cameras['absorber-plug-detail']=camera(b,'View.AbsorberTubePlug',(4.75,-1.5,7.65),(3.53,0,6.51),1.65)
+    cameras['plug-detail']=camera(b,'View.SectorTubePlug',(3.4,-1.5,7.65),(2.16,.50,6.68),1.65)
     cameras['plan'].rotation_euler=(0,0,0)
     return cameras
 
@@ -74,7 +93,7 @@ def annotations(b,cameras,d):
         col=b.collection('Labels.'+view)
         def text(name,value,x,y,size=.19,color='#314553'):
             scale={'cutaway':19/15,'section':18/14,'plan':16/11.5,'cap':13/10,'linkage':11/9,'supports':8.5/7.5,'maintenance':11/9,
-                   'support-detail':4.7/7.5,'spider':11.5/10,'pattern':10/9,'separator-supports':18/10,'core-tubes':1.18,'absorber-tubes':16/10,'absorber-tube-detail':5.7/10,'air-system':20/23,'air-section':18.5/23}[view]
+                   'support-detail':4.7/7.5,'spider':11.5/10,'pattern':10/9,'separator-supports':18/10,'core-tubes':1.18,'absorber-tubes':16/10,'absorber-tube-detail':5.7/10,'air-system':20/23,'air-section':18.5/23,'remote-handling':1.2,'latch-detail':.54,'latch-released':.54,'cap-handling':.58,'cap-handling-open':.58,'release-tool':.76,'top-reflector-removal':1.6,'core-lifting':1.3,'core-removal':2.1,'cap-service':.55,'absorber-plug-detail':.165,'plug-detail':.165}[view]
             return text_on_camera(view+'.'+name,value,x*scale,y*scale,size*scale,cam,col,color)
         if view in ('air-system','air-section'):
             text('title','WISTR | Vessel air cooling',-10.4,7.65,.46)
@@ -125,6 +144,7 @@ def annotations(b,cameras,d):
         elif view=='cap':
             text('title','WISTR | Segmented cap & spider',-4.5,3.25,.29)
             text('subtitle','Sector 3 cap removed; five remaining pieces lifted for inspection',-4.5,2.85,.16)
+            text('eyes','Four parallel hooks per cap; common two-bar crane pickup. Provisional, unrated geometry.',-4.5,-2.95,.15)
             text('foot',f'Spider legs {d["spider_beam_width"]:.3f} m wide; underside webs 15 mm thick × 50 mm high.',-4.5,-3.25,.15)
         elif view=='linkage':
             text('title','WISTR | Sector-mounted separator & paired links',-4.05,2.9,.25)
@@ -171,6 +191,50 @@ def annotations(b,cameras,d):
             text('ledge',f'Wall ledge: {d["ledge_width"]*1000:.1f} mm wide × {d["ledge_height"]*1000:.1f} mm high',-4.5,-2.55,.16)
             text('braces',f'18 radial braces: 200 mm high × {d["absorber_brace_width"]*1000:.0f} mm thick',-4.5,-2.88,.16)
             text('foot','Bearing faces 40 mm below hot-plenum floor; 30 mm clearance to upright links.',-4.5,-3.25,.135)
+        elif view=='remote-handling':
+            text('title','WISTR | Remote sector lifting & locking',-4.5,3.3,.28)
+            text('subtitle','Captive-pin lifting head; paired wall catches secure the raised reflector',-4.5,2.93,.15)
+            text('foot','Gold: pickup head and keeper bars. Blue: catches. Gold: common release bar and crane pickup head. Concept geometry.',-4.5,-3.27,.14)
+        elif view in ('latch-detail','latch-released'):
+            text('title','WISTR | Common U-bar catch release',-4.5,3.3,.27)
+            text('subtitle','Common U-bar raised and both catches open; crane support required' if view=='latch-released' else 'Two gravity-return catches capture the reflector keeper bars',-4.5,2.91,.15)
+            text('drive','Curved 10 × 50 mm plate; 10 mm uprights slide and rock in loose U-guides.',-4.5,-2.94,.14)
+            text('foot','Guide and joint motion checked geometrically. Gravity return and load retention remain unverified.',-4.5,-3.28,.12)
+        elif view=='release-tool':
+            text('title','WISTR | Local pull release through open cap',-4.5,3.3,.27)
+            text('subtitle','A secondary crane hook lifts the common U-bar while the primary head supports the sector',-4.5,2.93,.15)
+            text('foot','Access through the open cap; no permanent catch-release penetrations.',-4.5,-3.27,.14)
+        elif view=='top-reflector-removal':
+            text('title','WISTR | Independent top-reflector removal',-4.5,3.3,.27)
+            text('subtitle','Four parallel reflector hooks; the common two-bar head lifts them together',-4.5,2.93,.16)
+            text('foot','Edge-open reliefs clear core hooks and service tubes during vertical withdrawal.',-4.5,-3.27,.14)
+        elif view=='core-lifting':
+            text('title','WISTR | Core lifting from its side structure',-4.5,3.3,.27)
+            text('subtitle','Four parallel edge hooks engage the common two-bar crane head',-4.5,2.93,.16)
+            text('foot','Top and peripheral reflectors hidden to expose the core-side attachments. Unrated concept.',-4.5,-3.27,.13)
+        elif view=='core-removal':
+            text('title','WISTR | Core withdrawn from the vessel',-4.5,3.3,.27)
+            text('subtitle','Core and attached service tubes lift vertically; peripheral reflector stays latched',-4.5,2.93,.14)
+            text('foot','Top reflector removed first. Vessel and spider hidden; passage checked geometrically.',-4.5,-3.27,.13)
+        elif view=='cap-service':
+            text('title','WISTR | Cap hooks and tube connections',-4.5,3.3,.27)
+            text('subtitle','Four parallel hooks moved 200 mm outward; same two-bar crane head',-4.5,2.93,.15)
+            text('size','700 mm diameter around plug axis checked clear of hooks.',-4.5,-2.97,.15)
+            text('foot','External fittings and disconnect tooling remain to be laid out.',-4.5,-3.27,.13)
+        elif view=='absorber-plug-detail':
+            text('title','WISTR | Removable absorber tube plug',-4.5,3.3,.27)
+            text('subtitle','Spider lifted 300 mm; four tubes and supported plug stay in place',-4.5,2.93,.14)
+            text('size','Ø400 mm flange / Ø270 mm opening / six captive screws / circular face seal',-4.5,-2.97,.13)
+            text('foot','Local spider crop. Other roof attachments detached first. Concept geometry.',-4.5,-3.27,.12)
+        elif view=='plug-detail':
+            text('title','WISTR | Removable sector tube plug',-4.5,3.3,.27)
+            text('subtitle','Cap lifted 350 mm; screws withdrawn; plug stays with the core',-4.5,2.93,.15)
+            text('size','Ø470 mm flange / Ø300 mm cap opening / six screws / circular face seal',-4.5,-2.97,.14)
+            text('foot','Seal offset 100 mm for visibility; cap/tubes cropped, frame hidden. Concept only.',-4.5,-3.27,.12)
+        elif view in ('cap-handling','cap-handling-open'):
+            text('title','WISTR | Pivoting two-bar lifting head',-4.5,3.3,.28)
+            text('subtitle','Cable pulled: bars spread with the unloaded head lowered 88 mm' if view=='cap-handling-open' else 'Bars together beneath opposed hook lips; cable released',-4.5,2.91,.16)
+            text('foot','Same head for caps, top reflectors and cores. Motion concept; load capacity and gravity return unverified.',-4.5,-3.27,.12)
         elif view=='pattern':
             text('title','WISTR | Triangular through-hole pattern',-4.05,2.9,.27)
             text('subtitle','Top reflector, core and bottom reflector share the same hole centres',-4.05,2.52,.15)
@@ -180,18 +244,38 @@ def annotations(b,cameras,d):
 
 def select_view(b,cameras,cut_objects,view):
     scene=bpy.context.scene;scene.camera=cameras[view]
+    scene['lifting_bars_open']=1.0 if view=='cap-handling-open' else 0.0
+    scene['lifting_head_lowered']=1.0 if view=='cap-handling-open' else 0.0
+    b.assemblies['reactor.spider'].location.z=0
+    scene['cap_service_view']=view=='cap-service'
+    scene['absorber_plug_detail_view']=view=='absorber-plug-detail'
+    scene['absorber_plug_bolts_retracted']=view=='absorber-plug-detail'
+    scene['sector_plug_detail_view']=view=='plug-detail'
+    scene['sector_plug_bolts_retracted']=view in ('plug-detail','cap','cap-handling','cap-handling-open')
     scene['tubing_detail_view']=view=='absorber-tube-detail'
-    scene['core_tube_detail_view']=view=='core-tubes'
+    scene['core_tube_detail_view']=view in ('core-tubes','cap-handling','cap-handling-open','cap-service')
     visible={
         'air-system':set(b.collections)-{'Flow arrows','Air path arrows'},
         'air-section':set(b.collections)-{'Flow arrows'},
         'cutaway':set(b.collections)-{'Flow arrows'},
         'section':set(b.collections)-{'Cap pieces','Four-bar hardware'},
         'plan':set(b.collections)-{'Cap pieces','Spider','Flow arrows'},
+        'cap-service':{'Cap pieces','Core tubing','Sector tube plugs','Presentation'},
+        'absorber-plug-detail':{'Absorber tubing','Absorber plugs','Spider','Tube wall mounts','Presentation'},
+        'plug-detail':{'Cap pieces','Core tubing','Sector tube plugs','Presentation'},
         'cap':{'Cap pieces','Spider','Absorber tubing','Presentation'},
         'linkage':{'Core sectors','Core tubing','Four-bar hardware','Presentation'},
         'supports':{'Core supports','Vessel supports','Presentation'},
-        'maintenance':{'Core sectors','Core tubing','Four-bar hardware','Presentation'},
+        'maintenance':{'Core sectors','Core tubing','Four-bar hardware','Reflector lifting points','Maintenance locks','Presentation'},
+        'remote-handling':{'Core sectors','Core tubing','Four-bar hardware','Reflector lifting points','Maintenance locks','Remote lifting tools','Presentation'},
+        'latch-detail':{'Reflector lifting points','Maintenance locks','Presentation'},
+        'latch-released':{'Reflector lifting points','Maintenance locks','Presentation'},
+        'cap-handling':{'Cap pieces','Remote lifting tools','Presentation'},
+        'cap-handling-open':{'Cap pieces','Remote lifting tools','Presentation'},
+        'release-tool':{'Reflector lifting points','Maintenance locks','Remote lifting tools','Remote release tools','Presentation'},
+        'top-reflector-removal':{'Core sectors','Core tubing','Core lifting points','Top reflector lifting points','Extraction tools','Presentation'},
+        'core-lifting':{'Core sectors','Core tubing','Core lifting points','Extraction tools','Presentation'},
+        'core-removal':{'Core sectors','Core tubing','Core lifting points','Reflector lifting points','Maintenance locks','Extraction tools','Presentation'},
         'support-detail':{'Core supports','Presentation'},
         'spider':{'Spider','Absorber tubing','Presentation'},
         'pattern':{'Core sectors','Presentation'},
@@ -200,6 +284,12 @@ def select_view(b,cameras,cut_objects,view):
         'absorber-tubes':{'Absorber tubing','Absorber tanks','Tube wall mounts','Spider','Presentation'},
         'absorber-tube-detail':{'Absorber tubing','Absorber tanks','Tube wall mounts','Spider','Presentation'},
     }[view]
+    if 'Spider' in visible:visible.add('Absorber plugs')
+    if view in ('cap','core-tubes','maintenance','remote-handling','top-reflector-removal','core-lifting','core-removal'):
+        visible.add('Sector tube plugs')
+    if view not in ('remote-handling','release-tool','cap-handling','cap-handling-open'):visible.discard('Remote lifting tools')
+    if view!='release-tool':visible.discard('Remote release tools')
+    if view not in ('core-lifting','core-removal','top-reflector-removal'):visible.discard('Extraction tools')
     if view not in ('air-system','air-section'):
         visible-= {'Air collectors','Air ducts','Air path arrows'}
     for name,col in b.collections.items():
@@ -208,7 +298,10 @@ def select_view(b,cameras,cut_objects,view):
         if name=='Presentation tools':show=True
         col.hide_render=not show;col.hide_viewport=not show
     scene['section_cutaway']=view in ('cutaway','section','air-section','separator-supports')
-    scene['maintenance_position']=view not in ('section','linkage','pattern','air-system','air-section','absorber-tubes','absorber-tube-detail','core-tubes')
+    scene['maintenance_position']=view not in ('section','linkage','pattern','air-system','air-section','absorber-tubes','absorber-tube-detail','core-tubes','cap-handling','cap-handling-open','plug-detail','absorber-plug-detail','cap-service')
+    scene['maintenance_release']=0.0
+    scene['maintenance_locks_engaged']=view not in ('latch-released','release-tool')
+    scene['remote_grapple_engaged']=True
     bpy.data.objects['study.stage.ground'].hide_render=view=='spider'
     bpy.data.objects['study.stage.ground'].hide_set(view=='spider')
     scene.update_tag()
@@ -216,6 +309,7 @@ def select_view(b,cameras,cut_objects,view):
     for i in range(6):
         obj=b.assemblies[f'reactor.cap_{i+1}']
         for child in obj.children:
+            if child.get('role')=='plug_face_seal':child.location.z=0
             child.hide_set(False)
             if i+1!=layout.MAINTENANCE['sector']:child.hide_render=False
         a=math.radians(30+i*60)
@@ -223,7 +317,7 @@ def select_view(b,cameras,cut_objects,view):
         for category in ('sector','fourbar'):
             root=b.assemblies[f'reactor.{category}_{i+1}']
             isolated=0 if view in ('linkage','pattern','core-tubes') else layout.MAINTENANCE['sector']-1
-            hide=view in ('linkage','maintenance','pattern','core-tubes') and i!=isolated
+            hide=view in ('linkage','maintenance','pattern','core-tubes','remote-handling','latch-detail','latch-released','release-tool','core-lifting','core-removal','top-reflector-removal') and i!=isolated
             for child in [root,*root.children_recursive]:
                 child.hide_render=hide
                 child.hide_set(hide)
@@ -234,16 +328,28 @@ def select_view(b,cameras,cut_objects,view):
                     part=child.name.rsplit('.',1)[-1]
                     child.hide_render=hide or part not in ('core','top_reflector','bottom_reflector')
                     child.hide_set(child.hide_render)
+        bpy.data.objects[f'reactor.sector_{i+1}.core'].location=(0,0,0)
+        b.assemblies[f'reactor.core_tubes_{i+1}'].location=(0,0,0)
         for part,offset in (('top_reflector',(.45,.60,.45)),('bottom_reflector',(-.55,-.3,-.3))):
             obj=bpy.data.objects[f'reactor.sector_{i+1}.{part}']
             obj.location=offset if view=='pattern' and i==0 else (0,0,0)
-    if view=='core-tubes':
+    if view in ('core-tubes','cap-handling','cap-handling-open','cap-service'):
         for i in range(1,7):
             for obj in b.assemblies[f'reactor.cap_{i}'].children:
                 obj.hide_render=i!=1;obj.hide_set(i!=1)
     for root in b.assemblies.values():
-        if root.get('category') in ('Absorber tanks','Absorber tubing','Tube wall mounts'):
-            isolated=root.name in ('reactor.absorber_1','reactor.absorber_tubes_1','reactor.absorber_tube_mounts_1')
+        if root.get('category') in ('Reflector lifting points','Maintenance locks','Core lifting points','Top reflector lifting points','Sector tube plugs'):
+            hide=view in ('maintenance','remote-handling','latch-detail','latch-released','release-tool','core-lifting','core-removal','top-reflector-removal') and root['sector_number']!=layout.MAINTENANCE['sector']
+            if root.get('category')=='Sector tube plugs' and view=='core-tubes':hide=root['sector_number']!=1
+            for obj in (root,*root.children_recursive):obj.hide_render=hide;obj.hide_set(hide)
+        if root.get('category')=='Remote lifting tools':
+            show=(view in ('remote-handling','release-tool') and root['tool_type']=='reflector') or (view in ('cap-handling','cap-handling-open') and root['tool_type']=='cap')
+            for obj in (root,*root.children_recursive):obj.hide_render=not show;obj.hide_set(not show)
+        if root.get('category')=='Extraction tools':
+            show=(view=='top-reflector-removal' and root['tool_type']=='top_reflector') or (view in ('core-lifting','core-removal') and root['tool_type']=='core')
+            for obj in (root,*root.children_recursive):obj.hide_render=not show;obj.hide_set(not show)
+        if root.get('category') in ('Absorber tanks','Absorber tubing','Tube wall mounts','Absorber plugs'):
+            isolated=root.name in ('reactor.absorber_1','reactor.absorber_tubes_1','reactor.absorber_tube_mounts_1','reactor.absorber_plug_1')
             for obj in (root,*root.children_recursive):
                 obj.hide_render=view=='absorber-tube-detail' and not isolated
                 obj.hide_set(obj.hide_render)
@@ -255,6 +361,46 @@ def select_view(b,cameras,cut_objects,view):
         keep=root.name in ('reactor.core_support_1','reactor.core_support_2','reactor.core_absorber_support_1','reactor.core_absorber_support_2')
         for obj in (root,*root.children_recursive):
             obj.hide_render=view=='support-detail' and not keep;obj.hide_set(obj.hide_render)
+    number=layout.MAINTENANCE['sector']
+    if view=='top-reflector-removal':bpy.data.objects[f'reactor.sector_{number}.top_reflector'].location.z=2.3
+    if view in ('core-lifting','core-removal'):
+        parts=('top_reflector','radial_reflector','bottom_reflector','separator') if view=='core-lifting' else ('top_reflector',)
+        for part in parts:
+            obj=bpy.data.objects[f'reactor.sector_{number}.{part}'];obj.hide_render=True;obj.hide_set(True)
+        if view=='core-lifting':
+            for obj in b.assemblies[f'reactor.sector_{number}'].children:
+                if obj.name!=f'reactor.sector_{number}.core':obj.hide_render=True;obj.hide_set(True)
+        if view=='core-removal':
+            bpy.data.objects[f'reactor.sector_{number}.core'].location.z=6.0
+    if view=='cap-service':
+        for i in range(1,7):
+            for category in ('core_tubes','sector_plug'):
+                for obj in b.assemblies[f'reactor.{category}_{i}'].children_recursive:
+                    hide=i!=1 or obj.get('role')=='plug_support'
+                    obj.hide_render=hide;obj.hide_set(hide)
+    if view=='absorber-plug-detail':
+        b.assemblies['reactor.spider'].location.z=.30
+        for obj in bpy.data.collections['Spider'].objects:
+            if obj.type=='MESH':
+                show=obj.name=='reactor.spider.outer_ring' or obj.parent==b.assemblies['reactor.absorber_plug_fasteners_1']
+                obj.hide_render=not show;obj.hide_set(not show)
+        for i in range(1,7):
+            for category in ('absorber_tubes','absorber_plug','absorber_tube_mounts'):
+                for obj in b.assemblies[f'reactor.{category}_{i}'].children_recursive:
+                    obj.hide_render=i!=1;obj.hide_set(i!=1)
+    if view=='plug-detail':
+        b.assemblies['reactor.cap_1'].location.z=.35
+        bpy.data.objects['reactor.cap_1.plug_face_seal'].location.z=-.10
+        for i in range(1,7):
+            for obj in b.assemblies[f'reactor.cap_{i}'].children_recursive:
+                show=i==1 and (obj.name.endswith('.plate') or obj.get('role') in ('plug_face_seal','captive_plug_bolt','bolt_retainer') or 'cage_post' in obj.name)
+                obj.hide_render=not show;obj.hide_set(not show)
+            for category in ('core_tubes','sector_plug'):
+                for obj in b.assemblies[f'reactor.{category}_{i}'].children_recursive:
+                    show=i==1 and obj.get('role')!='plug_support'
+                    obj.hide_render=not show;obj.hide_set(not show)
+    for obj in bpy.data.collections['Presentation tools'].objects:
+        obj.hide_render=True;obj.hide_set(True)
     scene.render.resolution_x,scene.render.resolution_y=(1800,1800) if view=='plan' else (2400,1800)
     bpy.context.view_layer.update()
 
@@ -386,8 +532,15 @@ def report(b,d,output):
     separator_checks=check_separator_supports(b,d,layout)
     tubing_checks=check_absorber_tubing(b,layout,d)
     core_tubing_checks=check_core_tubing(b,layout,d)
+    remote_checks=check_remote_handling(b,layout,d)
+    extraction_checks=check_extraction(b,layout,d)
+    plug_checks=check_sector_plugs(b,layout,d)
+    absorber_plug_checks=check_absorber_plugs(b,layout,d)
     summary={'units':'metres; Z up','core':layout.CORE,'layers':layout.LAYERS,
              'connections':layout.CONNECTIONS,'supports':layout.SUPPORTS,'separator_support_parameters':layout.SEPARATOR_SUPPORTS,'derived_dimensions':d,
+             'cap_lifting_visual_parameters':layout.CAP_LIFTING,'common_lifting_interface':layout.LIFTING_INTERFACE,
+             'remote_handling':remote_checks,'extraction':extraction_checks,'sector_plugs':plug_checks,'sector_plug_parameters':layout.SECTOR_PLUG,
+             'absorber_plugs':absorber_plug_checks,'absorber_plug_parameters':layout.ABSORBER_PLUG,
              'presentation_dimensions':layout.PRESENTATION,'counts':counts,
              'connection_counts':connection_counts,'separator_count':separator_count,'link_bar_count':link_count,
              'maintenance':maintenance,'bore_pattern':bore_checks,'spider_passage':spider_checks,'air_system':air_checks,
@@ -426,7 +579,7 @@ def report(b,d,output):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--draft',action='store_true')
-    views=['air-system','air-section','cutaway','section','plan','cap','linkage','supports','maintenance','support-detail','spider','pattern','separator-supports','absorber-tubes','absorber-tube-detail','core-tubes']
+    views=['air-system','air-section','cutaway','section','plan','cap','linkage','supports','maintenance','support-detail','spider','pattern','separator-supports','absorber-tubes','absorber-tube-detail','core-tubes','remote-handling','latch-detail','latch-released','cap-handling','cap-handling-open','release-tool','top-reflector-removal','core-lifting','core-removal','plug-detail','absorber-plug-detail','cap-service']
     parser.add_argument('--views',nargs='+',choices=views,default=views)
     args=parser.parse_args(sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else [])
     output=ROOT/'outputs/reactor-study';output.mkdir(parents=True,exist_ok=True)

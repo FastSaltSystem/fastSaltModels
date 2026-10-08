@@ -244,9 +244,8 @@ def build_cap(b,layout,d):
         cap=b.assembly(f'reactor.cap_{i+1}','Cap pieces',angle=a)
         sector(b,'plate',cap,.22,d['cap_opening_radius']+.015,
                d['top_z']+.15,d['top_z']+.15+p['cap_thickness'],.02,'cap')
-        for r in (d['cap_opening_radius']*.3,d['cap_opening_radius']*.72):
-            x,y=xy(r,30)
-            b.box(f'lifting_lug_{r}',cap,(.12,.22,.14),(x,y,d['top_z']+.15+p['cap_thickness']+.07),'links',.01)
+        from .reactor_lifting import build_cap_hooks
+        build_cap_hooks(b,layout,d,cap)
     for i in range(6):
         root=b.assembly(f'reactor.fourbar_{i+1}','Four-bar hardware',angle=30+i*60)
         owner=b.assemblies[f'reactor.sector_{i+1}']
@@ -382,14 +381,14 @@ def add_cutaway(b):
     for obj in list(bpy.data.objects):
         if obj.type!='MESH' or obj==cutter or obj.users_collection[0].name in ('Flow arrows','Air path arrows','Presentation','Presentation tools'):
             continue
-        if obj.name in ('reactor.well.wall','reactor.vessel.wall','reactor.baffle.vertical_sheet'):
+        if obj.name in ('reactor.well.wall','reactor.vessel.wall','reactor.baffle.vertical_sheet') or obj.get('role')=='tube_plug_body':
             # Triangulated closed profiles support the Manifold Boolean solver.
             bm=bmesh.new();bm.from_mesh(obj.data)
             bmesh.ops.triangulate(bm,faces=list(bm.faces))
             bm.to_mesh(obj.data);bm.free();obj.data.update()
         mod=obj.modifiers.new('Study cutaway — disable for complete object','BOOLEAN')
         mod.operation='DIFFERENCE';mod.solver='EXACT';mod.object=cutter
-        if obj.name in ('reactor.well.wall','reactor.vessel.wall','reactor.baffle.vertical_sheet'):
+        if obj.name in ('reactor.well.wall','reactor.vessel.wall','reactor.baffle.vertical_sheet') or obj.get('role')=='tube_plug_body':
             mod.solver='MANIFOLD'
         for prop in ('show_viewport','show_render'):
             driver=mod.driver_add(prop).driver
@@ -403,12 +402,17 @@ def add_cutaway(b):
 
 def build_reactor(b,layout):
     from .reactor_air import build_air_system
+    from .reactor_handling import build_remote_handling
     from .reactor_tubing import build_absorber_tubing, build_core_tubing
     d=layout.dimensions()
     palette(b);build_core(b,layout,d);build_supports(b,layout,d);build_well(b,layout,d)
     build_vessel(b,layout,d);build_separator_supports(b,layout,d);build_cap(b,layout,d);build_flow(b,layout,d)
     build_core_tubing(b,layout,d)
+    from .reactor_plugs import build_sector_plugs, build_absorber_plugs
+    build_sector_plugs(b,layout,d)
     build_maintenance_pose(b,layout)
+    build_remote_handling(b,layout,d)
     build_absorber_tubing(b,layout,d)
+    build_absorber_plugs(b,layout,d)
     build_air_system(b,layout,d)
     return d,add_cutaway(b)
