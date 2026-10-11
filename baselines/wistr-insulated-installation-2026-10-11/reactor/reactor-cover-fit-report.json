@@ -1,0 +1,14 @@
+{
+  "checks": [
+    "Six covers and no former hot hood",
+    "Cap-hook clearances checked for sector 1 at five vertical positions; other sectors share fitted mesh geometry",
+    "Side plenums/stubs clear coolant-nozzle meshes"
+  ],
+  "fitted_cassette_additive_mass_kg": 2098.577369525565,
+  "all_thermal_inserts_additive_mass_kg": 298.2377905062458,
+  "limitations": [
+    "Geometric surface checks do not qualify full crane travel, structural capacity, pressure boundary, natural circulation or heat transfer",
+    "Frame service collars and local grid cuts require new structural analysis; standalone grillage is not a fitted-cover result",
+    "Service inserts cover disconnected terminals; operating service extensions remain to design"
+  ]
+}

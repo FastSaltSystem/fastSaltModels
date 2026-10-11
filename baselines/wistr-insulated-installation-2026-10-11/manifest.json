@@ -1,0 +1,116 @@
+{
+  "baseline_date": "2026-10-11",
+  "scope": "Accepted visual checkpoint: reactor insulation covers and installation with direct floor-level fresh-air supply",
+  "files": {
+    "README.md": {
+      "sha256": "fd5b6f1dc7450602b11bf0e88e9c6cd9eff0249abd0072572083b38cc6672b8a",
+      "bytes": 1451
+    },
+    "cover/tgrid-cover-assembly.png": {
+      "sha256": "9482d47757f1fd5a2bc0dd60b1cd114cf82f293dbfbe95c5516bc9aee8530c05",
+      "bytes": 1752367
+    },
+    "cover/tgrid-cover-cutaway.png": {
+      "sha256": "2a1fa0d3b3317d55d6055c7e89489e0f7f1b8e0ad28db78717f1e4da0bcbe40d",
+      "bytes": 1991225
+    },
+    "cover/tgrid-cover-report.json": {
+      "sha256": "2e7c67bbb32a7966a418a89c09ca854d92109351a8beb254911d06bead5c77ac",
+      "bytes": 557343
+    },
+    "cover/wistr-tgrid-cover.blend": {
+      "sha256": "d02ce3c93f4ba64d7f96a76547de794d442d3997fab81278c0911f115e4734f6",
+      "bytes": 1614974
+    },
+    "installation/wistr-cutaway-draft.png": {
+      "sha256": "1c08acaa2e26a2ea1e1c328134b05850bbaf94cf351257d1fb9c42dbcf0dace8",
+      "bytes": 1233758
+    },
+    "installation/wistr-equipment-draft.png": {
+      "sha256": "c642aa8ab26f16c13e8ccc5e989fe6fb6df067bfe9feff8914e337c2826d883e",
+      "bytes": 1251488
+    },
+    "installation/wistr-installation.blend": {
+      "sha256": "7bbd2d6506986d43babb4dec9b1df4b8840d22b402838c63758f425bddb730b1",
+      "bytes": 15339215
+    },
+    "installation/wistr-model-report.json": {
+      "sha256": "eebaacaa44ce90c42cc68be07b6cc00e6eed44e61f5cb777c25ceca46095011f",
+      "bytes": 67840
+    },
+    "installation/wistr-plan-draft.png": {
+      "sha256": "16fe5f50c7bccd43c806e4d24c71722ed0393d42cd8e6f0752ac076410612cac",
+      "bytes": 1022432
+    },
+    "reactor/reactor-air-section-draft.png": {
+      "sha256": "9a8e6602a850efe6031671d1faeee4b2738e911c93bdd14ac6c73b2181e8dfb5",
+      "bytes": 1111783
+    },
+    "reactor/reactor-air-system-draft.png": {
+      "sha256": "6027dc2778101e1b8f3a01278971b69192f98d6bed1b328a13d94125ebb878a9",
+      "bytes": 1161196
+    },
+    "reactor/reactor-cover-fit-report.json": {
+      "sha256": "a4ad7396eb3fa304cf5da7df7a2835d6b1033528fd2b4a2da867d8f4f65d0ac6",
+      "bytes": 747
+    },
+    "reactor/reactor-study-report.json": {
+      "sha256": "b76ade5fc2166765afe9f36c15209ee98752c5f0a3b8fec9ff29581bace2ac20",
+      "bytes": 30488
+    },
+    "reactor/wistr-reactor-study.blend": {
+      "sha256": "436953c81c227f779ca1a783a30104a9fc228cb7996b8fa9a7507bbb5539b546",
+      "bytes": 11916850
+    }
+  },
+  "python_sources_sha256": {
+    "models/wistr_installation.py": "b760dc68f0a23ebc6d49dce1a1e2b01769b161a576ee3203eed8b05aac1599aa",
+    "models/wistr_insulation_cover.py": "d5d96f3a5e3e1ed3d21749e97d704e4fc68519b3729d56aef252927eaa854297",
+    "models/wistr_reactor.py": "6cb6c999980c44617138d6d710171d008d3f1d8e5b83939a1319b8c714d8db4b",
+    "models/wistr_rigid_cover.py": "2b95a28728f13e2b91f24b39bc0f59d6f37afe201bc9c66a281557bb46d4e325",
+    "models/wistr_tgrid_cover.py": "f1d98ea16acd0c8784537dbf3a4a85aac6b0dcda97b95d6492e28231e385ce05",
+    "scripts/animate_pms.py": "c0007f787d644a6692384b763b2ddc3feb75deb49fcba7bf1e800667c2f80f0a",
+    "scripts/build_insulation_cover.py": "483d1d2da893bbc5302fa2666540fe600da02f76571f3a74c2e46f69ba6a2dbc",
+    "scripts/build_reactor.py": "b3473afb1486948422ffe51cdea77ecf9623506ace96f3e517b9f4d2f7af55f6",
+    "scripts/build_rigid_cover.py": "b09716aa520cbddfe8eecdf2b6c227a4b884d587005a4b6a1d0a297c6ff42788",
+    "scripts/build_tgrid_cover.py": "3e4a4d7f79dd88a97a7fe2ca5a526565a589fb5dd8a76de2a8e5b97bc9b66725",
+    "scripts/build_wistr.py": "49f135c325337fcddee8f5e0aa9ed16040b8e03597e784f879287296fc46a7e6",
+    "scripts/check_installation_side_air.py": "16be87f162362603c2138461c81814685965551b0b16b4a2d0fa4c71c4ab57f5",
+    "scripts/check_reactor_cover.py": "b6ead2648f29d8630c976c82983a2f6eeeb71efccea5f1aebd55e9cd3356826d",
+    "scripts/inspect_movie.py": "51e5869ad7d9fd69691f7cd29a116160791c48dc4e485fdfa4e95b805a7bf05f",
+    "scripts/prepare_motion.py": "5b3edb8aff780d8a1b3af6b454d1d5366fdc48e3b625953e721b0c61149c241c",
+    "scripts/prepare_reactor_cover.py": "1f6a8c300a3c493ba20faf76ed9d05a41ff6f75136b5de9b09eb4f17a7c3d5bf",
+    "scripts/refresh_reactor_cover.py": "cc5cdb40102ac7669432e6ded37cd9416df1a78aefca48cb5035f10b2b1e3d30",
+    "scripts/render_access_detail.py": "1e80fa8a5d5b47953c863be4715d3db37606d99462c2cd2a17022238efba9074",
+    "scripts/render_cover_supports.py": "efbdb2c437bd80cfeb414c32cc1a2dfe846dc1e16f1c146dff84206eaa70bde1",
+    "scripts/render_generator_detail.py": "8c632563439f92ec9eab1907e731ff0a17aad1bcb9e1e814beebc65a079fde2e",
+    "scripts/render_pms.py": "2489578a07cf0dd8ba2e0e028e88b53ac71447dee4d3a144f0f4a24d23336598",
+    "scripts/render_reactor_baseline.py": "8fc1dd644e36b1d8a19020a1d934825937468827376414cdfca2cc667cf3757a",
+    "scripts/render_tgrid_detail.py": "c7b7d47ddc7942c50c432540f28136674758e04f4db0422ac28631a54d4a8312",
+    "scripts/rigid_cover_screening.py": "694e20bc04f4b4de484d7a2770f02b654b67c5ff87d0f829b476a2c94a9b2de3",
+    "src/textual_graphics/__init__.py": "0b95548b336ec066b8fa6714336321cbf97b41e7b32136f83b4f5fd578ff362c",
+    "src/textual_graphics/blender_adapter.py": "2eef9640193650ddbe0d90c8f0d18a68a8b9d50eda70036afeaa972ccb74c044",
+    "src/textual_graphics/detail_assets.py": "bde533b02eef15c09588c718549f5048c2be94f04d00731a78495582f8b80377",
+    "src/textual_graphics/installation_access.py": "3efd8315799c0a5d6fd5fba478567108fa2f6eb3fe1836f3af7f377a55f2e45e",
+    "src/textual_graphics/installation_air.py": "e8a0fb6cde9b530e07ff3e1bd1de3a4bf8352345f3204d3b92109ace76a43111",
+    "src/textual_graphics/installation_clearance.py": "067312b64ec0d28810485659228d54bc6c3b6eaaa1319b7d614675d0a3268671",
+    "src/textual_graphics/installation_piping.py": "158e82f1cf3c0dafef28dc97231031182beec74405534928bcba3791bbe7aa5c",
+    "src/textual_graphics/installation_reactor.py": "e70740008c3f80863edf2e7de3220e522cbe293c5cedbd045023c5537d302d96",
+    "src/textual_graphics/installation_services.py": "408bbd7ee85144a8db6a2b048761aa24cdbf183211393744166958e6911df2ce",
+    "src/textual_graphics/perforated.py": "903b6dc39f64733f9530fd226a4d24c6acdc9e12ca206509e12f804c1dc6344a",
+    "src/textual_graphics/playback.py": "9a316d7d79148d3e060ded85562af45847bd3e5399d16bcaf4b6b3699e8de318",
+    "src/textual_graphics/reactor_air.py": "5b55e7f686622fc093a6508bcd7d4464085e429797d49a0df1c9ff08ef9dd793",
+    "src/textual_graphics/reactor_checks.py": "749c73ba3159a694fc75708678c971c3b9edf63cbcc594050c1be95156ba4b32",
+    "src/textual_graphics/reactor_cover.py": "1f65ff471ac2133c827011272fdd293699d474cf77663c9921297e016c6044b3",
+    "src/textual_graphics/reactor_extraction.py": "64a089f5da916cc36f85dbf7e95da49307f324f04a1cda979d52fb7ce8de20f0",
+    "src/textual_graphics/reactor_geometry.py": "90f901cf19579d1c017cf2811269e3d29694e6370026248e7b898f86404b6f1d",
+    "src/textual_graphics/reactor_handling.py": "f67cbfa008b0601e10a417623b2548ced2ef4cef15c625765ae5a7cc99369816",
+    "src/textual_graphics/reactor_insulation_cover.py": "4527100cccc84984eebb33a056acc7cc024d136908a6f99ed81dedb5f964fc85",
+    "src/textual_graphics/reactor_lifting.py": "e1904bc04590d77adc8e2b3b852c56d91d3dbeaa037d56f57f6811117831f27e",
+    "src/textual_graphics/reactor_plugs.py": "f5481c10aef03177f627bc4edebcbb81c4af69ae0b6557bdf77a831209b2ac11",
+    "src/textual_graphics/reactor_release.py": "2e266e47258bfc7e8e8c4ac309651f680ab912a6e0413b88c9556c65948e126c",
+    "src/textual_graphics/reactor_tubing.py": "69596cd38eae04f43845100dc729cb663a5ca19602b626ba984d0a92888ac9cb",
+    "src/textual_graphics/static_scene.py": "3d37cbe47abc3a697e02e75969f715f02e757d1383e1dfc70650c77520792828"
+  },
+  "validation": "Selected Blender geometry/clearance checks passed; design remains provisional. See README and saved reports."
+}

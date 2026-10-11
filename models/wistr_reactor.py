@@ -98,16 +98,8 @@ SEPARATOR_SUPPORTS = {
     "inlet_clearance": .03,
 }
 AIR_SYSTEM = {
-    # Provisional collector/duct dimensions; the previous exhaust diameter is retained.
-    "hood_clear_height": 1.40,
-    "insulation": .12,
-    "skin": .008,
-    "duct_diameter": 2.0,
-    "duct_wall": .02,
-    "cold_roof_clearance": .60,
-    "well_wall_coverage": .85,
-    "duct_center_spacing": 2.30,
-    "stub_height": .80,
+    "skin": .008, "duct_diameter": 2.0, "duct_wall": .02,
+    "hot_angle": 90.0, "cold_angle": 210.0,
 }
 PRESENTATION = {
     "vessel_wall": .07,
@@ -266,6 +258,7 @@ def dimensions():
 
 
 ASSUMPTIONS = [
+    "Six fitted rigid insulation cassettes replace the hood. Separate side supply and return plenums connect to the existing annular air passages; hot crossover is sleeved through the cold passage. Airflow and structural opening sizes remain provisional.",
     'Each sector has a provisional 470 mm flange, 290 mm pilot and 300 mm circular cap opening, with six smooth-represented M16 screws in 60 mm blind holes. A retained circular seal placeholder lies outside the bolt circle. Screw cages retain the screws during their 75 mm withdrawal. Seal retention details, threads, weld qualification, leakage, pressure rating, thermal movement and support strength are not engineered. The plug and its support frame belong to the core; external service disconnection is assumed before maintenance.',
     'Gravity-return maintenance catches share a curved 10 mm thick by 50 mm high plate crossbar on 10 mm rod uprights with bent ends through hook holes, retained ends and loose stand-off U-guides on the spider. A temporary secondary crane hook pulls the bar through the removed cap opening. Former catch locking pins and powered drives are removed; all former release roof holes remain closed. Hook/bar motion and sampled clearances are checked, but gravity return, resistance to load-induced opening, strength, friction and failure recovery are unverified. The peripheral-reflector powered-pin head remains conceptual. Four parallel hooks each on caps, cores and top reflectors share a common two-bar head. Clearances and attachment geometry do not establish load capacity or retention.',
     'Caps, top reflectors and cores use four parallel hooks each, with the outer pair reversed so both pairs open away from the head centre. A common head has two 40 mm bars at 750 mm engaged spacing on parallel pivot arms. An offset-horn split cable opens the arms to 30 degrees from vertical; gravity closure is an intent, not a dynamics result. Approach closed past the services, spread 170 mm above carrying height, lower 88 mm below carrying height, close, then lift. After setting down, lower 88 mm and actively pull the release cable; set-down alone does not open the bars. Kinematic controls do not implement release interlocks. The cap hooks are shifted 200 mm farther outward, leaving a checked 700 mm diameter hook-free connection workspace around the sector plug axis. The lifting upright, mounting block and hoist connection are centered between the pivot axes on all three pickup types. Symmetric head geometry does not establish the actual load split; mass distribution, strength, weld, reinforcement and retention details remain unverified.',
@@ -277,10 +270,6 @@ ASSUMPTIONS = [
     'A fixed annular vessel ledge seats the separator underside, 0.04 m below the hot-plenum floor. Its radial projection is limited by the upright link envelope plus provisional 0.03 m clearance; its height is twice its projection.',
     'Three fixed radial braces at each of six absorber locations join the absorber outer end to the vessel wall. Braces are 0.20 m tall and twice the current 0.08 m absorber thickness. Top braces share the separator bearing elevation; bottom braces start at the absorber bottom, with middle braces equally spaced vertically.',
     'Cold inlets are lowered as needed to clear the ledge and top radial braces by a provisional 0.03 m. The ledge and braces extend the leakage path geometrically; leakage rate and load capacity are not calculated.',
-    'An insulated hot-air hood is enclosed above and around its sides by the cold-air hood. The cold ring extends over 85 percent of the concrete well wall width, leaving about 52 mm to its outer edge. The partition continues the cooling-air baffle.',
-    'Air collectors are removable for sector extraction. Operating air-system views seat all six sectors and fit all six vessel cap pieces; maintenance views omit the collectors and their ducts.',
-    'Two short vertical duct stubs are near the centre, one hot and one cold, 2.30 m apart with 2 m outside diameters and 0.02 m walls. Both end 0.80 m above the outer hood. The hot duct passes through the cold-air space in a separate sealed wall; the cold duct opens only to the outer hood. External routing and the stack are omitted for later connection.',
-    'Provisional hood dimensions: hot roof underside 1.40 m above vessel top, insulation 0.12 m, metal skins 0.008 m, cold-air clearance above the hot roof 0.60 m. Reduced heat release to the room is a design intent, not a thermal calculation.',
     'The owner confirmed 3.4 m as core height alone, excluding reflectors and plenums.',
     'The owner corrected the core diameter to 3.8 m on 2026-10-07, adopting slide 6 of Fast Salt System 5.pptx over the earlier recalled 3.6 m dimension. The 0.3 m radial reflector and 1.0 m downcomer give a 6.4 m lower vessel internal diameter.',
     'Hot-plenum radius retains the allowance derived from the raised separator envelope, former 0.08 m spider ring inset and provisional 0.03 m clearance. The enlarged spider band now reduces the roof opening independently of the vessel diameter.',

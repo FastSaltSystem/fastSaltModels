@@ -97,11 +97,11 @@ def annotations(b,cameras,d):
             return text_on_camera(view+'.'+name,value,x*scale,y*scale,size*scale,cam,col,color)
         if view in ('air-system','air-section'):
             text('title','WISTR | Vessel air cooling',-10.4,7.65,.46)
-            text('subtitle','Cold-air hood encloses the insulated hot hood; two short central duct connections',-10.4,7.0,.24)
+            text('subtitle','Six insulation cassettes; separate side supply and hot-air collection plenums',-10.4,7.0,.24)
             text('cold','COLD AIR IN',-6.7,6.2,.25,'#477FAE')
             text('hot','HOT AIR OUT',3.9,6.2,.25,'#A76432')
-            text('foot','Wider cold ring: 0.56 m clear. Outer hood covers most of the concrete wall width.',-10.4,-7.05,.24)
-            text('assumptions','Short Ø2 m stubs for later connection. Hood clearances and stub dimensions remain provisional.',-10.4,-7.65,.21)
+            text('foot','Cold air down beside the well; under the vessel; hot air rises beside the vessel.',-10.4,-7.05,.24)
+            text('assumptions','Side ducts Ø2 m. Airflow, access inserts and fitted support details remain provisional.',-10.4,-7.65,.21)
         elif view=='cutaway':
             text('title','WISTR | Reactor, vessel & well',-6.8,4.88,.38)
             text('subtitle','Sector 3 raised for maintenance  /  its cap removed  /  front half opened',-6.8,4.4,.17)
@@ -291,7 +291,7 @@ def select_view(b,cameras,cut_objects,view):
     if view!='release-tool':visible.discard('Remote release tools')
     if view not in ('core-lifting','core-removal','top-reflector-removal'):visible.discard('Extraction tools')
     if view not in ('air-system','air-section'):
-        visible-= {'Air collectors','Air ducts','Air path arrows'}
+        visible-= {'Air collectors','Air ducts','Air path arrows','Insulation covers','Insulation service inserts'}
     for name,col in b.collections.items():
         show=(name in visible and not name.startswith('Labels.')) or name=='Labels.'+view
         # The cutter must stay evaluable even when hidden as an object.
@@ -543,7 +543,7 @@ def report(b,d,output):
              'absorber_plugs':absorber_plug_checks,'absorber_plug_parameters':layout.ABSORBER_PLUG,
              'presentation_dimensions':layout.PRESENTATION,'counts':counts,
              'connection_counts':connection_counts,'separator_count':separator_count,'link_bar_count':link_count,
-             'maintenance':maintenance,'bore_pattern':bore_checks,'spider_passage':spider_checks,'air_system':air_checks,
+             'insulation_cover':json.loads(scene['insulation_cover_integration']),'maintenance':maintenance,'bore_pattern':bore_checks,'spider_passage':spider_checks,'air_system':air_checks,
              'separator_supports':separator_checks,
              'absorber_tubing':tubing_checks,'core_tubing':core_tubing_checks,
              'source_sha256':sources,'assumptions':layout.ASSUMPTIONS,
@@ -579,6 +579,7 @@ def report(b,d,output):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--draft',action='store_true')
+    parser.add_argument('--build-only',action='store_true')
     views=['air-system','air-section','cutaway','section','plan','cap','linkage','supports','maintenance','support-detail','spider','pattern','separator-supports','absorber-tubes','absorber-tube-detail','core-tubes','remote-handling','latch-detail','latch-released','cap-handling','cap-handling-open','release-tool','top-reflector-removal','core-lifting','core-removal','plug-detail','absorber-plug-detail','cap-service']
     parser.add_argument('--views',nargs='+',choices=views,default=views)
     args=parser.parse_args(sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else [])
@@ -598,13 +599,14 @@ def main():
             if area.type=='VIEW_3D':
                 area.spaces.active.region_3d.view_perspective='CAMERA'
                 area.spaces.active.shading.color_type='MATERIAL'
-    if not args.draft:bpy.ops.wm.save_as_mainfile(filepath=str(output/'wistr-reactor-study.blend'))
-    for view in args.views:
+    bpy.ops.wm.save_as_mainfile(filepath=str(output/'wistr-reactor-study.blend'))
+    for view in ([] if args.build_only else args.views):
         select_view(b,cameras,cut_objects,view)
         scene.render.filepath=str(output/f'reactor-{view}{"-draft" if args.draft else ""}.png')
         bpy.ops.render.render(write_still=True)
     select_view(b,cameras,cut_objects,'air-section')
-    if not args.draft:bpy.ops.wm.save_as_mainfile(filepath=str(output/'wistr-reactor-study.blend'))
+    bpy.ops.wm.save_as_mainfile(filepath=str(output/'wistr-reactor-study.blend'))
+    (output/'manifest.json').write_text(json.dumps({'status':'working generated source','files':{p.name:{'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in (output/'wistr-reactor-study.blend',output/'reactor-study-report.json')}},indent=2))
     print('REACTOR_STUDY_OK '+json.dumps(summary['counts']))
 
 

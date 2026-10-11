@@ -415,4 +415,6 @@ def build_reactor(b,layout):
     build_absorber_tubing(b,layout,d)
     build_absorber_plugs(b,layout,d)
     build_air_system(b,layout,d)
+    from .reactor_cover import build_cover
+    build_cover(b,layout,d)
     return d,add_cutaway(b)

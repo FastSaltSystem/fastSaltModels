@@ -1,0 +1,2434 @@
+{
+  "title": "WISTR static installation concept",
+  "units": "metres; Z up",
+  "source": "/Users/thomaswielenga/Documents/dev/fastSaltModels/references/reactor-building-v1.svg",
+  "source_sha256": "1362de0c08e3301ae712f1ee9e39191365f1b50d30e13b057a241472f403fb49",
+  "assembly_counts": {
+    "Steam generators": 3,
+    "Fuel storage": 6,
+    "Reactor vessel": 1,
+    "Coolant storage": 1,
+    "Sector storage": 1,
+    "Stacks": 1,
+    "Coolant pumps": 3,
+    "Absorber modules": 6
+  },
+  "mesh_objects": 2994,
+  "assemblies": {
+    "connections.loop_1": {
+      "category": "Major piping",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_z_deg": 180.00000500895632
+    },
+    "equipment.coolant_pump_1": {
+      "category": "Coolant pumps",
+      "position": [
+        -13.000000953674316,
+        5.999999046325684,
+        -4.590000152587891
+      ],
+      "rotation_z_deg": 180.00000500895632
+    },
+    "connections.loop_2": {
+      "category": "Major piping",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_z_deg": 60.000001669652114
+    },
+    "equipment.coolant_pump_2": {
+      "category": "Coolant pumps",
+      "position": [
+        11.696151733398438,
+        8.258331298828125,
+        -4.590000152587891
+      ],
+      "rotation_z_deg": 60.000001669652114
+    },
+    "connections.loop_3": {
+      "category": "Major piping",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_z_deg": 299.99999468788224
+    },
+    "equipment.coolant_pump_3": {
+      "category": "Coolant pumps",
+      "position": [
+        1.3038463592529297,
+        -14.258331298828125,
+        -4.590000152587891
+      ],
+      "rotation_z_deg": 299.99999468788224
+    },
+    "building.structure": {
+      "category": "Structure",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_z_deg": 0.0
+    },
+    "building.shell": {
+      "category": "Shell",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_z_deg": 0.0
+    },
+    "equipment.steam_generator_1": {
+      "category": "Steam generators",
+      "position": [
+        -14.0,
+        1.7145055406796758e-15,
+        -9.100000381469727
+      ],
+      "rotation_z_deg": 90.00000250447816
+    },
+    "equipment.steam_generator_2": {
+      "category": "Steam generators",
+      "position": [
+        7.0,
+        12.12435531616211,
+        -9.100000381469727
+      ],
+      "rotation_z_deg": -30.000000834826057
+    },
+    "equipment.steam_generator_3": {
+      "category": "Steam generators",
+      "position": [
+        7.0,
+        -12.12435531616211,
+        -9.100000381469727
+      ],
+      "rotation_z_deg": 209.99999901359323
+    },
+    "equipment.fuel_storage_1": {
+      "category": "Fuel storage",
+      "position": [
+        -5.51232385635376,
+        11.597624778747559,
+        -6.400000095367432
+      ],
+      "rotation_z_deg": 120.00000333930423
+    },
+    "equipment.fuel_storage_2": {
+      "category": "Fuel storage",
+      "position": [
+        -7.287675857543945,
+        10.572625160217285,
+        -6.400000095367432
+      ],
+      "rotation_z_deg": 120.00000333930423
+    },
+    "equipment.fuel_storage_3": {
+      "category": "Fuel storage",
+      "position": [
+        -7.287675857543945,
+        -10.572625160217285,
+        -6.400000095367432
+      ],
+      "rotation_z_deg": 240.00000667860846
+    },
+    "equipment.fuel_storage_4": {
+      "category": "Fuel storage",
+      "position": [
+        -5.51232385635376,
+        -11.597624778747559,
+        -6.400000095367432
+      ],
+      "rotation_z_deg": 240.00000667860846
+    },
+    "equipment.fuel_storage_5": {
+      "category": "Fuel storage",
+      "position": [
+        12.800000190734863,
+        -1.024999976158142,
+        -6.400000095367432
+      ],
+      "rotation_z_deg": 0.0
+    },
+    "equipment.fuel_storage_6": {
+      "category": "Fuel storage",
+      "position": [
+        12.800000190734863,
+        1.024999976158142,
+        -6.400000095367432
+      ],
+      "rotation_z_deg": 0.0
+    },
+    "equipment.coolant_storage": {
+      "category": "Coolant storage",
+      "position": [
+        14.0,
+        -6.5,
+        -9.100000381469727
+      ],
+      "rotation_z_deg": 0.0
+    },
+    "equipment.sector_storage": {
+      "category": "Sector storage",
+      "position": [
+        17.299999237060547,
+        0.0,
+        -6.199999809265137
+      ],
+      "rotation_z_deg": 90.00000250447816
+    },
+    "building.stack_1": {
+      "category": "Stacks",
+      "position": [
+        1.6532732112853072e-15,
+        27.0,
+        -9.100000381469727
+      ],
+      "rotation_z_deg": 0.0
+    },
+    "building.circular_crane": {
+      "category": "Crane",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_z_deg": 0.0
+    },
+    "connections.secondary_headers": {
+      "category": "Secondary piping",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_z_deg": 0.0
+    },
+    "equipment.absorber_pair_1": {
+      "category": "Absorber supports",
+      "position": [
+        9.800000190734863,
+        0.0,
+        -2.0199999809265137
+      ],
+      "rotation_z_deg": 0.0
+    },
+    "equipment.absorber_module_1": {
+      "category": "Absorber modules",
+      "position": [
+        9.5,
+        -1.0499999523162842,
+        -2.0199999809265137
+      ],
+      "rotation_z_deg": 0.0
+    },
+    "equipment.absorber_module_2": {
+      "category": "Absorber modules",
+      "position": [
+        9.5,
+        1.0499999523162842,
+        -2.0199999809265137
+      ],
+      "rotation_z_deg": 0.0
+    },
+    "equipment.absorber_pair_2": {
+      "category": "Absorber supports",
+      "position": [
+        -2.536426544189453,
+        9.466073036193848,
+        -2.0199999809265137
+      ],
+      "rotation_z_deg": 104.99999950679661
+    },
+    "equipment.absorber_module_3": {
+      "category": "Absorber modules",
+      "position": [
+        -1.44455885887146,
+        9.448055267333984,
+        -2.0199999809265137
+      ],
+      "rotation_z_deg": 104.99999950679661
+    },
+    "equipment.absorber_module_4": {
+      "category": "Absorber modules",
+      "position": [
+        -3.4730031490325928,
+        8.904535293579102,
+        -2.0199999809265137
+      ],
+      "rotation_z_deg": 104.99999950679661
+    },
+    "equipment.absorber_pair_3": {
+      "category": "Absorber supports",
+      "position": [
+        -6.9296464920043945,
+        -6.9296464920043945,
+        -2.0199999809265137
+      ],
+      "rotation_z_deg": 224.99999601591165
+    },
+    "equipment.absorber_module_5": {
+      "category": "Absorber modules",
+      "position": [
+        -7.459976673126221,
+        -5.975052356719971,
+        -2.0199999809265137
+      ],
+      "rotation_z_deg": 224.99999601591165
+    },
+    "equipment.absorber_module_6": {
+      "category": "Absorber modules",
+      "position": [
+        -5.975052356719971,
+        -7.459976673126221,
+        -2.0199999809265137
+      ],
+      "rotation_z_deg": 224.99999601591165
+    },
+    "connections.air": {
+      "category": "Air distribution",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_z_deg": 0.0
+    },
+    "connections.fresh_air_intake": {
+      "category": "Air distribution",
+      "position": [
+        -5.143516516159909e-15,
+        -28.0,
+        -7.599999904632568
+      ],
+      "rotation_z_deg": 270.00000068324533
+    },
+    "connections.air_wall_openings": {
+      "category": "Air opening tools",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_z_deg": 0.0
+    },
+    "building.equipment_access": {
+      "category": "Access",
+      "position": [
+        0.0,
+        0.0,
+        -9.100000381469727
+      ],
+      "rotation_z_deg": 18.000000500895634
+    },
+    "presentation.stage": {
+      "category": "Presentation",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_z_deg": 0.0
+    },
+    "equipment.reactor_vessel": {
+      "category": "Reactor vessel",
+      "position": [
+        0.0,
+        0.0,
+        -8.319999694824219
+      ],
+      "rotation_z_deg": 45.00000125223908
+    }
+  },
+  "building": {
+    "diameter": 42.0,
+    "total_height": 32.504999999999995,
+    "lower_level_depth": 9.7,
+    "wall_thickness": 0.65,
+    "dome_rise": 7.5,
+    "intermediate_floor": false,
+    "cutaway_angles": [
+      0,
+      180
+    ]
+  },
+  "steam_generators": {
+    "count": 3,
+    "width": 4.0,
+    "height": 17.0,
+    "cover_thickness": 0.13,
+    "air_valve_box_size": [
+      1.2,
+      1.2,
+      0.6
+    ],
+    "air_valve_box_xy": [
+      -1.1,
+      1.1
+    ],
+    "radius": 14.0,
+    "angles": [
+      180,
+      60,
+      300
+    ],
+    "rotation_offset": -90.0,
+    "frame_height": 0.0,
+    "casing_bottom": -9.1
+  },
+  "calculation_sources": {
+    "Steam and feedwater pipe sizing - Hurmet.md": {
+      "path": "../fastSalt/calculations/steam-generator/Steam and feedwater pipe sizing - Hurmet.md",
+      "sha256": "50f0f4142050675a98aba2ea65c241c812dc5087839a7055f4bf05b3a0d605fe"
+    },
+    "Steam and feedwater insulation - Hurmet.md": {
+      "path": "../fastSalt/calculations/steam-generator/Steam and feedwater insulation - Hurmet.md",
+      "sha256": "bcb8cc9cc4066b8f0a87fd958100497086d185ede18b562ef338c68ab655baf1"
+    },
+    "Molten-salt coolant pipe wall - Hurmet.md": {
+      "path": "../fastSalt/calculations/steam-generator/Molten-salt coolant pipe wall - Hurmet.md",
+      "sha256": "77a2fc8c868f90ea8990b9504e83626c94bc1b7e4201e30f6b0ca29050ce903e"
+    },
+    "Molten-salt coolant insulation - Hurmet.md": {
+      "path": "../fastSalt/calculations/steam-generator/Molten-salt coolant insulation - Hurmet.md",
+      "sha256": "87ea2baefe4ae9bd28072d43d7c59159187f290d655f8b24182ee1923772258e"
+    }
+  },
+  "piping": {
+    "salt_pipe_diameter": 1.475,
+    "riser_x": 8.0,
+    "cold_riser_x": 8.0,
+    "specifications": {
+      "hot": {
+        "bore": 1.425,
+        "wall": 0.025,
+        "insulation": 0.4,
+        "bare_od": 1.475,
+        "jacket_od": 2.2750000000000004
+      },
+      "cold": {
+        "bore": 1.425,
+        "wall": 0.025,
+        "insulation": 0.35,
+        "bare_od": 1.475,
+        "jacket_od": 2.175
+      },
+      "steam_branch": {
+        "bore": 0.425,
+        "wall": 0.115,
+        "insulation": 0.35,
+        "bare_od": 0.655,
+        "jacket_od": 1.355
+      },
+      "steam_header": {
+        "bore": 0.725,
+        "wall": 0.195,
+        "insulation": 0.35,
+        "bare_od": 1.115,
+        "jacket_od": 1.815
+      },
+      "water_branch": {
+        "bore": 0.375,
+        "wall": 0.075,
+        "insulation": 0.175,
+        "bare_od": 0.525,
+        "jacket_od": 0.875
+      },
+      "water_header": {
+        "bore": 0.65,
+        "wall": 0.12,
+        "insulation": 0.175,
+        "bare_od": 0.89,
+        "jacket_od": 1.24
+      }
+    },
+    "scope": "Conditional Hurmet dimensions; pressure and material assumptions remain provisional"
+  },
+  "stacks": {
+    "radius": 27.0,
+    "angles": [
+      90
+    ],
+    "height": 35,
+    "tube_diameter": 3.6,
+    "base_z": -9.1,
+    "base_height": 1.0
+  },
+  "crane": {
+    "bridge_y": 4.4,
+    "trolley_x": -2.8,
+    "generator_clearance": 5.0,
+    "trolley_centre_offset": 1.3,
+    "trolley_height": 0.55,
+    "wall_top_above_runway": 2.7,
+    "displayed_hook_raise": 3.0,
+    "body_underside_z": 13.63,
+    "runway_height": 12.605
+  },
+  "generator_top_z": 8.63,
+  "reactor_integration": {
+    "source": "outputs/reactor-study/wistr-reactor-study.blend",
+    "sha256": "436953c81c227f779ca1a783a30104a9fc228cb7996b8fa9a7507bbb5539b546",
+    "source_commit": "working side-air/insulation revision based on 0d981f2",
+    "origin_z": -8.32,
+    "rotation_degrees": 45.0,
+    "scale": 1.0,
+    "deck_opening_radius": 4.9036396683468535,
+    "well_outer_radius": 4.753639668346853,
+    "well_floor_bottom": -9.100000000000001,
+    "well_base_radius": 4.122,
+    "cap_top_world_z": -1.7499999999999996,
+    "terminals": [
+      {
+        "name": "reactor.cold_inlet_1",
+        "kind": "cold_inlet",
+        "point": [
+          4.2098588943481445,
+          4.2098588943481445,
+          -4.589999675750732
+        ],
+        "direction": [
+          0.7071067690849304,
+          0.7071067690849304,
+          0.0
+        ],
+        "diameter": 1.475
+      },
+      {
+        "name": "reactor.cold_inlet_2",
+        "kind": "cold_inlet",
+        "point": [
+          -5.750773906707764,
+          1.5409148931503296,
+          -4.589999675750732
+        ],
+        "direction": [
+          -0.9659258127212524,
+          0.25881898403167725,
+          0.0
+        ],
+        "diameter": 1.475
+      },
+      {
+        "name": "reactor.cold_inlet_3",
+        "kind": "cold_inlet",
+        "point": [
+          1.540915846824646,
+          -5.750773906707764,
+          -4.589999675750732
+        ],
+        "direction": [
+          0.2588191330432892,
+          -0.9659258127212524,
+          0.0
+        ],
+        "diameter": 1.475
+      },
+      {
+        "name": "reactor.hot_outlet_1",
+        "kind": "hot_outlet",
+        "point": [
+          1.4503284692764282,
+          5.412700176239014,
+          -2.8199996948242188
+        ],
+        "direction": [
+          0.25881901383399963,
+          0.9659258127212524,
+          0.0
+        ],
+        "diameter": 1.475
+      },
+      {
+        "name": "reactor.hot_outlet_2",
+        "kind": "hot_outlet",
+        "point": [
+          -5.412700176239014,
+          -1.4503283500671387,
+          -2.8199996948242188
+        ],
+        "direction": [
+          -0.9659258127212524,
+          -0.25881898403167725,
+          0.0
+        ],
+        "diameter": 1.475
+      },
+      {
+        "name": "reactor.hot_outlet_3",
+        "kind": "hot_outlet",
+        "point": [
+          3.962371587753296,
+          -3.962371587753296,
+          -2.8199996948242188
+        ],
+        "direction": [
+          0.7071067690849304,
+          -0.7071067690849304,
+          0.0
+        ],
+        "diameter": 1.475
+      }
+    ],
+    "air_stubs": "Side-manifold stubs connected to installation air headers",
+    "routes": [
+      {
+        "object": "connections.loop_1.hot_outlet",
+        "terminal": "reactor.hot_outlet_2",
+        "points": [
+          [
+            -5.412700176239014,
+            -1.4503287076950073,
+            -2.819999933242798
+          ],
+          [
+            -8.0,
+            -2.1435935497283936,
+            -2.819999933242798
+          ],
+          [
+            -10.600000381469727,
+            -3.8000009059906006,
+            -2.819999933242798
+          ],
+          [
+            -10.600000381469727,
+            -3.8000009059906006,
+            6.400000095367432
+          ],
+          [
+            -10.600000381469727,
+            -1.4000009298324585,
+            6.400000095367432
+          ]
+        ],
+        "diameter": 1.475,
+        "jacket_diameter": 2.2750000000000004,
+        "generator": 1,
+        "target": "generator.hot_manifold",
+        "flow_direction": "Reactor hot outlet to generator hot manifold"
+      },
+      {
+        "object": "connections.loop_1.cold_inlet",
+        "terminal": "reactor.cold_inlet_2",
+        "points": [
+          [
+            -5.750774383544922,
+            1.5409153699874878,
+            -4.590000152587891
+          ],
+          [
+            -8.0,
+            2.1435935497283936,
+            -4.590000152587891
+          ],
+          [
+            -8.000000953674316,
+            5.999999523162842,
+            -4.590000152587891
+          ],
+          [
+            -11.600001335144043,
+            5.999999046325684,
+            -4.590000152587891
+          ]
+        ],
+        "diameter": 1.475,
+        "jacket_diameter": 2.175,
+        "generator": 1,
+        "target": "equipment.coolant_pump_1.discharge",
+        "flow_direction": "Pump side discharge to reactor cold inlet"
+      },
+      {
+        "object": "connections.loop_2.hot_outlet",
+        "terminal": "reactor.hot_outlet_1",
+        "points": [
+          [
+            1.4503289461135864,
+            5.412700653076172,
+            -2.819999933242798
+          ],
+          [
+            2.1435937881469727,
+            8.0,
+            -2.819999933242798
+          ],
+          [
+            2.0091030597686768,
+            11.079869270324707,
+            -2.819999933242798
+          ],
+          [
+            2.0091030597686768,
+            11.079869270324707,
+            6.400000095367432
+          ],
+          [
+            4.087563991546631,
+            9.87986946105957,
+            6.400000095367432
+          ]
+        ],
+        "diameter": 1.475,
+        "jacket_diameter": 2.2750000000000004,
+        "generator": 2,
+        "target": "generator.hot_manifold",
+        "flow_direction": "Reactor hot outlet to generator hot manifold"
+      },
+      {
+        "object": "connections.loop_2.cold_inlet",
+        "terminal": "reactor.cold_inlet_1",
+        "points": [
+          [
+            4.2098588943481445,
+            4.209859371185303,
+            -4.590000152587891
+          ],
+          [
+            5.8564066886901855,
+            5.8564066886901855,
+            -4.590000152587891
+          ],
+          [
+            9.196152687072754,
+            3.928203821182251,
+            -4.590000152587891
+          ],
+          [
+            10.996152877807617,
+            7.045895576477051,
+            -4.590000152587891
+          ]
+        ],
+        "diameter": 1.475,
+        "jacket_diameter": 2.175,
+        "generator": 2,
+        "target": "equipment.coolant_pump_2.discharge",
+        "flow_direction": "Pump side discharge to reactor cold inlet"
+      },
+      {
+        "object": "connections.loop_3.hot_outlet",
+        "terminal": "reactor.hot_outlet_3",
+        "points": [
+          [
+            3.962371826171875,
+            -3.962371826171875,
+            -2.819999933242798
+          ],
+          [
+            5.8564066886901855,
+            -5.8564066886901855,
+            -2.819999933242798
+          ],
+          [
+            8.590895652770996,
+            -7.27987003326416,
+            -2.819999933242798
+          ],
+          [
+            8.590895652770996,
+            -7.27987003326416,
+            6.400000095367432
+          ],
+          [
+            6.512434959411621,
+            -8.479869842529297,
+            6.400000095367432
+          ]
+        ],
+        "diameter": 1.475,
+        "jacket_diameter": 2.2750000000000004,
+        "generator": 3,
+        "target": "generator.hot_manifold",
+        "flow_direction": "Reactor hot outlet to generator hot manifold"
+      },
+      {
+        "object": "connections.loop_3.cold_inlet",
+        "terminal": "reactor.cold_inlet_3",
+        "points": [
+          [
+            1.5409154891967773,
+            -5.75077486038208,
+            -4.590000152587891
+          ],
+          [
+            2.1435935497283936,
+            -7.999999523162842,
+            -4.590000152587891
+          ],
+          [
+            -1.1961534023284912,
+            -9.928203582763672,
+            -4.590000152587891
+          ],
+          [
+            0.603846549987793,
+            -13.045894622802734,
+            -4.590000152587891
+          ]
+        ],
+        "diameter": 1.475,
+        "jacket_diameter": 2.175,
+        "generator": 3,
+        "target": "equipment.coolant_pump_3.discharge",
+        "flow_direction": "Pump side discharge to reactor cold inlet"
+      }
+    ],
+    "deck_penetrations": [],
+    "cold_suction_routes": [
+      {
+        "object": "connections.loop_1.cold_suction",
+        "generator": 1,
+        "points": [
+          [
+            -10.600000381469727,
+            1.3999990224838257,
+            -7.199999809265137
+          ],
+          [
+            -10.600001335144043,
+            5.999999046325684,
+            -7.199999809265137
+          ],
+          [
+            -13.000000953674316,
+            5.999999046325684,
+            -7.199999809265137
+          ],
+          [
+            -13.000000953674316,
+            5.999999046325684,
+            -5.489999771118164
+          ]
+        ]
+      },
+      {
+        "object": "connections.loop_2.cold_suction",
+        "generator": 2,
+        "points": [
+          [
+            6.512435436248779,
+            8.479869842529297,
+            -7.199999809265137
+          ],
+          [
+            10.496152877807617,
+            6.179869651794434,
+            -7.199999809265137
+          ],
+          [
+            11.696151733398438,
+            8.258331298828125,
+            -7.199999809265137
+          ],
+          [
+            11.696151733398438,
+            8.258331298828125,
+            -5.489999771118164
+          ]
+        ]
+      },
+      {
+        "object": "connections.loop_3.cold_suction",
+        "generator": 3,
+        "points": [
+          [
+            4.087563514709473,
+            -9.87986946105957,
+            -7.199999809265137
+          ],
+          [
+            0.10384654998779297,
+            -12.179868698120117,
+            -7.199999809265137
+          ],
+          [
+            1.3038463592529297,
+            -14.258331298828125,
+            -7.199999809265137
+          ],
+          [
+            1.3038463592529297,
+            -14.258331298828125,
+            -5.489999771118164
+          ]
+        ]
+      }
+    ],
+    "pumps": [
+      {
+        "name": "equipment.coolant_pump_1",
+        "centre": [
+          -13.000000953674316,
+          5.999999046325684,
+          -4.590000152587891
+        ],
+        "suction": [
+          -13.000000953674316,
+          5.999999046325684,
+          -5.489999771118164
+        ],
+        "discharge": [
+          -11.600001335144043,
+          5.999999046325684,
+          -4.590000152587891
+        ],
+        "hydraulic_kw": 1322.614686102737,
+        "shaft_kw": 1653.2683576284212,
+        "electrical_kw": 1722.1545391962723,
+        "motor_rating_kw": 2000.0,
+        "flow_m3_s": 4.619532828377259
+      },
+      {
+        "name": "equipment.coolant_pump_2",
+        "centre": [
+          11.696151733398438,
+          8.258331298828125,
+          -4.590000152587891
+        ],
+        "suction": [
+          11.696151733398438,
+          8.258331298828125,
+          -5.489999771118164
+        ],
+        "discharge": [
+          10.996152877807617,
+          7.045895576477051,
+          -4.590000152587891
+        ],
+        "hydraulic_kw": 1322.614686102737,
+        "shaft_kw": 1653.2683576284212,
+        "electrical_kw": 1722.1545391962723,
+        "motor_rating_kw": 2000.0,
+        "flow_m3_s": 4.619532828377259
+      },
+      {
+        "name": "equipment.coolant_pump_3",
+        "centre": [
+          1.3038463592529297,
+          -14.258331298828125,
+          -4.590000152587891
+        ],
+        "suction": [
+          1.3038463592529297,
+          -14.258331298828125,
+          -5.489999771118164
+        ],
+        "discharge": [
+          0.603846549987793,
+          -13.045894622802734,
+          -4.590000152587891
+        ],
+        "hydraulic_kw": 1322.614686102737,
+        "shaft_kw": 1653.2683576284212,
+        "electrical_kw": 1722.1545391962723,
+        "motor_rating_kw": 2000.0,
+        "flow_m3_s": 4.619532828377259
+      }
+    ]
+  },
+  "services": {
+    "convention": "Salt manifolds face inward; water and steam manifolds face the building wall",
+    "networks": [
+      {
+        "service": "water",
+        "header_radius": 18.5,
+        "z": -5.6,
+        "diameter": 1.24,
+        "spec": {
+          "bore": 0.65,
+          "wall": 0.12,
+          "insulation": 0.175,
+          "bare_od": 0.89,
+          "jacket_od": 1.24
+        },
+        "start_angle": 55.65995399567959,
+        "end_angle": 295.6599539956796,
+        "exit": [
+          -24.43200814043362,
+          -8.892523726467385,
+          -3.7799999999999994
+        ],
+        "building_connection_points": [
+          [
+            -17.384313484539305,
+            -6.32737265152487,
+            -5.6
+          ],
+          [
+            -18.324006105325214,
+            -6.6693927948505385,
+            -5.6
+          ],
+          [
+            -18.324006105325214,
+            -6.6693927948505385,
+            -3.7799999999999994
+          ],
+          [
+            -24.43200814043362,
+            -8.892523726467385,
+            -3.7799999999999994
+          ]
+        ],
+        "branches": [
+          {
+            "generator": 1,
+            "points": [
+              [
+                -17.4,
+                1.4000000000000021,
+                -5.6
+              ],
+              [
+                -18.44695096757185,
+                1.4000000000000021,
+                -5.6
+              ]
+            ],
+            "spec": {
+              "bore": 0.375,
+              "wall": 0.075,
+              "insulation": 0.175,
+              "bare_od": 0.525,
+              "jacket_od": 0.875
+            }
+          },
+          {
+            "generator": 2,
+            "points": [
+              [
+                9.912435565298216,
+                14.368842025849231,
+                -5.6
+              ],
+              [
+                10.435911049084142,
+                15.275528160283153,
+                -5.6
+              ]
+            ],
+            "spec": {
+              "bore": 0.375,
+              "wall": 0.075,
+              "insulation": 0.175,
+              "bare_od": 0.525,
+              "jacket_od": 0.875
+            }
+          },
+          {
+            "generator": 3,
+            "points": [
+              [
+                7.487564434701787,
+                -15.76884202584923,
+                -5.6
+              ],
+              [
+                8.011039918487713,
+                -16.675528160283154,
+                -5.6
+              ]
+            ],
+            "spec": {
+              "bore": 0.375,
+              "wall": 0.075,
+              "insulation": 0.175,
+              "bare_od": 0.525,
+              "jacket_od": 0.875
+            }
+          }
+        ]
+      },
+      {
+        "service": "steam",
+        "header_radius": 18.5,
+        "z": 6.4,
+        "diameter": 1.815,
+        "spec": {
+          "bore": 0.725,
+          "wall": 0.195,
+          "insulation": 0.35,
+          "bare_od": 1.115,
+          "jacket_od": 1.815
+        },
+        "start_angle": 55.65995399567959,
+        "end_angle": 295.6599539956796,
+        "exit": [
+          -24.43200814043362,
+          -8.892523726467385,
+          6.4
+        ],
+        "building_connection_points": [
+          [
+            -17.384313484539305,
+            -6.32737265152487,
+            6.4
+          ],
+          [
+            -24.43200814043362,
+            -8.892523726467385,
+            6.4
+          ]
+        ],
+        "branches": [
+          {
+            "generator": 1,
+            "points": [
+              [
+                -17.4,
+                1.4000000000000021,
+                6.4
+              ],
+              [
+                -18.44695096757185,
+                1.4000000000000021,
+                6.4
+              ]
+            ],
+            "spec": {
+              "bore": 0.425,
+              "wall": 0.115,
+              "insulation": 0.35,
+              "bare_od": 0.655,
+              "jacket_od": 1.355
+            }
+          },
+          {
+            "generator": 2,
+            "points": [
+              [
+                9.912435565298216,
+                14.368842025849231,
+                6.4
+              ],
+              [
+                10.435911049084142,
+                15.275528160283153,
+                6.4
+              ]
+            ],
+            "spec": {
+              "bore": 0.425,
+              "wall": 0.115,
+              "insulation": 0.35,
+              "bare_od": 0.655,
+              "jacket_od": 1.355
+            }
+          },
+          {
+            "generator": 3,
+            "points": [
+              [
+                7.487564434701787,
+                -15.76884202584923,
+                6.4
+              ],
+              [
+                8.011039918487713,
+                -16.675528160283154,
+                6.4
+              ]
+            ],
+            "spec": {
+              "bore": 0.425,
+              "wall": 0.115,
+              "insulation": 0.35,
+              "bare_od": 0.655,
+              "jacket_od": 1.355
+            }
+          }
+        ]
+      }
+    ],
+    "manifold_ports": [
+      {
+        "generator": 1,
+        "service": "water",
+        "point": [
+          -17.4,
+          1.4000000000000021,
+          -5.6
+        ],
+        "local_side": -1.4
+      },
+      {
+        "generator": 2,
+        "service": "water",
+        "point": [
+          9.912435565298216,
+          14.368842025849231,
+          -5.6
+        ],
+        "local_side": -1.4
+      },
+      {
+        "generator": 3,
+        "service": "water",
+        "point": [
+          7.487564434701787,
+          -15.76884202584923,
+          -5.6
+        ],
+        "local_side": -1.4
+      },
+      {
+        "generator": 1,
+        "service": "steam",
+        "point": [
+          -17.4,
+          1.4000000000000021,
+          6.4
+        ],
+        "local_side": -1.4
+      },
+      {
+        "generator": 2,
+        "service": "steam",
+        "point": [
+          9.912435565298216,
+          14.368842025849231,
+          6.4
+        ],
+        "local_side": -1.4
+      },
+      {
+        "generator": 3,
+        "service": "steam",
+        "point": [
+          7.487564434701787,
+          -15.76884202584923,
+          6.4
+        ],
+        "local_side": -1.4
+      }
+    ],
+    "air": {
+      "scope": "Provisional cooling-air routing envelopes; no airflow or heat-removal validation",
+      "branches": [
+        {
+          "component": "generator_1",
+          "service": "hot",
+          "object": "connections.air.generator_1.hot",
+          "diameter": 0.9,
+          "points": [
+            [
+              -15.100000381469727,
+              -1.100000023841858,
+              8.629999160766602
+            ],
+            [
+              -15.100000381469727,
+              -1.100000023841858,
+              10.0
+            ],
+            [
+              -19.847406725282504,
+              -1.4458375708255902,
+              10.0
+            ],
+            [
+              -22.440535242153587,
+              -1.634740972038984,
+              10.0
+            ]
+          ],
+          "wall_penetration": [
+            -20.62035849473446,
+            -1.502145315418039,
+            10.0
+          ]
+        },
+        {
+          "component": "generator_1",
+          "service": "fresh",
+          "object": "connections.air.generator_1.fresh",
+          "diameter": 0.7,
+          "points": [
+            [
+              -15.0,
+              -2.0,
+              -8.65000057220459
+            ],
+            [
+              -15.0,
+              -3.200000047683716,
+              -8.65000057220459
+            ],
+            [
+              -19.4620574322197,
+              -4.151905647408404,
+              -8.65000057220459
+            ],
+            [
+              -19.4620574322197,
+              -4.151905647408404,
+              -7.6
+            ],
+            [
+              -22.004838805273536,
+              -4.694365681743171,
+              -7.6
+            ]
+          ],
+          "wall_penetration": [
+            -20.220001879956904,
+            -4.313600465335118,
+            -7.6
+          ]
+        },
+        {
+          "component": "generator_2",
+          "service": "hot",
+          "object": "connections.air.generator_2.hot",
+          "diameter": 0.9,
+          "points": [
+            [
+              6.597372055053711,
+              13.626983642578125,
+              8.629999160766602
+            ],
+            [
+              6.597372055053711,
+              13.626983642578125,
+              10.0
+            ],
+            [
+              8.671571267646959,
+              17.911277222747675,
+              10.0
+            ],
+            [
+              9.804540377992794,
+              20.25144409607149,
+              10.0
+            ]
+          ],
+          "wall_penetration": [
+            9.009283214000046,
+            18.60882696383458,
+            10.0
+          ]
+        },
+        {
+          "component": "generator_2",
+          "service": "fresh",
+          "object": "connections.air.generator_2.fresh",
+          "diameter": 0.7,
+          "points": [
+            [
+              5.767949104309082,
+              13.99038028717041,
+              -8.65000057220459
+            ],
+            [
+              4.7287187576293945,
+              14.590380668640137,
+              -8.65000057220459
+            ],
+            [
+              6.1353732149947575,
+              18.93058888446751,
+              -8.65000057220459
+            ],
+            [
+              6.1353732149947575,
+              18.93058888446751,
+              -7.6
+            ],
+            [
+              6.936979765697591,
+              21.403932155804974,
+              -7.6
+            ]
+          ],
+          "wall_penetration": [
+            6.374313629146564,
+            19.667835436500795,
+            -7.6
+          ]
+        },
+        {
+          "component": "generator_3",
+          "service": "hot",
+          "object": "connections.air.generator_3.hot",
+          "diameter": 0.9,
+          "points": [
+            [
+              8.502628326416016,
+              -12.526983261108398,
+              8.629999160766602
+            ],
+            [
+              8.502628326416016,
+              -12.526983261108398,
+              10.0
+            ],
+            [
+              11.175835982211362,
+              -16.46543926224593,
+              10.0
+            ],
+            [
+              12.635995457274154,
+              -18.61670268344389,
+              10.0
+            ]
+          ],
+          "wall_penetration": [
+            11.611075825739691,
+            -17.106681243564555,
+            10.0
+          ]
+        },
+        {
+          "component": "generator_3",
+          "service": "fresh",
+          "object": "connections.air.generator_3.fresh",
+          "diameter": 0.7,
+          "points": [
+            [
+              9.232050895690918,
+              -11.990381240844727,
+              -8.65000057220459
+            ],
+            [
+              10.271281242370605,
+              -11.390380859375,
+              -8.65000057220459
+            ],
+            [
+              13.32668452772658,
+              -14.778683280267321,
+              -8.65000057220459
+            ],
+            [
+              13.32668452772658,
+              -14.778683280267321,
+              -7.6
+            ],
+            [
+              15.067859390645634,
+              -16.709566522915313,
+              -7.6
+            ]
+          ],
+          "wall_penetration": [
+            13.845688573404379,
+            -15.354235016056627,
+            -7.6
+          ]
+        },
+        {
+          "component": "fuel_tank_1",
+          "service": "hot",
+          "object": "connections.air.fuel_tank_1.hot",
+          "diameter": 0.5,
+          "points": [
+            [
+              -6.38732385635376,
+              13.113168716430664,
+              -4.300000190734863
+            ],
+            [
+              -8.714331260779874,
+              17.89051230896965,
+              -4.300000190734863
+            ],
+            [
+              -8.714331260779874,
+              17.89051230896965,
+              10.0
+            ],
+            [
+              -9.852887103896842,
+              20.22796617848328,
+              10.0
+            ]
+          ],
+          "wall_penetration": [
+            -9.053708483247432,
+            18.587253366228524,
+            10.0
+          ]
+        },
+        {
+          "component": "fuel_tank_1",
+          "service": "fresh",
+          "object": "connections.air.fuel_tank_1.fresh",
+          "diameter": 0.5,
+          "points": [
+            [
+              -6.38732385635376,
+              13.113168716430664,
+              -8.649999618530273
+            ],
+            [
+              -8.714331260779874,
+              17.89051230896965,
+              -8.649999618530273
+            ],
+            [
+              -8.714331260779874,
+              17.89051230896965,
+              -7.6
+            ],
+            [
+              -9.852887103896842,
+              20.22796617848328,
+              -7.6
+            ]
+          ],
+          "wall_penetration": [
+            -9.053708483247432,
+            18.587253366228524,
+            -7.6
+          ]
+        },
+        {
+          "component": "fuel_tank_2",
+          "service": "hot",
+          "object": "connections.air.fuel_tank_2.hot",
+          "diameter": 0.5,
+          "points": [
+            [
+              -8.162675857543945,
+              12.08816909790039,
+              -4.300000190734863
+            ],
+            [
+              -11.136473022934467,
+              16.492088060929483,
+              -4.300000190734863
+            ],
+            [
+              -11.136473022934467,
+              16.492088060929483,
+              10.0
+            ],
+            [
+              -12.591489598795253,
+              18.646833234719267,
+              10.0
+            ]
+          ],
+          "wall_penetration": [
+            -11.570179886892971,
+            17.134367872347593,
+            10.0
+          ]
+        },
+        {
+          "component": "fuel_tank_2",
+          "service": "fresh",
+          "object": "connections.air.fuel_tank_2.fresh",
+          "diameter": 0.5,
+          "points": [
+            [
+              -8.162675857543945,
+              12.08816909790039,
+              -8.649999618530273
+            ],
+            [
+              -11.136473022934467,
+              16.492088060929483,
+              -8.649999618530273
+            ],
+            [
+              -11.136473022934467,
+              16.492088060929483,
+              -7.6
+            ],
+            [
+              -12.591489598795253,
+              18.646833234719267,
+              -7.6
+            ]
+          ],
+          "wall_penetration": [
+            -11.570179886892971,
+            17.134367872347593,
+            -7.6
+          ]
+        },
+        {
+          "component": "fuel_tank_3",
+          "service": "hot",
+          "object": "connections.air.fuel_tank_3.hot",
+          "diameter": 0.5,
+          "points": [
+            [
+              -8.162675857543945,
+              -12.088170051574707,
+              -4.300000190734863
+            ],
+            [
+              -11.136472419496899,
+              -16.49208846840766,
+              -4.300000190734863
+            ],
+            [
+              -11.136472419496899,
+              -16.49208846840766,
+              10.0
+            ],
+            [
+              -12.591488916516594,
+              -18.646833695435795,
+              10.0
+            ]
+          ],
+          "wall_penetration": [
+            -11.570179259954704,
+            -17.134368295694888,
+            10.0
+          ]
+        },
+        {
+          "component": "fuel_tank_3",
+          "service": "fresh",
+          "object": "connections.air.fuel_tank_3.fresh",
+          "diameter": 0.5,
+          "points": [
+            [
+              -8.162675857543945,
+              -12.088170051574707,
+              -8.649999618530273
+            ],
+            [
+              -11.136472419496899,
+              -16.49208846840766,
+              -8.649999618530273
+            ],
+            [
+              -11.136472419496899,
+              -16.49208846840766,
+              -7.6
+            ],
+            [
+              -12.591488916516594,
+              -18.646833695435795,
+              -7.6
+            ]
+          ],
+          "wall_penetration": [
+            -11.570179259954704,
+            -17.134368295694888,
+            -7.6
+          ]
+        },
+        {
+          "component": "fuel_tank_4",
+          "service": "hot",
+          "object": "connections.air.fuel_tank_4.hot",
+          "diameter": 0.5,
+          "points": [
+            [
+              -6.38732385635376,
+              -13.11316967010498,
+              -4.300000190734863
+            ],
+            [
+              -8.714330748548845,
+              -17.890512558473446,
+              -4.300000190734863
+            ],
+            [
+              -8.714330748548845,
+              -17.890512558473446,
+              10.0
+            ],
+            [
+              -9.852886524741157,
+              -20.227966460585556,
+              10.0
+            ]
+          ],
+          "wall_penetration": [
+            -9.053707951067722,
+            -18.587253625449165,
+            10.0
+          ]
+        },
+        {
+          "component": "fuel_tank_4",
+          "service": "fresh",
+          "object": "connections.air.fuel_tank_4.fresh",
+          "diameter": 0.5,
+          "points": [
+            [
+              -6.38732385635376,
+              -13.11316967010498,
+              -8.649999618530273
+            ],
+            [
+              -8.714330748548845,
+              -17.890512558473446,
+              -8.649999618530273
+            ],
+            [
+              -8.714330748548845,
+              -17.890512558473446,
+              -7.6
+            ],
+            [
+              -9.852886524741157,
+              -20.227966460585556,
+              -7.6
+            ]
+          ],
+          "wall_penetration": [
+            -9.053707951067722,
+            -18.587253625449165,
+            -7.6
+          ]
+        },
+        {
+          "component": "fuel_tank_5",
+          "service": "hot",
+          "object": "connections.air.fuel_tank_5.hot",
+          "diameter": 0.5,
+          "points": [
+            [
+              14.550000190734863,
+              -1.024999976158142,
+              -4.300000190734863
+            ],
+            [
+              19.850803751123347,
+              -1.3984242683775343,
+              -4.300000190734863
+            ],
+            [
+              19.850803751123347,
+              -1.3984242683775343,
+              10.0
+            ],
+            [
+              22.444376100516347,
+              -1.5811329667585188,
+              10.0
+            ]
+          ],
+          "wall_penetration": [
+            20.6238878168078,
+            -1.4528855150103281,
+            10.0
+          ]
+        },
+        {
+          "component": "fuel_tank_5",
+          "service": "fresh",
+          "object": "connections.air.fuel_tank_5.fresh",
+          "diameter": 0.5,
+          "points": [
+            [
+              14.550000190734863,
+              -1.024999976158142,
+              -8.649999618530273
+            ],
+            [
+              19.850803751123347,
+              -1.3984242683775343,
+              -8.649999618530273
+            ],
+            [
+              19.850803751123347,
+              -1.3984242683775343,
+              -7.6
+            ],
+            [
+              22.444376100516347,
+              -1.5811329667585188,
+              -7.6
+            ]
+          ],
+          "wall_penetration": [
+            20.6238878168078,
+            -1.4528855150103281,
+            -7.6
+          ]
+        },
+        {
+          "component": "fuel_tank_6",
+          "service": "hot",
+          "object": "connections.air.fuel_tank_6.hot",
+          "diameter": 0.5,
+          "points": [
+            [
+              14.550000190734863,
+              1.024999976158142,
+              -4.300000190734863
+            ],
+            [
+              19.850803751123347,
+              1.3984242683775343,
+              -4.300000190734863
+            ],
+            [
+              19.850803751123347,
+              1.3984242683775343,
+              10.0
+            ],
+            [
+              22.444376100516347,
+              1.5811329667585188,
+              10.0
+            ]
+          ],
+          "wall_penetration": [
+            20.6238878168078,
+            1.452885515010328,
+            10.0
+          ]
+        },
+        {
+          "component": "fuel_tank_6",
+          "service": "fresh",
+          "object": "connections.air.fuel_tank_6.fresh",
+          "diameter": 0.5,
+          "points": [
+            [
+              14.550000190734863,
+              1.024999976158142,
+              -8.649999618530273
+            ],
+            [
+              19.850803751123347,
+              1.3984242683775343,
+              -8.649999618530273
+            ],
+            [
+              19.850803751123347,
+              1.3984242683775343,
+              -7.6
+            ],
+            [
+              22.444376100516347,
+              1.5811329667585188,
+              -7.6
+            ]
+          ],
+          "wall_penetration": [
+            20.6238878168078,
+            1.452885515010328,
+            -7.6
+          ]
+        },
+        {
+          "component": "reactor",
+          "service": "hot",
+          "object": "connections.air.reactor.hot",
+          "diameter": 2.0,
+          "points": [
+            [
+              -5.129097797771799,
+              5.1290977977717995,
+              -2.7699999999999996
+            ],
+            [
+              -5.977625846862793,
+              5.977625846862793,
+              -2.7699999809265137
+            ],
+            [
+              -5.977625846862793,
+              5.977625846862793,
+              10.0
+            ],
+            [
+              -13.647160876900367,
+              13.647160876900369,
+              10.0
+            ],
+            [
+              -15.909902576697318,
+              15.90990257669732,
+              10.0
+            ]
+          ],
+          "wall_penetration": [
+            -14.619432701031869,
+            14.619432701031872,
+            10.0
+          ]
+        },
+        {
+          "component": "reactor",
+          "service": "fresh",
+          "object": "connections.air.reactor.fresh",
+          "diameter": 2.0,
+          "points": [
+            [
+              -1.8773800924792976,
+              -7.006477890251098,
+              -2.7699999999999996
+            ],
+            [
+              -2.1879630088806152,
+              -8.16558837890625,
+              -2.7699999809265137
+            ],
+            [
+              -2.1879630088806152,
+              -8.16558837890625,
+              -7.6
+            ],
+            [
+              -5.823428514806719,
+              -21.733331091504038,
+              -7.6
+            ]
+          ],
+          "wall_penetration": [
+            -5.351083757494614,
+            -19.97051645852649,
+            -7.6
+          ]
+        }
+      ],
+      "reactor_stub_ports": {
+        "hot": [
+          -5.129097797771799,
+          5.1290977977717995,
+          -2.7699999999999996
+        ],
+        "fresh": [
+          -1.8773800924792976,
+          -7.006477890251098,
+          -2.7699999999999996
+        ]
+      },
+      "fresh_header_arc": [
+        0.0,
+        360.0
+      ],
+      "maintenance": "Side connections remain outside the cover footprint; disconnect spools for manifold maintenance. Full crane routes remain to check.",
+      "construction": "Exterior hollow concrete rings; fresh ring interrupted at access door with sealed ends",
+      "ring_sections": {
+        "hot": {
+          "inner_radius": 21.0,
+          "outer_radius": 24.0,
+          "bottom": 8.5,
+          "top": 11.5,
+          "skin": 0.25,
+          "clear_width": 2.5,
+          "clear_height": 2.5
+        },
+        "fresh": {
+          "inner_radius": 21.0,
+          "outer_radius": 24.0,
+          "bottom": -9.1,
+          "top": -6.1,
+          "skin": 0.25,
+          "clear_width": 2.5,
+          "clear_height": 2.5
+        }
+      },
+      "fresh_access_gap_degrees": [
+        10.475369777636873,
+        25.52463022236313
+      ],
+      "stack_connection": [
+        [
+          1.3777276490407724e-15,
+          22.5,
+          10.0
+        ],
+        [
+          1.6532731788489269e-15,
+          27.0,
+          10.0
+        ]
+      ],
+      "intake_connection": [
+        [
+          -4.133182947122317e-15,
+          -22.5,
+          -7.6
+        ],
+        [
+          -5.143516556418883e-15,
+          -28.0,
+          -7.6
+        ]
+      ],
+      "checked_vertical_clearances": {
+        "hot_ring_below_crane_runway_m": 0.8049999999999997,
+        "reactor_hot_cross_above_generator_m": 0.3699999999999992,
+        "reactor_hot_cross_below_crane_m": 1.3049999999999997
+      },
+      "reactor_floor_supply_check": {
+        "floor_clearance_m": 0.5000000953674313,
+        "nearest_envelopes": [
+          {
+            "clearance_m": 0.26617281476155363,
+            "object": "equipment.fuel_storage_4.closed_tank"
+          },
+          {
+            "clearance_m": 0.3381939388655808,
+            "object": "equipment.fuel_storage_4.stiffener-1.8.1"
+          },
+          {
+            "clearance_m": 0.6765329353569303,
+            "object": "equipment.fuel_storage_4.stiffener0.1"
+          },
+          {
+            "clearance_m": 1.5265791611086805,
+            "object": "equipment.fuel_storage_4.stiffener-1.8.-1"
+          },
+          {
+            "clearance_m": 1.6313467482477368,
+            "object": "equipment.absorber_pair_3.support.column-1.1"
+          }
+        ],
+        "scope": "Duct centreline capsules versus oriented equipment boxes and other air routes; process routes screened separately; supports and airflow not sized"
+      }
+    },
+    "access": {
+      "angle": 18.0,
+      "width": 4.5,
+      "height": 6.5,
+      "ring_gap_width": 5.5,
+      "inner_radius": 16.5,
+      "outer_radius": 27.0,
+      "scope": "Visual access envelope; no door containment rating or vehicle swept-path qualification",
+      "coolant_storage_relocated": false
+    },
+    "steam_header_wall_clearance_m": 0.9425000000000014,
+    "pump_nozzle_envelope_clearance_m": 0.3125,
+    "insulated_piping": {
+      "routes": [
+        {
+          "object": "connections.loop_1.hot_outlet",
+          "service": "hot",
+          "spec": {
+            "bore": 1.425,
+            "wall": 0.025,
+            "insulation": 0.4,
+            "bare_od": 1.475,
+            "jacket_od": 2.2750000000000004
+          },
+          "minimum_bend_radius_m": 1.510574449877901,
+          "floor_clearance_m": 5.142500066757202
+        },
+        {
+          "object": "connections.loop_1.cold_inlet",
+          "service": "cold",
+          "spec": {
+            "bore": 1.425,
+            "wall": 0.025,
+            "insulation": 0.35,
+            "bare_od": 1.475,
+            "jacket_od": 2.175
+          },
+          "minimum_bend_radius_m": 1.8896388152058383,
+          "floor_clearance_m": 3.4224998474121087
+        },
+        {
+          "object": "connections.loop_1.cold_suction",
+          "service": "cold",
+          "spec": {
+            "bore": 1.425,
+            "wall": 0.025,
+            "insulation": 0.35,
+            "bare_od": 1.475,
+            "jacket_od": 2.175
+          },
+          "minimum_bend_radius_m": 1.1759998286565019,
+          "floor_clearance_m": 0.8125001907348626
+        },
+        {
+          "object": "connections.loop_2.hot_outlet",
+          "service": "hot",
+          "spec": {
+            "bore": 1.425,
+            "wall": 0.025,
+            "insulation": 0.4,
+            "bare_od": 1.475,
+            "jacket_od": 2.2750000000000004
+          },
+          "minimum_bend_radius_m": 1.510574449877901,
+          "floor_clearance_m": 5.142500066757202
+        },
+        {
+          "object": "connections.loop_2.cold_inlet",
+          "service": "cold",
+          "spec": {
+            "bore": 1.425,
+            "wall": 0.025,
+            "insulation": 0.35,
+            "bare_od": 1.475,
+            "jacket_od": 2.175
+          },
+          "minimum_bend_radius_m": 1.889638936380951,
+          "floor_clearance_m": 3.4224998474121087
+        },
+        {
+          "object": "connections.loop_2.cold_suction",
+          "service": "cold",
+          "spec": {
+            "bore": 1.425,
+            "wall": 0.025,
+            "insulation": 0.35,
+            "bare_od": 1.475,
+            "jacket_od": 2.175
+          },
+          "minimum_bend_radius_m": 1.1759998286565019,
+          "floor_clearance_m": 0.8125001907348626
+        },
+        {
+          "object": "connections.loop_3.hot_outlet",
+          "service": "hot",
+          "spec": {
+            "bore": 1.425,
+            "wall": 0.025,
+            "insulation": 0.4,
+            "bare_od": 1.475,
+            "jacket_od": 2.2750000000000004
+          },
+          "minimum_bend_radius_m": 1.5105740140771005,
+          "floor_clearance_m": 5.142500066757202
+        },
+        {
+          "object": "connections.loop_3.cold_inlet",
+          "service": "cold",
+          "spec": {
+            "bore": 1.425,
+            "wall": 0.025,
+            "insulation": 0.35,
+            "bare_od": 1.475,
+            "jacket_od": 2.175
+          },
+          "minimum_bend_radius_m": 1.8896396028439306,
+          "floor_clearance_m": 3.4224998474121087
+        },
+        {
+          "object": "connections.loop_3.cold_suction",
+          "service": "cold",
+          "spec": {
+            "bore": 1.425,
+            "wall": 0.025,
+            "insulation": 0.35,
+            "bare_od": 1.475,
+            "jacket_od": 2.175
+          },
+          "minimum_bend_radius_m": 1.1759998286565019,
+          "floor_clearance_m": 0.8125001907348626
+        },
+        {
+          "object": "connections.secondary_headers.water_common_header",
+          "service": "water",
+          "spec": {
+            "bore": 0.65,
+            "wall": 0.12,
+            "insulation": 0.175,
+            "bare_od": 0.89,
+            "jacket_od": 1.24
+          },
+          "minimum_bend_radius_m": null,
+          "floor_clearance_m": 2.880000095367431
+        },
+        {
+          "object": "connections.secondary_headers.water_building_connection",
+          "service": "water",
+          "spec": {
+            "bore": 0.65,
+            "wall": 0.12,
+            "insulation": 0.175,
+            "bare_od": 0.89,
+            "jacket_od": 1.24
+          },
+          "minimum_bend_radius_m": 0.8917999817187967,
+          "floor_clearance_m": 2.880000095367431
+        },
+        {
+          "object": "connections.secondary_headers.water_branch_1",
+          "service": "water",
+          "spec": {
+            "bore": 0.375,
+            "wall": 0.075,
+            "insulation": 0.175,
+            "bare_od": 0.525,
+            "jacket_od": 0.875
+          },
+          "minimum_bend_radius_m": null,
+          "floor_clearance_m": 3.0625000953674313
+        },
+        {
+          "object": "connections.secondary_headers.water_branch_2",
+          "service": "water",
+          "spec": {
+            "bore": 0.375,
+            "wall": 0.075,
+            "insulation": 0.175,
+            "bare_od": 0.525,
+            "jacket_od": 0.875
+          },
+          "minimum_bend_radius_m": null,
+          "floor_clearance_m": 3.0625000953674313
+        },
+        {
+          "object": "connections.secondary_headers.water_branch_3",
+          "service": "water",
+          "spec": {
+            "bore": 0.375,
+            "wall": 0.075,
+            "insulation": 0.175,
+            "bare_od": 0.525,
+            "jacket_od": 0.875
+          },
+          "minimum_bend_radius_m": null,
+          "floor_clearance_m": 3.0625000953674313
+        },
+        {
+          "object": "connections.secondary_headers.steam_common_header",
+          "service": "steam",
+          "spec": {
+            "bore": 0.725,
+            "wall": 0.195,
+            "insulation": 0.35,
+            "bare_od": 1.115,
+            "jacket_od": 1.815
+          },
+          "minimum_bend_radius_m": null,
+          "floor_clearance_m": 14.59250009536743
+        },
+        {
+          "object": "connections.secondary_headers.steam_building_connection",
+          "service": "steam",
+          "spec": {
+            "bore": 0.725,
+            "wall": 0.195,
+            "insulation": 0.35,
+            "bare_od": 1.115,
+            "jacket_od": 1.815
+          },
+          "minimum_bend_radius_m": null,
+          "floor_clearance_m": 14.59250009536743
+        },
+        {
+          "object": "connections.secondary_headers.steam_branch_1",
+          "service": "steam",
+          "spec": {
+            "bore": 0.425,
+            "wall": 0.115,
+            "insulation": 0.35,
+            "bare_od": 0.655,
+            "jacket_od": 1.355
+          },
+          "minimum_bend_radius_m": null,
+          "floor_clearance_m": 14.822500095367431
+        },
+        {
+          "object": "connections.secondary_headers.steam_branch_2",
+          "service": "steam",
+          "spec": {
+            "bore": 0.425,
+            "wall": 0.115,
+            "insulation": 0.35,
+            "bare_od": 0.655,
+            "jacket_od": 1.355
+          },
+          "minimum_bend_radius_m": null,
+          "floor_clearance_m": 14.822500095367431
+        },
+        {
+          "object": "connections.secondary_headers.steam_branch_3",
+          "service": "steam",
+          "spec": {
+            "bore": 0.425,
+            "wall": 0.115,
+            "insulation": 0.35,
+            "bare_od": 0.655,
+            "jacket_od": 1.355
+          },
+          "minimum_bend_radius_m": null,
+          "floor_clearance_m": 14.822500095367431
+        }
+      ],
+      "insulation_collection": "Pipe insulation",
+      "metal_collection": "Pressure pipe metal",
+      "scope": "Hollow metal and insulation geometry; conditional worksheet inputs; no pipe support or stress validation"
+    },
+    "interference_screen": {
+      "process_route_count": 19,
+      "equipment_boxes_checked": 17,
+      "unresolved_clashes": [],
+      "near_clearances": [],
+      "endpoint_overbounds": [
+        {
+          "a": "connections.loop_1.cold_inlet",
+          "b": "connections.loop_1.cold_suction",
+          "clearance": -0.5106687817737299,
+          "p": [
+            -11.600001335144043,
+            5.999999046325684,
+            -4.590000152587891
+          ],
+          "q": [
+            -13.000000953674316,
+            5.999999046325684,
+            -5.489999771118164
+          ],
+          "classification": "Pump side/bottom endpoint sphere overbound; disjoint exterior mouth planes",
+          "exterior_mouth_clearance_m": 0.3125
+        },
+        {
+          "a": "connections.loop_2.cold_inlet",
+          "b": "connections.loop_2.cold_suction",
+          "clearance": -0.5106688278052791,
+          "p": [
+            10.996152877807617,
+            7.045895576477051,
+            -4.590000152587891
+          ],
+          "q": [
+            11.696151733398438,
+            8.258331298828125,
+            -5.489999771118164
+          ],
+          "classification": "Pump side/bottom endpoint sphere overbound; disjoint exterior mouth planes",
+          "exterior_mouth_clearance_m": 0.3125
+        },
+        {
+          "a": "connections.loop_3.cold_inlet",
+          "b": "connections.loop_3.cold_suction",
+          "clearance": -0.5106677319656225,
+          "p": [
+            0.603846549987793,
+            -13.045894622802734,
+            -4.590000152587891
+          ],
+          "q": [
+            1.3038463592529297,
+            -14.258331298828125,
+            -5.489999771118164
+          ],
+          "classification": "Pump side/bottom endpoint sphere overbound; disjoint exterior mouth planes",
+          "exterior_mouth_clearance_m": 0.3125
+        }
+      ],
+      "scope": "Capsule centreline segments versus other process/air routes and selected equipment boxes; common-network junctions and own equipment attachments excluded; not a full plant clash or maintenance qualification"
+    },
+    "feedwater_wall_crossing": {
+      "z": -3.7799999999999994,
+      "clearance_above_fresh_ring_m": 1.7000000000000002
+    },
+    "hoist_clearance": {
+      "generator_top_z": 8.630000114440918,
+      "body_underside_z": 13.630000114440918,
+      "clearance_m": 5.0,
+      "reference": "underside of hoist body"
+    }
+  },
+  "air_parameters": {
+    "hot_radius": 22.5,
+    "hot_z": 10.0,
+    "hot_diameter": 2.4,
+    "fresh_radius": 22.5,
+    "fresh_z": -7.6,
+    "fresh_diameter": 2.0,
+    "fresh_start_angle": 0.0,
+    "fresh_end_angle": 360.0,
+    "concrete_inner_radius": 21.0,
+    "concrete_outer_radius": 24.0,
+    "concrete_height": 3.0,
+    "concrete_skin": 0.25,
+    "reactor_hot_cross_z": 10.0,
+    "fresh_inside_riser_radius": 19.9,
+    "hot_inside_riser_radius": 19.9,
+    "reactor_inside_riser_radius": 19.3,
+    "intake_angle": 270.0,
+    "intake_radius": 28.0,
+    "low_branch_z": -8.65,
+    "generator_hot_diameter": 0.9,
+    "generator_fresh_diameter": 0.7,
+    "fuel_hot_diameter": 0.5,
+    "fuel_fresh_diameter": 0.5
+  },
+  "pump_estimate": {
+    "count": 3,
+    "local_position": [
+      13.0,
+      -6.0,
+      -4.59
+    ],
+    "casing_diameter": 2.8,
+    "casing_height": 1.8,
+    "motor_width": 2.8,
+    "motor_depth": 2.4,
+    "motor_height": 3.2,
+    "motor_bottom": -3.1999999999999993,
+    "mass_flow_kg_s": 7566.47718,
+    "density_kg_m3": 1637.93125,
+    "sg_pressure_drop_pa": 190872.791,
+    "allowance_factor": 1.5,
+    "pump_efficiency": 0.8,
+    "motor_efficiency": 0.96,
+    "motor_rating_kw": 2000.0,
+    "suction_run_z": -7.199999999999999,
+    "worksheet": "../fastSalt/calculations/steam-generator/Coolant pump estimate - Hurmet.md"
+  },
+  "assumptions": [
+    "Reactor fresh air runs directly along the floor at the fresh-ring centre elevation (1.5 m above floor), with a single rise to the reactor side manifold. The 2 m duct leaves 0.5 m beneath its envelope; support design remains provisional.",
+    "Absorber pairs move to radius 9.5 m at 0, 105 and 225 degrees, retaining vessel-top platform elevation, to clear the new reactor side plenums and risers. External absorber service lines remain to route.",
+    "42 m equipment shell is a provisional expansion of the prior 36 m draft to accommodate insulated process piping. Exterior concrete air rings add 3 m per side, giving 48 m outer diameter; stack and intake move outward.",
+    "Pipe bore, metal wall and insulation follow the conditional 11 October Hurmet calculation cases, not approved material or pressure specifications. Separate hollow metal and insulation meshes permit inspection; collector shells remain visual envelopes.",
+    "Salt hot/cold: 1.425 m bore, 25 mm nominal wall, 400/350 mm radial insulation. Steam branch/header: 425/725 mm bore, 115/195 mm wall, 350 mm insulation. Water branch/header: 375/650 mm bore, 75/120 mm wall, 175 mm insulation.",
+    "Three 4 x 4 x 17 m generators remain on the floor, centres at radius 14 m. Low salt ports rise to 1.9 m and water ports to 3.5 m above floor to clear insulation and the reactor fresh-air duct. Salt collectors face reactor; secondary collectors face wall.",
+    "Pumps remain provisional 2 MW vertical centrifugal envelopes with bottom suction and side discharge. Raised open frames leave space for insulated suction bends. No hydraulic losses, pump selection or support loads are recalculated.",
+    "The current working reactor with six fitted insulation covers and side air plenums is imported at full scale using a generated hash manifest. Preserved baselines remain unchanged. Installed coolant sleeves retain their conditional bore/wall adaptation.",
+    "External salt insulation begins at the reactor connection terminals, outside the concrete well. Vessel and in-well cooling surfaces are not insulated by this revision.",
+    "Collector insulation follows the pipe-service radial allowance; D-shaped collector sizes and pressure walls remain provisional and require separate pressure design.",
+    "Generator roof valve-box tops retain 5 m clearance to hoist body underside. The intermediate floor and perimeter railings remain absent. Equipment rests on the sub-floor at Z=-9.1 m.",
+    "Fuel pairs move to radius 12.8 m, coolant storage to (14,-6.5) m, and sector storage to (17.3,0) m. The 4.5 x 6.5 m entrance and interrupted fresh-air ring remain; full equipment extraction paths are not qualified.",
+    "Hollow exterior air plenums and twenty equipment air connections remain conceptual, without airflow, structural or thermal qualification. Hot ring remains below crane; feedwater wall crossing remains above fresh ring.",
+    "Geometry checks use insulated envelopes, selected equipment bounds and pipe centreline segments. They do not establish complete maintenance access, seismic clearance, pressure integrity or support adequacy."
+  ],
+  "checks": [
+    "All 19 process routes have separate hollow metal and insulation meshes matching Hurmet dimensions",
+    "Insulated pipe envelopes clear floor; circular elbow centreline radii exceed insulation outer radius",
+    "Insulated process routes screened against other process/air routes and selected equipment envelopes; no unresolved clashes",
+    "Three pump endpoint-sphere overbounds distinguished from disjoint side/bottom pipe mouth geometry",
+    "Expected equipment counts verified",
+    "Metric units and finite transforms verified",
+    "Intermediate floor, perimeter walkway and former deck columns absent",
+    "Working reactor source verified against its SHA-256 manifest",
+    "Full-scale reactor concrete well rests on sub-floor at Z=-9.1 m",
+    "Six installed nozzle bores/walls resized to Hurmet case; endpoints and tangents match six bare pipe routes",
+    "Coolant risers clear the outside of the concrete well",
+    "Three cold legs pass through bottom suction and side discharge; upward suction tangents and motor ratings verified",
+    "No superseded placeholder reactor and no invalid object drivers",
+    "Current side-air plenums and insulation covers imported from the working source",
+    "Fuel and coolant tank bottoms and support column feet meet the sub-floor",
+    "Generator casings meet floor; cold manifolds align with two-bend suction runs; absorber platforms match vessel top",
+    "Pump foundations clear storage tanks, generator bases and outer wall",
+    "Three 17 m generator casings; valve boxes seated on roofs; measured 5 m from valve tops to hoist body underside",
+    "The single stack base meets the equipment floor elevation",
+    "Twelve insulated half-pipe collectors; round collars match calculated branch jacket diameters and axes",
+    "Salt manifolds face reactor; steam/water manifolds face wall",
+    "Both common headers connect all three generators and terminate outside building",
+    "Feedwater rises inside and crosses the wall at the configured insulated clearance above the fresh-air ring",
+    "Six absorber modules seated two per enlarged shared deck; three braced frames bear on floor; no perimeter railings",
+    "Reactor fresh-air branch follows the floor with one rise at the reactor; equipment and air-route clearances checked",
+    "Three fresh-air inlets on perpendicular side faces with normal approaches, away from pumps",
+    "Three generator exhaust ducts start vertically from roof-mounted butterfly-valve boxes",
+    "One exhaust stack; ten hot and ten fresh branches connect reactor, three generators and six fuel tanks",
+    "Both reactor air routes meet actual imported side-manifold stub centres and have removable-spool markers",
+    "Fresh C-shaped plenum has sealed access ends and all branch ports outside gap; hot ring remains below crane",
+    "Rings clear stack base; reactor crossover clears generators and runway; small fresh feeds cross below water header",
+    "All twenty equipment air routes stay inside wall until horizontal entry directly into their ring",
+    "Equipment doorway cuts wall and pilaster; clear aperture and level apron verified",
+    "Access lane clears equipment (including coolant/sector storage), service pipes and interrupted fresh plenum"
+  ]
+}
