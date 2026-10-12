@@ -1,5 +1,7 @@
 # Fast Salt System site draft
 
+Cleanup note — 12 October 2026: superseded generated drafts have been removed. Current site plans and the saved scene are together in `outputs/site-45-bends/`. The saved site still represents the last accepted site arrangement; the next build imports the current under-cover-bundle installation. Historical output links below may require rebuilding.
+
 ## Current motor-BFP equipment draft — revised arrangement
 
 The [main internal piping draft](turbine-piping.md) now adds 59 route sections
@@ -13,8 +15,8 @@ selected wall segments. Fuel preparation stays at its earlier dimensions/locatio
 The common pad expands to 190 × 110 m, centred at (−14, −5), still at Z=−9.1 m.
 This is a first arrangement, not a minimum-building or complete-plant-fit claim.
 
-- [Dimensioned two-level plan](../outputs/site-aligned/turbine-equipment-plan.png)
-- [Editable SVG plan](../outputs/site-aligned/turbine-equipment-plan.svg)
+- [Dimensioned two-level plan](../outputs/site-45-bends/turbine-equipment-plan.png)
+- [Editable SVG plan](../outputs/site-45-bends/turbine-equipment-plan.svg)
 - [Draft Blender scene](../outputs/site-45-bends/fast-salt-site.blend)
 - [Aligned site view](../outputs/site-45-bends/site-alignment-draft.png)
 - [Layout definition](../models/turbine_layout.py) and [checked handoff JSON](../models/turbine-layout.json)
@@ -99,11 +101,11 @@ The electrical annex reserves space, not a qualified transformer-room design.
 Reproduce (from the models repository):
 
 ```sh
-python models/turbine_layout.py outputs/site-aligned
+python models/turbine_layout.py outputs/site-45-bends
 # This regenerates the SVG and layout JSON; PNG is a raster view of that SVG.
 /Applications/Blender.app/Contents/MacOS/Blender --background --factory-startup \
   --python-exit-code 1 --python scripts/build_site.py -- \
-  --output outputs/site-aligned --view alignment --with-piping
+  --output outputs/site-45-bends --view alignment --with-piping
 ```
 
 Copy a reviewed generated JSON into `models/turbine-layout.json` before the Blender

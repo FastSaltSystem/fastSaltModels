@@ -46,6 +46,9 @@ def check_access(b,layout,services):
     # Conservative boxes for equipment intersecting the full-height straight lane.
     for obj in bpy.context.scene.objects:
         if obj.type!='MESH' or not obj.name.startswith('equipment.'):continue
+        # Mobile vehicle deliberately parks in the transfer lane; its envelope and
+        # straight travel path are checked separately in check_maintenance.
+        if obj.get('maintenance_mobile'):continue
         points=[inverse @ obj.matrix_world @ Vector(q) for q in obj.bound_box]
         lo=[min(q[i] for q in points) for i in range(3)]
         hi=[max(q[i] for q in points) for i in range(3)]
@@ -71,4 +74,4 @@ def check_access(b,layout,services):
     assert abs(max((apron.matrix_world @ Vector(q)).z for q in apron.bound_box)-layout.FLOOR_Z)<1e-5
     services['access']['coolant_storage_relocated']=False
     return ['Equipment doorway cuts wall and pilaster; clear aperture and level apron verified',
-            'Access lane clears equipment (including coolant/sector storage), service pipes and interrupted fresh plenum']
+            'Access lane clears equipment (including coolant storage and maintenance-platform columns), service pipes and interrupted fresh plenum']

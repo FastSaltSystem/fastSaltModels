@@ -1,0 +1,60 @@
+{
+  "date": "2026-10-12",
+  "decisions": [
+    "D-039",
+    "D-040",
+    "D-041",
+    "D-042"
+  ],
+  "parent_commit": "8ec68332372ad54eabf4adcdff8fed53daaf3068",
+  "files": [
+    {
+      "path": "wistr-installation.blend",
+      "source": "outputs/installation-under-cover-bundles/wistr-installation.blend",
+      "bytes": 45964090,
+      "sha256": "01cf344dbf315d30a9f43e1512711b67d55141c160f76d39dd070a68f69c3d8f"
+    },
+    {
+      "path": "wistr-model-report.json",
+      "source": "outputs/installation-under-cover-bundles/wistr-model-report.json",
+      "bytes": 1796774,
+      "sha256": "8c596d1c5ac1eaa613a108e87854d02e002ac803e7259842640b5a14919636ec"
+    },
+    {
+      "path": "wistr-equipment-draft.png",
+      "source": "outputs/installation-under-cover-bundles/wistr-equipment-draft.png",
+      "bytes": 1244646,
+      "sha256": "6ea270b3682cec60c5ec56809554d68c67c2aa55111c1735dd0a94d19b242a79"
+    },
+    {
+      "path": "wistr-plan-draft.png",
+      "source": "outputs/installation-under-cover-bundles/wistr-plan-draft.png",
+      "bytes": 1041622,
+      "sha256": "68697f1900c93bf0000f7071c35ac11e52bdb6361d74e0e82977ee390b58d58d"
+    },
+    {
+      "path": "wistr-stairs-draft.png",
+      "source": "outputs/installation-under-cover-bundles/wistr-stairs-draft.png",
+      "bytes": 1354431,
+      "sha256": "75af5e137ec92124475c5981bfe8af7df3c3d2083c550f81ee86ffdae0c2082e"
+    },
+    {
+      "path": "wistr-maintenance-laydown-draft.png",
+      "source": "outputs/installation-under-cover-bundles/wistr-maintenance-laydown-draft.png",
+      "bytes": 2301499,
+      "sha256": "91cdb4224c367459a0b414f509d8757007f8783c6e313c42625a17b9003f9acd"
+    },
+    {
+      "path": "wistr-coolant-transfer-draft.png",
+      "source": "outputs/installation-under-cover-bundles/wistr-coolant-transfer-draft.png",
+      "bytes": 1089956,
+      "sha256": "4757e043a0a6dab3dee43b76b7badf38894f21bb249141dd5c0408a243f12a07"
+    },
+    {
+      "path": "wistr-nitrogen-draft.png",
+      "source": "outputs/installation-under-cover-bundles/wistr-nitrogen-draft.png",
+      "bytes": 1139465,
+      "sha256": "4dd54867b4d093e9cf753db13f90b8181807037fb827461b19467ab9350d2fb7"
+    }
+  ]
+}

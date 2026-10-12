@@ -150,18 +150,9 @@ def fuel_storage(b):
 
 
 def auxiliary_equipment(b):
-    p=layout.COOLANT_STORAGE; root=b.assembly('equipment.coolant_storage','Coolant storage',p['position'])
-    b.cylinder('closed_tank',root,p['radius'],p['height'],(0,0,p['height']/2),'coolant',vertices=96,bevel=.08)
-    b.cylinder('roof',root,p['radius']+.03,.13,(0,0,p['height']),'coolant',vertices=96)
-    for z in (1,3.5,6): b.ring(f'seam{z}',root,p['radius']+.025,z,.035,'rail')
-    b.cylinder('access_cover',root,.38,.15,(.6,0,p['height']+.42),'rail')
-    for y in (-.35,.35): b.beam(f'ladder{y}',root,(-2.12,y,.3),(-2.12,y,8.5),.032,'rail')
-    for i in range(26): b.beam(f'rung{i}',root,(-2.12,-.35,.45+i*.3),(-2.12,.35,.45+i*.3),.022,'rail')
-    p=layout.SECTOR_STORAGE; root=b.assembly('equipment.sector_storage','Sector storage',p['position'],p['angle'])
-    b.box('closed_enclosure',root,p['size'],(0,0,0),'sector',.09)
-    b.box('cover',root,(3.55,2.55,.18),(0,0,p['size'][2]/2+.08),'fuel_light',.06)
-    for x in (-1,1): b.beam(f'lifting_bar{x}',root,(x,-.5,3.1),(x,.5,3.1),.06,'rail')
-    root['floor_contact_z']=layout.FLOOR_Z
+    from textual_graphics.installation_utilities import build_coolant_tank
+    build_coolant_tank(b,layout)
+
 
 
 def stacks(b):
@@ -233,6 +224,7 @@ def presentation(b):
         'cutaway':camera(b,'View.Cutaway',(-8,-65,36),(0,0,8),94,.10),
         'plan':camera(b,'View.Plan',(0,0,70),(0,0,0),62),
         'equipment':camera(b,'View.Equipment',(-10,-48,34),(0,0,8),84,.04),
+        'stairs':camera(b,'View.Stairs',(-27,-30,17),(-3,-2,-3),36),
         'catwalk':camera(b,'View.Catwalk',(18,-24,18),(0,0,-.3),25),
         'fuel-services':camera(b,'View.FuelServices',(22,-30,26),(0,0,-2),39),
     }
@@ -248,6 +240,10 @@ def annotations(b,cam,view):
         text_on_camera('FuelServices.Title','WISTR | Sector / maintenance-tank connections',-17.5,13,.57,cam,collection)
         text_on_camera('FuelServices.Note','Six heated maintenance bundles / three independent tube pairs per sector',-17.5,12.05,.29,cam,collection,'#4C5C68')
         text_on_camera('FuelServices.Footer','Insulated jackets shown / lift insulation before disconnecting cap-side jumpers',-17.5,-13.1,.26,cam,collection,'#4C5C68')
+    elif view=='stairs':
+        text_on_camera('Stairs.Title','WISTR | Stair access to reactor catwalk',-12.7,10.0,.45,cam,collection)
+        text_on_camera('Stairs.Note','Three flights / 1.2 m clear width / 8.2 m bridge to catwalk',-12.7,9.3,.23,cam,collection,'#4C5C68')
+        text_on_camera('Stairs.Footer','8.5 m rise / two intermediate landings / structural and egress design provisional',-12.7,-10.2,.21,cam,collection,'#4C5C68')
     elif view=='catwalk':
         text_on_camera('Catwalk.Title','WISTR | Absorber service catwalk',-10.2,7.7,.42,cam,collection)
         text_on_camera('Catwalk.Note','12 reservoir/module stations / compact salt-gas bundles / lowered deck',-10.2,7.05,.22,cam,collection,'#4C5C68')
@@ -257,7 +253,7 @@ def annotations(b,cam,view):
         text_on_camera('WISTR.Subtitle','Detailed WISTR reactor  /  provisional installation',-35.9,27.4,.57,cam,collection,'#4C5C68')
         labels=[('WISTR reactor and well','#648AA3'),('Steam generators (3)','#9DA6AC'),
                 ('Fuel storage (6)','#C98B41'),('Coolant storage','#839778'),
-                ('Sector storage','#A88158'),('Circular crane','#C8993C'),
+                ('Mobile sector canister','#A88158'),('Circular crane','#C8993C'),
                 ('Cold-leg pumps (3)','#3E7468'),('Absorber modules (12)','#517F85'),('Insulated hot air / stack','#B4ABA3'),('Fresh-air supply','#56B6C4')]
         for index,(label,color) in enumerate(labels):
             y=14-index*2.2
@@ -268,20 +264,20 @@ def annotations(b,cam,view):
         text_on_camera('WISTR.Note','Based on the supplied plan and section. Unspecified dimensions are illustrative.',
                        -35.9,-29.0,.47,cam,collection,'#4C5C68')
     elif view=='equipment':
-        text_on_camera('Equipment.Title','WISTR | 42 m insulated-pipe draft',-31.0,24.0,1.0,cam,collection)
-        text_on_camera('Equipment.Note','Draft: calculated pipe envelopes / exterior air plenums / roofs hidden',-31.0,22.7,.47,cam,collection,'#66717A')
-        text_on_camera('Equipment.Footer','Concrete: air plenums   Silver/cyan: hot/fresh branches   Gold/green: salt',
+        text_on_camera('Equipment.Title','WISTR | Internal exhaust manifold',-10.0,24.0,1.0,cam,collection)
+        text_on_camera('Equipment.Note','Draft: internal insulated header / direct reactor exhaust / shell hidden',-10.0,22.7,.47,cam,collection,'#66717A')
+        text_on_camera('Equipment.Footer','Silver: insulated exhaust   Cyan: fresh air   Gold/green: salt',
                        -31,-24,.42,cam,collection,'#66717A')
     else:
         text_on_camera('Plan.Title','WISTR | Plan arrangement',-24,23.5,.82,cam,collection)
-        text_on_camera('Plan.Note','Upper plenum shown open; lower fresh-air ring lies directly beneath it',-24,22.35,.42,cam,collection,'#66717A')
+        text_on_camera('Plan.Note','Internal exhaust header; external fresh-air ring; direct reactor exhaust at 135 degrees',-24,22.35,.42,cam,collection,'#66717A')
         text_on_camera('Plan.Footer','Three steam generators  /  six storage tanks in three pairs',-24,-23.5,.44,cam,collection,'#66717A')
     return collection
 
 
 def select_view(b,cameras,view):
     scene=bpy.context.scene;scene.camera=cameras[view]
-    scene['section_cutaway']=view not in ('plan','catwalk','fuel-services')
+    scene['section_cutaway']=view=='cutaway'
     scene.update_tag()
     for key in cameras:
         b.collections['Annotations.'+key].hide_render=key!=view
@@ -300,9 +296,9 @@ def select_view(b,cameras,view):
             hidden=(obj.get('air_plenum_lid',False) and view!='cutaway') or (view=='cutaway' and obj.get('air_plenum_front',False) and obj.get('air_plenum_service')=='hot')
             obj.hide_render=hidden;obj.hide_viewport=hidden
     # Close-up omits remote equipment but retains the real reactor/catwalk geometry.
-    for category in ('Steam generators','Fuel storage','Coolant storage','Sector storage','Coolant pumps','Secondary piping','Air distribution','Major piping','Stacks','Pressure pipe metal','Pipe insulation','Hot air insulation','Hot air duct metal'):
+    for category in ('Steam generators','Fuel storage','Coolant storage','Sector handling','Coolant pumps','Secondary piping','Air distribution','Major piping','Stacks','Pressure pipe metal','Pipe insulation','Hot air insulation','Hot air duct metal','Coolant transfer','Nitrogen supply','Utility piping','Maintenance laydown'):
         if category in b.collections:
-            b.collections[category].hide_render=b.collections[category].hide_viewport=(view=='catwalk' or (view=='fuel-services' and category!='Fuel storage'))
+            b.collections[category].hide_render=b.collections[category].hide_viewport=(view in ('catwalk','stairs') or (view=='fuel-services' and category!='Fuel storage'))
     if view=='plan': scene.render.resolution_x,scene.render.resolution_y=1800,1800
     else: scene.render.resolution_x,scene.render.resolution_y=2400,1800
     bpy.context.view_layer.update()
@@ -310,8 +306,8 @@ def select_view(b,cameras,view):
 
 def report(b,output,integration,services):
     counts={name:sum(1 for obj in b.assemblies.values() if obj['category']==name)
-            for name in ('Steam generators','Fuel storage','Reactor vessel','Coolant storage','Sector storage','Stacks','Coolant pumps','Absorber modules','Absorber reservoirs')}
-    expected={'Steam generators':3,'Fuel storage':6,'Reactor vessel':1,'Coolant storage':1,'Sector storage':1,'Stacks':1,'Coolant pumps':3,'Absorber modules':12,'Absorber reservoirs':12}
+            for name in ('Steam generators','Fuel storage','Reactor vessel','Coolant storage','Sector handling','Stacks','Coolant pumps','Absorber modules','Absorber reservoirs','Coolant transfer','Nitrogen supply')}
+    expected={'Steam generators':3,'Fuel storage':6,'Reactor vessel':1,'Coolant storage':1,'Sector handling':1,'Stacks':1,'Coolant pumps':3,'Absorber modules':12,'Absorber reservoirs':12,'Coolant transfer':1,'Nitrogen supply':1}
     if counts!=expected: raise AssertionError(f'Assembly counts differ: {counts}')
     if bpy.context.scene.unit_settings.scale_length!=1: raise AssertionError('Expected metres')
     assert 'building.structure.operating_deck' not in bpy.data.objects
@@ -320,6 +316,10 @@ def report(b,output,integration,services):
     for obj in bpy.data.objects:
         if obj.type=='MESH' and not all(math.isfinite(v) for row in obj.matrix_world for v in row):
             raise AssertionError('Non-finite object transform: '+obj.name)
+    from textual_graphics.installation_utilities import check_utilities
+    services['utilities']['checks']=check_utilities(layout,services['utilities'])
+    from textual_graphics.installation_maintenance import check_maintenance
+    services['maintenance']['checks']=check_maintenance(b,layout,services['maintenance'])
     source=ROOT/'references/reactor-building-v1.svg'
     document={
         'title':'WISTR static installation concept','units':'metres; Z up',
@@ -348,7 +348,7 @@ def main():
     parser.add_argument('--draft',action='store_true')
     parser.add_argument('--build-only',action='store_true',help='Save the scene and report without rendering')
     parser.add_argument('--output',type=Path,default=ROOT/'outputs/wistr',help='Output directory')
-    parser.add_argument('--views',nargs='+',choices=['cutaway','plan','equipment','catwalk','fuel-services'],default=['cutaway','plan','equipment'])
+    parser.add_argument('--views',nargs='+',choices=['cutaway','plan','equipment','catwalk','fuel-services','stairs'],default=['cutaway','plan','equipment'])
     args=parser.parse_args(sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else [])
     output=args.output;output.mkdir(parents=True,exist_ok=True)
     bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -383,6 +383,12 @@ def main():
     from textual_graphics.installation_bundle_checks import check_bundle_envelopes
     build_channels(b,layout,services)
     services['bundle_envelopes']=check_bundle_envelopes(services)
+    from textual_graphics.installation_utilities import build_utilities
+    services['utilities']=build_utilities(b,layout,ROOT)
+    from textual_graphics.installation_stairs import build_stairs
+    build_stairs(b,layout,services)
+    from textual_graphics.installation_maintenance import build_maintenance
+    services['maintenance']=build_maintenance(b,layout)
     scene.render.engine='CYCLES';scene.cycles.device='CPU';scene.cycles.samples=16 if args.draft else 48
     scene.cycles.use_denoising=True;scene.render.image_settings.file_format='PNG'
     scene.view_settings.view_transform='AgX'
@@ -402,7 +408,7 @@ def main():
         select_view(b,cameras,view)
         scene.render.filepath=str(output/f'wistr-{view}{"-draft" if args.draft else ""}.png')
         bpy.ops.render.render(write_still=True)
-    select_view(b,cameras,'catwalk' if 'catwalk' in args.views else ('fuel-services' if 'fuel-services' in args.views else 'cutaway'))
+    select_view(b,cameras,'stairs' if 'stairs' in args.views else ('catwalk' if 'catwalk' in args.views else ('fuel-services' if 'fuel-services' in args.views else ('equipment' if 'equipment' in args.views else 'cutaway'))))
     bpy.ops.wm.save_as_mainfile(filepath=str(output/'wistr-installation.blend'))
     print('WISTR_OK '+json.dumps({'counts':summary['assembly_counts'],'meshes':summary['mesh_objects']}))
 

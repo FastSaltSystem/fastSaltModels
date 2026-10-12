@@ -221,8 +221,6 @@ def check_services(b,layout,services):
     for a in f['pair_angles']:
         t=math.radians(a)
         obstacles.append(rectangle(f['radius']*math.cos(t),f['radius']*math.sin(t),4.3,4.25,a))
-    x,y,_=layout.SECTOR_STORAGE['position']
-    obstacles.append(rectangle(x,y,3.55,2.55,layout.SECTOR_STORAGE['angle']))
     for a in layout.STEAM_GENERATORS['angles']:
         t=math.radians(a);r=layout.STEAM_GENERATORS['radius']
         obstacles.append(rectangle(r*math.cos(t),r*math.sin(t),4.1,4.1,a))
@@ -239,7 +237,9 @@ def check_services(b,layout,services):
         if category=='Fuel storage':
             assert abs(mesh_bottom(bpy.data.objects[root.name+'.closed_tank'])-layout.FLOOR_Z)<1e-5
         if category=='Coolant storage':
-            assert abs(mesh_bottom(bpy.data.objects[root.name+'.closed_tank'])-layout.FLOOR_Z)<1e-5
+            assert abs(mesh_bottom(bpy.data.objects[root.name+'.closed_tank'])-layout.COOLANT_STORAGE['position'][2])<1e-5
+            feet=[o for o in root.children if '.foot_' in o.name]
+            assert len(feet)==4 and all(abs(mesh_bottom(o)-layout.FLOOR_Z)<1e-5 for o in feet)
         if category=='Steam generators':
             assert abs(mesh_bottom(bpy.data.objects[root.name+'.casing'])-layout.FLOOR_Z)<1e-5
             assert not any('.support.' in o.name for o in root.children)
@@ -267,7 +267,7 @@ def check_services(b,layout,services):
         assert all(o['shared_support']=='equipment.reactor_catwalk' for o in modules)
         assert all(abs(o.location.z-layout.CATWALK['deck_z'])<1e-5 for o in modules)
     assert 'building.reactor_foundation.well_support' not in bpy.data.objects
-    return ['Fuel and coolant tank bottoms and support column feet meet the sub-floor',
+    return ['Fuel tanks meet floor; raised coolant tank has four feet on the sub-floor',
             'Generator casings meet floor; cold manifolds align with two-bend suction runs; absorber modules share the reactor catwalk',
             'Pump foundations clear storage tanks, generator bases and outer wall',
             'Three 17 m generator casings; valve boxes seated on roofs; measured 5 m from valve tops to hoist body underside',

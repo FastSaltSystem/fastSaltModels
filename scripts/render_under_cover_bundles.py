@@ -9,7 +9,8 @@ from build_wistr import select_view
 out=ROOT/'outputs/installation-under-cover-bundles'
 bpy.ops.wm.open_mainfile(filepath=str(out/'wistr-installation.blend'))
 b=SimpleNamespace(collections={c.name:c for c in bpy.data.collections})
-select_view(b,{'catwalk':bpy.data.objects['View.Catwalk']},'catwalk')
+cameras={name:bpy.data.objects[obj] for name,obj in [('catwalk','View.Catwalk'),('stairs','View.Stairs'),('fuel-services','View.FuelServices'),('plan','View.Plan'),('equipment','View.Equipment'),('cutaway','View.Cutaway')] if obj in bpy.data.objects}
+select_view(b,cameras,'catwalk')
 for index in range(1,7):
     for ob in bpy.data.objects[f'reactor.insulation_{index}'].children_recursive:ob.hide_render=True
 from mathutils import Vector

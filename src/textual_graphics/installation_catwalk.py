@@ -121,8 +121,8 @@ def build_catwalk(b,layout):
     return dict(parameters=p,absorber_module_parameters=layout.ABSORBER_MODULES,reservoir_parameters=cfg,module_objects=modules,stations=stations,routes=[],
         scope='Draft geometry; no structural, thermal, pressure, drainage-rate or storage qualification',
         limitations=['Reservoir capacity, heater duty and insulation thickness are provisional',
-            'Frame load rating and access stairs remain to design',
-            'Remove insulated service jumpers before lifting covers/spider; full crane sweep not checked',
+            'Frame load rating and complete access/egress assessment remain open',
+            'Lift channelled insulation before disconnecting cap-side services; full crane sweep not checked',
             'Geometric fall does not establish hydraulic drainage or gas/pressure management'])
 
 

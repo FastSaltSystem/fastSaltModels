@@ -1,15 +1,17 @@
 # Turbine-hall main piping draft
 
+Cleanup note — 12 October 2026: superseded generated drafts have been removed. Current site plans and the saved scene are together in `outputs/site-45-bends/`. The saved site still represents the last accepted site arrangement; the next build imports the current under-cover-bundle installation. Historical output links below may require rebuilding.
+
 11 October 2026. First internal routing study on the D-031 **60 × 40 × 28 m**
 hall. This adds geometry to the motor-BFP arrangement; cycle results and equipment
 sizes are unchanged. Equipment nozzles are provisional points on reservation boxes.
 
-- [Two-level piping plan](../outputs/site-aligned/turbine-piping-plan.png)
-- [Editable SVG](../outputs/site-aligned/turbine-piping-plan.svg)
+- [Two-level piping plan](../outputs/site-45-bends/turbine-piping-plan.png)
+- [Editable SVG](../outputs/site-45-bends/turbine-piping-plan.svg)
 - [Blender model](../outputs/site-45-bends/fast-salt-site.blend)
 - [Aligned site view](../outputs/site-45-bends/site-alignment-draft.png)
-- [Route schedule](../outputs/site-aligned/turbine-pipe-schedule.csv)
-- [Geometry and verification report](../outputs/site-aligned/turbine-piping.json)
+- [Route schedule](../outputs/site-45-bends/turbine-pipe-schedule.csv)
+- [Geometry and verification report](../outputs/site-45-bends/turbine-piping.json)
 - [Routing definition and independent checks](../models/turbine_piping.py)
 
 ## HP/IP connection correction
@@ -124,10 +126,10 @@ expansion, structural loads and hydraulic/stress qualification remain open. The
 Run from `fastSaltModels`; the sibling `fastSalt` calculation repository is required.
 
 ```sh
-python3 models/turbine_piping.py outputs/site-aligned
+python3 models/turbine_piping.py outputs/site-45-bends
 /Applications/Blender.app/Contents/MacOS/Blender --background --factory-startup \
   --python-exit-code 1 --python scripts/build_site.py -- \
-  --output outputs/site-aligned --view alignment --with-piping
+  --output outputs/site-45-bends --view alignment --with-piping
 ```
 
 The first command writes checked JSON, CSV and SVG; PNG is a rasterization of the

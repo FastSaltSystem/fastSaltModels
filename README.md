@@ -16,21 +16,24 @@ The sibling [fastSalt project hub](../fastSalt/README.md) owns shared design doc
 | Site with turbine and fuel preparation | [Site envelopes and interfaces](docs/site-study.md) | [Parameters](models/wistr_site.py), [builder](scripts/build_site.py) |
 | PMS examples and motion | [Adapter, playback, supported objects, and tests](docs/pms-adapter.md) | [Python package](src/textual_graphics/) |
 
-The isolated reactor includes the developed sector handling and removable tube plugs. The workshop installation imports the current working reactor with six fitted insulation covers and side air plenums at full scale, with three insulated coolant pairs routed to the illustrative steam-generator envelopes. The current 42 m draft uses conditional Hurmet pipe bore/wall/insulation dimensions; the installation copy of its nozzle sleeves is adapted to match. The wider installation draft connects both reactor side ducts to conceptual exterior concrete fresh- and hot-air plenums and one stack. The [site draft](docs/site-study.md) now includes motor-BFP equipment boxes in a provisional 60 × 40 × 28 m turbine hall with electrical annex and withdrawal aprons; the fuel-preparation envelope remains empty. A [main internal piping draft](docs/turbine-piping.md) adds steam, reheat, condensate and feedwater routes with explicit clearance and maintenance limitations. Airflow sizing and external plant equipment remain to develop.
+The isolated reactor includes the developed sector handling and removable tube plugs. The workshop installation imports the current working reactor with six fitted insulation covers and side air plenums at full scale, with three insulated coolant pairs routed to the illustrative steam-generator envelopes. The current 42 m draft uses conditional Hurmet pipe bore/wall/insulation dimensions; the installation copy of its nozzle sleeves is adapted to match. The current installation adds catwalk-level laydown bays for one insulation cover and sector cap, with a mobile sector canister/cart replacing fixed sector storage. It uses an internal insulated hot-air header for generators and fuel tanks, a direct reactor exhaust to an aligned stack, and an exterior concrete fresh-air ring. The [site draft](docs/site-study.md) now includes motor-BFP equipment boxes in a provisional 60 × 40 × 28 m turbine hall with electrical annex and withdrawal aprons; the fuel-preparation envelope remains empty. A [main internal piping draft](docs/turbine-piping.md) adds steam, reheat, condensate and feedwater routes with explicit clearance and maintenance limitations. Airflow sizing and external plant equipment remain to develop.
 
 ## Open existing models
 
 For ongoing work, open [the reactor scene](outputs/reactor-study/wistr-reactor-study.blend) or [the current installation draft](outputs/installation-under-cover-bundles/wistr-installation.blend) in Blender. These links refer to locally generated outputs, which are excluded from Git and must be generated on a fresh checkout.
 
-For a reproducible review snapshot, use the preserved baselines below. The latest visual checkpoint is the 2026-10-12 service-bundle installation below. Commit `0d981f2` preserves the earlier reactor handling and tube-plug baseline.
+For a reproducible review snapshot, use the preserved baselines below. The latest visual checkpoint is the 2026-10-12 maintenance and utilities installation below. Commit `0d981f2` preserves the earlier reactor handling and tube-plug baseline.
 
 | Baseline | Contents |
 | --- | --- |
+| [2026-10-12 maintenance and utilities](baselines/wistr-maintenance-2026-10-12/) | Accepted installation, maintenance/utility views, geometry report and hash manifest |
 | [2026-10-12 service bundles](baselines/wistr-service-bundles-2026-10-12/) | Accepted installation scene, normal/inspection views, geometry report and hash manifest |
 | [2026-10-11 insulated installation](baselines/wistr-insulated-installation-2026-10-11/) | Reactor, installation and standalone cover scenes, draft views, reports and hash manifest |
 | [2026-10-08 handling and plugs](baselines/wistr-reactor-handling-2026-10-08/) | Latest preserved reactor scene, geometry report, lifting animation, and hash manifest |
 | [2026-10-07 tubing](baselines/wistr-reactor-tubing-2026-10-07/) | Earlier tubing and service-routing snapshot |
 | [2026-10-07 initial reactor](baselines/wistr-reactor-2026-10-07/) | Initial snapshot with the historical 3.6 m core; tag `wistr-reactor-baseline-2026-10-07` |
+
+Routine outputs were cleaned on 12 October 2026: only the latest installation, reactor, T-grid cover and site outputs, plus the PMS examples, remain. Earlier working-output links in historical design notes may no longer resolve; committed baselines remain intact.
 
 ## Build and verify
 

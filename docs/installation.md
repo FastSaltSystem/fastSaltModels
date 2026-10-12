@@ -7,7 +7,167 @@ The isolated reactor is imported at full scale from the current working model,
 with six insulation covers and side air plenums. The preserved 2026-10-08
 handling-and-plug baseline remains unchanged. Equipment and supports remain conceptual.
 
-Accepted checkpoint: [12 October service-bundle baseline](../baselines/wistr-service-bundles-2026-10-12/).
+Accepted checkpoint: [12 October maintenance and utilities baseline](../baselines/wistr-maintenance-2026-10-12/).
+The earlier [service-bundle baseline](../baselines/wistr-service-bundles-2026-10-12/) remains preserved.
+
+## Maintenance laydown and mobile sector canister — 12 October 2026
+
+D-042 removes the fixed sector-storage enclosure. A provisional upright canister
+on a low-profile cart is parked outside the equipment door, aligned with a
+straight approach to a loading position at radius 15.5 m and angle 18°.
+The cart is 3.60 × 3.25 m; the illustrative canister has 2.95 m clear diameter,
+6.00 m clear height and 3.05 m shell outside diameter. Overall height from the
+floor is 6.33 m, leaving only **0.17 m** under the current 6.50 m doorway.
+This tight margin is a geometric allowance, not a finalized transport design.
+The envelope includes the modeled core's attached service tubes and plug.
+Canister containment, shielding, cooling, restraints and cart load capacity
+remain unselected; the thin displayed shell is not a shielding specification.
+
+An **8.70 × 6.10 m platform at catwalk elevation Z=−0.60 m** has separate
+4.35 × 4.30 m and 3.25 × 3.00 m receiving bays for one insulation cover and one
+sector cap. The northern aisle is about 1.5 m wide. A short 1.30 m bridge joins
+the catwalk at 15°, retaining its existing stair entrance at 195°. Four columns
+stand outside the maintenance-tank footprints. Framing is provisional and
+should be developed as demountable sections to retain tank replacement access;
+no support is attached to the reactor pressure vessel. Receiving runners must
+be matched to the removable items' load-carrying frames before detailing.
+
+The normal scene shows empty receiving bays. The dedicated inspection render
+places the actual installation cover and cap meshes in their respective bays
+and omits those two installed items for that image only. It does not save that
+maintenance state over the normal Blender scene.
+
+- [Current scene](../outputs/installation-under-cover-bundles/wistr-installation.blend)
+- [Laydown inspection](../outputs/installation-under-cover-bundles/wistr-maintenance-laydown-draft.png)
+- [Plan](../outputs/installation-under-cover-bundles/wistr-plan-draft.png)
+- Definition: `MAINTENANCE` in `models/wistr_installation.py`; geometry and selected
+  checks: `src/textual_graphics/installation_maintenance.py`.
+- Recreate the inspection image with Blender background execution of
+  `scripts/render_maintenance_laydown.py` after building the current installation.
+
+The report records component fit, the cart's straight swept envelope, selected
+platform-solid/service clearances and the bridge/aisle headroom checks. These
+checks do not qualify a loaded crane trajectory, structural capacity or a
+complete maintenance sequence. Earlier baselines and the site snapshot remain
+unchanged.
+
+## Generator exhausts, coolant transfer and nitrogen supply — 12 October 2026
+
+D-041 centres each steam-generator exhaust on its roof and doubles its nominal
+metal outside diameter from **0.90 to 1.80 m**. The existing 100 mm insulation
+and 1 mm jacket give **2.002 m jacket OD**. The illustrative butterfly housings
+are enlarged to 2.2 × 2.2 × 0.6 m. Their top elevations are unchanged, retaining
+the 5 m allowance to the underside of the hoist body. These changes do not
+constitute an exhaust-flow or valve-sizing calculation.
+
+A **50 mm OD coolant-transfer tube** now connects the reactor vessel bottom to
+a small motor-pump envelope beside the coolant storage tank, then into that
+tank's bottom. The owner confirmed heating and insulation: 50 mm radial
+insulation is used provisionally, giving 150 mm jacket OD; 3 mm tube wall is
+also provisional. The line runs below the reactor's cooling-air baffle and
+through a new well sleeve. Local vessel-floor, baffle-floor and well openings
+are applied only to the installation copy. Seals, local reinforcement and
+thermal expansion remain to detail. Pump duty, drain time, NPSH and materials
+are not sized by this model.
+
+The coolant tank keeps its 4 m bare diameter and 8 m body height. It is raised
+on **0.9 m supports** to accommodate a true bottom entry and **350 mm insulation
+on the sides, roof and underside**, with a 1 mm metal jacket. This allowance
+is borrowed from the return-salt pipe draft, not a tank heat-loss calculation.
+The resulting side jacket diameter is **4.702 m**. The ladder and top access
+neck are moved beyond the insulation envelope. Supports penetrate the bottom
+insulation; their heat bridges and loads remain unresolved.
+
+A provisional outdoor **liquid-nitrogen tank** is placed at radius **28.5 m,
+angle 330°**, with a **2.5 m diameter × 6.5 m vessel envelope** (vent higher).
+An adjacent finned ambient vaporizer supplies gas through a regulator-panel
+envelope to a common **50 mm OD gas header** just inside the building. Its wall
+entry is above the fresh-air ring. Three capped takeoffs reserve future system
+connections; no individual consumer is yet connected. Tank usable inventory,
+vaporizer rating, gas pressure, demand, redundancy and final siting are not
+established. The owner approved this provisional scope.
+
+Current files: [Blender installation](../outputs/installation-under-cover-bundles/wistr-installation.blend),
+[equipment view](../outputs/installation-under-cover-bundles/wistr-equipment-draft.png),
+[plan](../outputs/installation-under-cover-bundles/wistr-plan-draft.png),
+[coolant-transfer detail](../outputs/installation-under-cover-bundles/wistr-coolant-transfer-draft.png),
+[nitrogen supply detail](../outputs/installation-under-cover-bundles/wistr-nitrogen-draft.png).
+The nitrogen pad is extended down to the presentation ground datum; foundation
+geometry is provisional. The complete installation passes its 34 existing checks
+plus 448 auxiliary route/equipment and tank-envelope comparisons, with no selected
+clashes. The stair walking/headroom screen also remains clear.
+Generation and selected service/envelope checks are in
+[`installation_utilities.py`](../src/textual_graphics/installation_utilities.py).
+Named baselines, the isolated reactor asset and the site composition are preserved.
+
+## Internal hot-air header and direct reactor exhaust — 12 October 2026
+
+D-040 replaces the upper exterior concrete hot-air ring with a hollow insulated
+sheet-metal duct just inside the 42 m building. Its centre radius is **18.75 m**
+and centre elevation **Z=10 m**. The provisional clear section is **2.50 × 2.702 m**
+(**6.755 m²**), preserving the previous ring's flow area in response to the owner's
+identification of the steam generators as the largest maximum heat load. This
+is a layout allowance, not a calculated airflow capacity. The envelope includes
+3 mm sheet metal, 100 mm insulation and 1 mm cladding, with separate meshes.
+The jacket is 246 mm from the inside wall and 850 mm below the crane runway.
+The header bottom is 1.238 m above the insulated steam-header envelope.
+
+The stack is rotated from 90° to **135°**, remaining at radius 27 m, aligned with
+the reactor's existing hot-air outlet. A separate **2.0 m duct** runs straight
+and level from that outlet to the stack at **Z=−2.77 m**. It bypasses the upper
+header. The three steam-generator roof exhausts enter the header's inner side;
+six fuel-maintenance-tank exhausts rise into its underside after short inward
+turns above the steam header. The upper header has its own **2.4 m stack connector**.
+Only the direct reactor exhaust and common upper connector pass through the hot
+side of the building wall. The fresh-air concrete ring, doorway gap and low reactor
+supply remain as before.
+
+The current output remains
+[the installation Blender scene](../outputs/installation-under-cover-bundles/wistr-installation.blend).
+[Equipment view](../outputs/installation-under-cover-bundles/wistr-equipment-draft.png) ·
+[Plan](../outputs/installation-under-cover-bundles/wistr-plan-draft.png).
+Checks cover branch topology, direct reactor alignment, geometric insulation,
+header/wall/runway/steam-header separation, selected process/air/equipment
+interference and existing stair/access clearances. Complete crane and equipment
+handling sweeps, brackets and expansion supports remain unresolved. Airflow,
+peak duty, pressure loss, natural draft, thermal sizing and stack mixing still
+require analysis. No hydraulic or thermal capacity is inferred from this graphic.
+The preserved D-038 baseline and site composition are not automatically changed.
+
+## Catwalk stairway — 12 October 2026
+
+D-039 adds a provisional, independently supported three-flight switchback stair
+in the clear bay at radius 14 m and 210° from the installation's +X axis,
+between a steam generator and maintenance tanks. An approximately **8.2 m
+bridge with two bends** reaches a 1.30 m outer-rail opening at 195°, avoiding
+the hot-salt riser and leaving the equipment delivery lane open. The inner
+catwalk railing and equipment positions remain unchanged. Steel open-grating treads,
+landings, stringers, columns, bracing, handrails and landing guards are shown.
+
+The 8.50 m climb from floor Z=−9.10 m to catwalk Z=−0.60 m uses 48 equal risers
+of **177.1 mm**, arranged as three flights of 16 risers. Each flight has 15 treads
+at **280 mm going**, a 4.20 m run, and approximately **32.3°** pitch. The 1.30 m
+tread envelopes provide at least **1.20 m clear width**. Reversing landings are
+1.20 m deep at Z=−6.267 and −3.433 m. The stair tower occupies roughly 3.1 × 6.8 m, plus its lower approach and
+connecting bridge. Side trusses indicate the bridge load path to the stair
+and catwalk frames; end reactions and members require structural sizing. Handrail/guard height allowances
+are 0.90/1.10 m. Frame sections are visual allowances, not load-rated members.
+
+Actual stair members and 52 tread/landing/entry/approach walking volumes
+are screened against equipment and insulated process/service tubing with every
+collection evaluated, reserving **2.10 m headroom**. The stair's own upper
+structure is included in the headroom screen. Intended floor and catwalk
+attachment contacts are excluded. The selected screen found no intersections, and the existing equipment-door
+access check also passes; complete building egress, stair/frame strength, foundations,
+handrail details and personnel access during operation remain to assess.
+[OSHA's standard-stair dimensions](https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.25)
+were used as a preliminary geometry reference, not as a compliance determination.
+
+[Full-height stair view](../outputs/installation-under-cover-bundles/wistr-stairs-draft.png) ·
+[Equipment context](../outputs/installation-under-cover-bundles/wistr-equipment-draft.png) ·
+[Current Blender scene](../outputs/installation-under-cover-bundles/wistr-installation.blend).
+Build with `--draft --output outputs/installation-under-cover-bundles --views stairs catwalk fuel-services equipment`.
+The stair view is saved as View.Stairs; the committed D-038 baseline remains unchanged.
 
 ## Under-cover service bundles and lower catwalk — 12 October 2026
 
@@ -286,7 +446,8 @@ allowance; collector pressure walls have not been sized.
   not a structurally sized building. The crane and dome span grow with the shell.
 - Generator centres move to **radius 14 m**, fuel-storage pairs to **12.8 m**,
   secondary headers to **18.5 m**, coolant storage to **(14, −6.5) m**, and
-  sector storage to **(17.3, 0) m**. All generator casings and storage remain floor-mounted.
+  the then-current sector storage to **(17.3, 0) m**. D-042 subsequently removes
+  that fixed enclosure; D-041 raises coolant storage for its insulated bottom connection.
 - Cold salt collector/suction runs rise to **1.9 m above the floor** (Z=−7.2 m).
   Pump side-discharge centres are Z=−4.59 m, bottom-suction ports Z=−5.49 m.
   Open pump frames are 3.61 m high, accommodating the insulated bottom-entry bend.
@@ -337,7 +498,7 @@ is not inferred from the circular-pipe worksheets.
 The only equipment floor is the sub-floor at **Z = −9.1 m**. The intermediate
 deck, circumferential walkway and former deck columns are removed.
 
-| Component/interface | Current placement |
+| Component/interface | Placement in the 10 October draft |
 | --- | --- |
 | Reactor concrete well bottom | Z = −9.1 m, directly on sub-floor |
 | Reactor vessel top / seated cap tops | Z = −2.02 / −1.75 m |
