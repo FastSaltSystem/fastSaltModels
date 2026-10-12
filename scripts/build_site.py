@@ -233,8 +233,8 @@ def presentation(b):
             text_on_camera('Footer.alignment','60 x 40 m hall | Building centres Y = 0 | Preliminary routing; pipe stresses and supports remain to design',-69,-40,.8,cam,col,'#526575')
             continue
         if view=='turbine':
-            text_on_camera('Title.turbine','MOTOR-BFP TURBINE HALL | Equipment reservations',-48,28,1.25,cam,col)
-            text_on_camera('Detail.turbine','60 x 40 x 28 m + electrical annex; boxes are not vendor outlines',-48,25.5,.85,cam,col,'#526575')
+            text_on_camera('Title.turbine','MOTOR-BFP TURBINE HALL | Machinery detail',-48,28,1.25,cam,col)
+            text_on_camera('Detail.turbine','Illustrative casings and service connections / existing 60 x 40 m layout',-48,25.5,.85,cam,col,'#526575')
             text_on_camera('Footer.turbine','Ground: condensers / reheaters / pumps / heaters | Upper: turbines / generators / storage',-48,-28,.72,cam,col,'#526575')
             continue
         text_on_camera('Title.'+view,'FAST SALT SYSTEM | Site arrangement',-81,46,2.0,cam,col)
@@ -325,7 +325,7 @@ def main():
     args.output.mkdir(parents=True,exist_ok=True)
     data=dict(title='Fast Salt System provisional site',units='metres',source=site.SOURCE,
               source_sha256=scene['site_source_sha256'],source_report_sha256=hashlib.sha256(report_source.read_bytes()).hexdigest(),
-              pad_z=site.PAD_Z,turbine=site.TURBINE,fuel_preparation=site.FUEL_PREPARATION,off_gas=site.OFF_GAS,converter=site.CONVERTER,process_annexes=b.process_annexes,turbine_layout=json.loads((ROOT/'models/turbine-layout.json').read_text()),
+              pad_z=site.PAD_Z,turbine=site.TURBINE,fuel_preparation=site.FUEL_PREPARATION,off_gas=site.OFF_GAS,converter=site.CONVERTER,process_annexes=b.process_annexes,turbine_layout=json.loads((ROOT/'models/turbine-layout.json').read_text()),turbine_equipment=b.turbine_equipment,
               secondary_connections=routes,validation=checks,internal_piping=piping,salt_distribution=b.salt_distribution,fuel_pressure=b.fuel_pressure,fresh_air=b.fresh_air,
               exclusions=['Salt-preparation chemistry/throughput and off-gas treatment performance/emission limits','Supplier equipment outlines, full piping and structures','Final heat sink and cooling-water pump layout','Civil grade and drainage','Equipment installation and transport qualification'])
     if piping:

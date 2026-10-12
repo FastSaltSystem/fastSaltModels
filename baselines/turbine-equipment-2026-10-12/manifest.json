@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-12",
+  "decisions": [
+    "D-051"
+  ],
+  "parent_commit": "a6bbc776c27abcc31698ced6738c8fb6d6ab5713",
+  "source_installation_baseline": "baselines/wistr-maintenance-2026-10-12",
+  "files": [
+    {
+      "path": "fast-salt-site.blend",
+      "source": "outputs/site-45-bends/fast-salt-site.blend",
+      "bytes": 65386602,
+      "sha256": "3925ae7520f07a1a1c157599a071a648ec0d33cdd6cd2061d0ddb295044c6b23"
+    },
+    {
+      "path": "site-report.json",
+      "source": "outputs/site-45-bends/site-report.json",
+      "bytes": 2614895,
+      "sha256": "964d233b137ffcc47817ac92b36eef2aa4014aba186300208420025ba171dc90"
+    },
+    {
+      "path": "turbine-piping.json",
+      "source": "outputs/site-45-bends/turbine-piping.json",
+      "bytes": 184648,
+      "sha256": "babdfd45c53d029c275cd38322d5cc6239b9ebf61ea05cd0e86aaaa63950a2c9"
+    },
+    {
+      "path": "turbine-equipment-detail.json",
+      "source": "outputs/site-45-bends/turbine-equipment-detail.json",
+      "bytes": 22960,
+      "sha256": "f251680549b7b95844a5bfaaf4fff985f658ec8f4a1b235f55d23da60477badc"
+    },
+    {
+      "path": "site-turbine-machinery.png",
+      "source": "outputs/site-45-bends/site-turbine-machinery.png",
+      "bytes": 2627216,
+      "sha256": "0e34ed34bfe3fa70d7c7af4871109214b567764b45936f0d42009330592117f5"
+    },
+    {
+      "path": "turbine-trains-detail.png",
+      "source": "outputs/site-45-bends/turbine-trains-detail.png",
+      "bytes": 2295521,
+      "sha256": "759606bf530c5dca1352058af8052a9c0b62636992ae074e945c8e44fc9434fd"
+    },
+    {
+      "path": "turbine-ground-equipment.png",
+      "source": "outputs/site-45-bends/turbine-ground-equipment.png",
+      "bytes": 2513877,
+      "sha256": "a3e8b57f0c35c6ddcf626b245e3487b544cd804e3a66158ffc9b4778aa0a7e59"
+    }
+  ],
+  "source_files": [
+    {
+      "path": "scripts/turbine_equipment.py",
+      "sha256": "d0e91d678724ef4c392cd607de6f2b90d9ac374fcd884728806b7562fc3866cc"
+    },
+    {
+      "path": "scripts/render_turbine_detail.py",
+      "sha256": "919a6967ffccb1fd64ebbd53183aa1a2ce3e1aa861f7243af93cc0050dcbcbdb"
+    },
+    {
+      "path": "scripts/build_site.py",
+      "sha256": "81593a2d39c2778f07220ea01f422a1c099a09fe11c3194e6e68c804ab0b78fa"
+    },
+    {
+      "path": "models/turbine-layout.json",
+      "sha256": "0597c971215ccfc1250059ca843c718037e2690ab526540ab91113232e3e655b"
+    },
+    {
+      "path": "models/turbine_piping.py",
+      "sha256": "3cc72577b8e35b7df8a4f02053b6859fd3d9270bbf9c119dc844ba55f679e0b8"
+    }
+  ]
+}

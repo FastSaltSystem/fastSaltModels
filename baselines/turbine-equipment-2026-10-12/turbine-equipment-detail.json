@@ -1,0 +1,1155 @@
+{
+  "scope": "Illustrative machinery exteriors; dimensions bounded by existing layout allowances",
+  "source_sha256": "0597c971215ccfc1250059ca843c718037e2690ab526540ab91113232e3e655b",
+  "items": [
+    {
+      "name": "C1",
+      "kind": "condenser",
+      "parts": 32,
+      "ports": [
+        {
+          "route": "C1 hotwell outlet",
+          "terminal": [
+            5.5,
+            20,
+            0.5
+          ],
+          "body_connection": [
+            5.5,
+            20,
+            5.0
+          ],
+          "jacket_od_m": 0.68
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "C2",
+      "kind": "condenser",
+      "parts": 32,
+      "ports": [
+        {
+          "route": "C2 hotwell outlet",
+          "terminal": [
+            14.5,
+            20,
+            0.5
+          ],
+          "body_connection": [
+            14.5,
+            20,
+            5.0
+          ],
+          "jacket_od_m": 0.68
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "C3",
+      "kind": "condenser",
+      "parts": 32,
+      "ports": [
+        {
+          "route": "C3 hotwell outlet",
+          "terminal": [
+            23.5,
+            20,
+            0.5
+          ],
+          "body_connection": [
+            23.5,
+            20,
+            5.0
+          ],
+          "jacket_od_m": 0.68
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "RH1",
+      "kind": "reheater",
+      "parts": 20,
+      "ports": [
+        {
+          "route": "RH1 heating supply",
+          "terminal": [
+            38.625,
+            18.8,
+            3.75
+          ],
+          "body_connection": [
+            38.625,
+            18.8,
+            2.2875
+          ],
+          "jacket_od_m": 1.25
+        },
+        {
+          "route": "RH1 cold inlet",
+          "terminal": [
+            38.625,
+            23,
+            3.75
+          ],
+          "body_connection": [
+            38.625,
+            23,
+            2.2875
+          ],
+          "jacket_od_m": 1.225
+        },
+        {
+          "route": "RH1 hot outlet",
+          "terminal": [
+            38.625,
+            28,
+            3.75
+          ],
+          "body_connection": [
+            38.625,
+            28,
+            2.2875
+          ],
+          "jacket_od_m": 1.77
+        },
+        {
+          "route": "RH1 heating return",
+          "terminal": [
+            38.625,
+            31,
+            3.75
+          ],
+          "body_connection": [
+            38.625,
+            31,
+            2.2875
+          ],
+          "jacket_od_m": 1.28
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "RH2",
+      "kind": "reheater",
+      "parts": 20,
+      "ports": [
+        {
+          "route": "RH2 heating supply",
+          "terminal": [
+            43.875,
+            18.8,
+            3.75
+          ],
+          "body_connection": [
+            43.875,
+            18.8,
+            2.2875
+          ],
+          "jacket_od_m": 1.25
+        },
+        {
+          "route": "RH2 cold inlet",
+          "terminal": [
+            43.875,
+            23,
+            3.75
+          ],
+          "body_connection": [
+            43.875,
+            23,
+            2.2875
+          ],
+          "jacket_od_m": 1.225
+        },
+        {
+          "route": "RH2 hot outlet",
+          "terminal": [
+            43.875,
+            28,
+            3.75
+          ],
+          "body_connection": [
+            43.875,
+            28,
+            2.2875
+          ],
+          "jacket_od_m": 1.77
+        },
+        {
+          "route": "RH2 heating return",
+          "terminal": [
+            43.875,
+            31,
+            3.75
+          ],
+          "body_connection": [
+            43.875,
+            31,
+            2.2875
+          ],
+          "jacket_od_m": 1.28
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "RH3",
+      "kind": "reheater",
+      "parts": 20,
+      "ports": [
+        {
+          "route": "RH3 heating supply",
+          "terminal": [
+            49.125,
+            18.8,
+            3.75
+          ],
+          "body_connection": [
+            49.125,
+            18.8,
+            2.2875
+          ],
+          "jacket_od_m": 1.25
+        },
+        {
+          "route": "RH3 cold inlet",
+          "terminal": [
+            49.125,
+            23,
+            3.75
+          ],
+          "body_connection": [
+            49.125,
+            23,
+            2.2875
+          ],
+          "jacket_od_m": 1.225
+        },
+        {
+          "route": "RH3 hot outlet",
+          "terminal": [
+            49.125,
+            28,
+            3.75
+          ],
+          "body_connection": [
+            49.125,
+            28,
+            2.2875
+          ],
+          "jacket_od_m": 1.77
+        },
+        {
+          "route": "RH3 heating return",
+          "terminal": [
+            49.125,
+            31,
+            3.75
+          ],
+          "body_connection": [
+            49.125,
+            31,
+            2.2875
+          ],
+          "jacket_od_m": 1.28
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "RH4",
+      "kind": "reheater",
+      "parts": 20,
+      "ports": [
+        {
+          "route": "RH4 heating supply",
+          "terminal": [
+            54.375,
+            18.8,
+            3.75
+          ],
+          "body_connection": [
+            54.375,
+            18.8,
+            2.2875
+          ],
+          "jacket_od_m": 1.25
+        },
+        {
+          "route": "RH4 cold inlet",
+          "terminal": [
+            54.375,
+            23,
+            3.75
+          ],
+          "body_connection": [
+            54.375,
+            23,
+            2.2875
+          ],
+          "jacket_od_m": 1.225
+        },
+        {
+          "route": "RH4 hot outlet",
+          "terminal": [
+            54.375,
+            28,
+            3.75
+          ],
+          "body_connection": [
+            54.375,
+            28,
+            2.2875
+          ],
+          "jacket_od_m": 1.77
+        },
+        {
+          "route": "RH4 heating return",
+          "terminal": [
+            54.375,
+            31,
+            3.75
+          ],
+          "body_connection": [
+            54.375,
+            31,
+            2.2875
+          ],
+          "jacket_od_m": 1.28
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "LP1",
+      "kind": "heater",
+      "parts": 16,
+      "ports": [
+        {
+          "route": "CEP discharge collector",
+          "terminal": [
+            5.875,
+            9,
+            3.75
+          ],
+          "body_connection": [
+            5.875,
+            9,
+            2.2875
+          ],
+          "jacket_od_m": 0.7050000000000001
+        },
+        {
+          "route": "LP1 to LP2",
+          "terminal": [
+            5.875,
+            12,
+            3.75
+          ],
+          "body_connection": [
+            5.875,
+            12,
+            2.2875
+          ],
+          "jacket_od_m": 0.7050000000000001
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "LP2",
+      "kind": "heater",
+      "parts": 16,
+      "ports": [
+        {
+          "route": "LP1 to LP2",
+          "terminal": [
+            10.375,
+            9,
+            3.75
+          ],
+          "body_connection": [
+            10.375,
+            9,
+            2.2875
+          ],
+          "jacket_od_m": 0.7050000000000001
+        },
+        {
+          "route": "LP2 to LP3",
+          "terminal": [
+            10.375,
+            12,
+            3.75
+          ],
+          "body_connection": [
+            10.375,
+            12,
+            2.2875
+          ],
+          "jacket_od_m": 0.7050000000000001
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "LP3",
+      "kind": "heater",
+      "parts": 16,
+      "ports": [
+        {
+          "route": "LP2 to LP3",
+          "terminal": [
+            14.375,
+            9,
+            2.75
+          ],
+          "body_connection": [
+            14.375,
+            9,
+            1.7375
+          ],
+          "jacket_od_m": 0.7050000000000001
+        },
+        {
+          "route": "LP3 to deaerator feed header",
+          "terminal": [
+            14.375,
+            12,
+            2.75
+          ],
+          "body_connection": [
+            14.375,
+            12,
+            1.7375
+          ],
+          "jacket_od_m": 0.7050000000000001
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "HP1",
+      "kind": "heater",
+      "parts": 16,
+      "ports": [
+        {
+          "route": "BFP discharge collector to HP1",
+          "terminal": [
+            42.625,
+            9,
+            3.75
+          ],
+          "body_connection": [
+            42.625,
+            9,
+            2.2875
+          ],
+          "jacket_od_m": 1.24
+        },
+        {
+          "route": "HP1 to HP2",
+          "terminal": [
+            42.625,
+            12,
+            3.75
+          ],
+          "body_connection": [
+            42.625,
+            12,
+            2.2875
+          ],
+          "jacket_od_m": 1.24
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "HP2",
+      "kind": "heater",
+      "parts": 16,
+      "ports": [
+        {
+          "route": "HP1 to HP2",
+          "terminal": [
+            47.25,
+            9,
+            4
+          ],
+          "body_connection": [
+            47.25,
+            9,
+            2.4250000000000003
+          ],
+          "jacket_od_m": 1.24
+        },
+        {
+          "route": "HP2 to HP3",
+          "terminal": [
+            47.25,
+            12,
+            4
+          ],
+          "body_connection": [
+            47.25,
+            12,
+            2.4250000000000003
+          ],
+          "jacket_od_m": 1.24
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "HP3",
+      "kind": "heater",
+      "parts": 16,
+      "ports": [
+        {
+          "route": "HP2 to HP3",
+          "terminal": [
+            51.625,
+            9,
+            3.75
+          ],
+          "body_connection": [
+            51.625,
+            9,
+            2.2875
+          ],
+          "jacket_od_m": 1.24
+        },
+        {
+          "route": "HP3 to HP4",
+          "terminal": [
+            51.625,
+            12,
+            3.75
+          ],
+          "body_connection": [
+            51.625,
+            12,
+            2.2875
+          ],
+          "jacket_od_m": 1.24
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "HP4",
+      "kind": "heater",
+      "parts": 18,
+      "ports": [
+        {
+          "route": "Heating condensate header to HP4",
+          "terminal": [
+            55.75,
+            5,
+            4
+          ],
+          "body_connection": [
+            55.75,
+            5,
+            2.4250000000000003
+          ],
+          "jacket_od_m": 1.28
+        },
+        {
+          "route": "HP3 to HP4",
+          "terminal": [
+            56.25,
+            9,
+            4
+          ],
+          "body_connection": [
+            56.25,
+            9,
+            2.4250000000000003
+          ],
+          "jacket_od_m": 1.24
+        },
+        {
+          "route": "HP4 feedwater to SG interface",
+          "terminal": [
+            56.25,
+            12,
+            4
+          ],
+          "body_connection": [
+            56.25,
+            12,
+            2.4250000000000003
+          ],
+          "jacket_od_m": 1.24
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "BFP1",
+      "kind": "pump",
+      "parts": 21,
+      "ports": [
+        {
+          "route": "BFP1 suction",
+          "terminal": [
+            20,
+            8,
+            4.5
+          ],
+          "body_connection": [
+            20,
+            8,
+            2.42
+          ],
+          "jacket_od_m": 0.73
+        },
+        {
+          "route": "BFP1 discharge",
+          "terminal": [
+            20,
+            5,
+            4.5
+          ],
+          "body_connection": [
+            20,
+            5,
+            2.42
+          ],
+          "jacket_od_m": 1.24
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "BFP2",
+      "kind": "pump",
+      "parts": 21,
+      "ports": [
+        {
+          "route": "BFP2 suction",
+          "terminal": [
+            26,
+            8,
+            4.5
+          ],
+          "body_connection": [
+            26,
+            8,
+            2.42
+          ],
+          "jacket_od_m": 0.73
+        },
+        {
+          "route": "BFP2 discharge",
+          "terminal": [
+            26,
+            5,
+            4.5
+          ],
+          "body_connection": [
+            26,
+            5,
+            2.42
+          ],
+          "jacket_od_m": 1.24
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "BFP3",
+      "kind": "pump",
+      "parts": 21,
+      "ports": [
+        {
+          "route": "BFP3 suction",
+          "terminal": [
+            32,
+            8,
+            4.5
+          ],
+          "body_connection": [
+            32,
+            8,
+            2.42
+          ],
+          "jacket_od_m": 0.73
+        },
+        {
+          "route": "BFP3 discharge",
+          "terminal": [
+            32,
+            5,
+            4.5
+          ],
+          "body_connection": [
+            32,
+            5,
+            2.42
+          ],
+          "jacket_od_m": 1.24
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "CEP1",
+      "kind": "pump",
+      "parts": 21,
+      "ports": [
+        {
+          "route": "CEP1 suction",
+          "terminal": [
+            1.75,
+            12,
+            0.5
+          ],
+          "body_connection": [
+            1.75,
+            12,
+            2.0
+          ],
+          "jacket_od_m": 0.7050000000000001
+        },
+        {
+          "route": "CEP1 discharge",
+          "terminal": [
+            1.75,
+            12,
+            3.5
+          ],
+          "body_connection": [
+            1.75,
+            12,
+            2.0
+          ],
+          "jacket_od_m": 0.7050000000000001
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "CEP2",
+      "kind": "pump",
+      "parts": 21,
+      "ports": [
+        {
+          "route": "CEP2 suction",
+          "terminal": [
+            1.75,
+            7.25,
+            0.5
+          ],
+          "body_connection": [
+            1.75,
+            7.25,
+            2.0
+          ],
+          "jacket_od_m": 0.7050000000000001
+        },
+        {
+          "route": "CEP2 discharge",
+          "terminal": [
+            1.75,
+            7.25,
+            3.5
+          ],
+          "body_connection": [
+            1.75,
+            7.25,
+            2.0
+          ],
+          "jacket_od_m": 0.7050000000000001
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "CEP3",
+      "kind": "pump",
+      "parts": 21,
+      "ports": [
+        {
+          "route": "CEP3 suction",
+          "terminal": [
+            1.75,
+            2.5,
+            0.5
+          ],
+          "body_connection": [
+            1.75,
+            2.5,
+            2.0
+          ],
+          "jacket_od_m": 0.7050000000000001
+        },
+        {
+          "route": "CEP3 discharge",
+          "terminal": [
+            1.75,
+            2.5,
+            3.5
+          ],
+          "body_connection": [
+            1.75,
+            2.5,
+            2.0
+          ],
+          "jacket_od_m": 0.7050000000000001
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "IP turbine",
+      "kind": "turbine",
+      "parts": 43,
+      "ports": [
+        {
+          "route": "Hot reheat train 1 return",
+          "terminal": [
+            45.25,
+            24,
+            15
+          ],
+          "body_connection": [
+            45.25,
+            21.0,
+            15
+          ],
+          "jacket_od_m": 1.77
+        },
+        {
+          "route": "Hot reheat train 2 return",
+          "terminal": [
+            48.75,
+            24,
+            15
+          ],
+          "body_connection": [
+            48.75,
+            21.0,
+            15
+          ],
+          "jacket_od_m": 1.77
+        },
+        {
+          "route": "IP to LP casing 1",
+          "terminal": [
+            49.2,
+            21,
+            18
+          ],
+          "body_connection": [
+            49.2,
+            21,
+            15.2
+          ],
+          "jacket_od_m": 1.85
+        },
+        {
+          "route": "IP to LP casing 2",
+          "terminal": [
+            47.1,
+            21,
+            18
+          ],
+          "body_connection": [
+            47.1,
+            21,
+            15.2
+          ],
+          "jacket_od_m": 1.85
+        },
+        {
+          "route": "IP to LP casing 3",
+          "terminal": [
+            45,
+            21,
+            18
+          ],
+          "body_connection": [
+            45,
+            21,
+            15.2
+          ],
+          "jacket_od_m": 1.85
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "HP turbine",
+      "kind": "turbine",
+      "parts": 39,
+      "ports": [
+        {
+          "route": "Main steam to HP",
+          "terminal": [
+            53,
+            18,
+            15.500000095367431
+          ],
+          "body_connection": [
+            53.0,
+            21.0,
+            15.500000095367431
+          ],
+          "jacket_od_m": 1.815
+        },
+        {
+          "route": "Cold reheat train 1",
+          "terminal": [
+            53,
+            24,
+            15
+          ],
+          "body_connection": [
+            53.0,
+            21.0,
+            15
+          ],
+          "jacket_od_m": 1.225
+        },
+        {
+          "route": "Cold reheat train 2",
+          "terminal": [
+            56,
+            24,
+            15
+          ],
+          "body_connection": [
+            56.0,
+            21.0,
+            15
+          ],
+          "jacket_od_m": 1.225
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "550 MVA",
+      "kind": "generator",
+      "parts": 29,
+      "ports": [],
+      "within_reservation": true
+    },
+    {
+      "name": "LP casing 1",
+      "kind": "turbine",
+      "parts": 36,
+      "ports": [
+        {
+          "route": "IP to LP casing 1",
+          "terminal": [
+            6,
+            30,
+            19
+          ],
+          "body_connection": [
+            6,
+            30,
+            15.2
+          ],
+          "jacket_od_m": 1.85
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "LP casing 2",
+      "kind": "turbine",
+      "parts": 36,
+      "ports": [
+        {
+          "route": "IP to LP casing 2",
+          "terminal": [
+            15,
+            30,
+            19
+          ],
+          "body_connection": [
+            15,
+            30,
+            15.2
+          ],
+          "jacket_od_m": 1.85
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "LP casing 3",
+      "kind": "turbine",
+      "parts": 36,
+      "ports": [
+        {
+          "route": "IP to LP casing 3",
+          "terminal": [
+            24,
+            30,
+            19
+          ],
+          "body_connection": [
+            24,
+            30,
+            15.2
+          ],
+          "jacket_od_m": 1.85
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "350 MVA",
+      "kind": "generator",
+      "parts": 29,
+      "ports": [],
+      "within_reservation": true
+    },
+    {
+      "name": "DA1",
+      "kind": "storage",
+      "parts": 16,
+      "ports": [
+        {
+          "route": "DA1 condensate inlet",
+          "terminal": [
+            18,
+            6.75,
+            15.8
+          ],
+          "body_connection": [
+            30.5,
+            6.75,
+            15.8
+          ],
+          "jacket_od_m": 0.7050000000000001
+        },
+        {
+          "route": "DA1 downcomer",
+          "terminal": [
+            23,
+            6.75,
+            13.5
+          ],
+          "body_connection": [
+            23,
+            6.75,
+            15.975
+          ],
+          "jacket_od_m": 0.73
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "DA2",
+      "kind": "storage",
+      "parts": 16,
+      "ports": [
+        {
+          "route": "DA2 condensate inlet",
+          "terminal": [
+            18,
+            12.75,
+            15.8
+          ],
+          "body_connection": [
+            30.5,
+            12.75,
+            15.8
+          ],
+          "jacket_od_m": 0.7050000000000001
+        },
+        {
+          "route": "DA2 downcomer",
+          "terminal": [
+            29,
+            12.75,
+            13.5
+          ],
+          "body_connection": [
+            29,
+            12.75,
+            15.975
+          ],
+          "jacket_od_m": 0.73
+        }
+      ],
+      "within_reservation": true
+    },
+    {
+      "name": "BFP electrical annex",
+      "kind": "electrical",
+      "parts": 1,
+      "ports": [],
+      "within_reservation": true
+    }
+  ],
+  "shaft_links": [
+    {
+      "name": "Shaft coupling 1",
+      "contacts": [
+        "LP casing 1",
+        "LP casing 2"
+      ],
+      "shaft_elevation_m": 15.2,
+      "guard_radius_m": 0.44
+    },
+    {
+      "name": "Shaft coupling 2",
+      "contacts": [
+        "LP casing 2",
+        "LP casing 3"
+      ],
+      "shaft_elevation_m": 15.2,
+      "guard_radius_m": 0.44
+    },
+    {
+      "name": "Shaft coupling 3",
+      "contacts": [
+        "LP casing 3",
+        "350 MVA"
+      ],
+      "shaft_elevation_m": 15.2,
+      "guard_radius_m": 0.44
+    },
+    {
+      "name": "Shaft coupling 4",
+      "contacts": [
+        "IP turbine",
+        "550 MVA"
+      ],
+      "shaft_elevation_m": 15.2,
+      "guard_radius_m": 0.44
+    },
+    {
+      "name": "Shaft coupling 5",
+      "contacts": [
+        "IP turbine",
+        "HP turbine"
+      ],
+      "shaft_elevation_m": 15.2,
+      "guard_radius_m": 0.44
+    }
+  ],
+  "checks": [
+    "All mechanical detail mesh vertices remain inside original equipment reservations",
+    "Every existing equipment-contact pipe terminal has a local casing connector",
+    "Upper machinery and labels carry the upper-level visibility flag",
+    "Five guarded shaft links align at 15.2 m and clear other equipment reservations and pipe envelopes"
+  ],
+  "limitations": [
+    "Not supplier outlines, pressure design, material mass or internal blade/tube geometry",
+    "Upper deck, foundations, LP exhaust transitions and cooling-water circuits still require design",
+    "Bolt patterns, saddles, bearings and nozzle bodies are illustrative, not sized components"
+  ]
+}

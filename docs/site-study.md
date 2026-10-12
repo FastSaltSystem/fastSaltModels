@@ -360,3 +360,7 @@ turbine wall opening. It records SHA-256 hashes of its installation and report
 inputs. These selected envelope checks do not establish vehicle swept paths,
 full plant interference clearance, crane access, structural adequacy or process
 performance. Review the building footprints before developing their internals.
+
+## Turbine machinery detail — D-051
+
+12 October 2026. [The detailed machinery draft](turbine-equipment.md) replaces turbine-hall equipment boxes with illustrative casings, bearings, generator housings, pump/motor sets, condenser shells and horizontal heat exchangers. Equipment reservations and pipe terminals are retained. Five guarded shaft couplings connect the two trains at a provisional 15.2 m shaft elevation. New overview and isolated equipment views show the detail. These are visual exteriors; vendor outlines, upper structures and remaining circuits are still required.

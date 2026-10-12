@@ -4,7 +4,7 @@ Cleanup note — 12 October 2026: superseded generated drafts have been removed.
 
 11 October 2026. First internal routing study on the D-031 **60 × 40 × 28 m**
 hall. This adds geometry to the motor-BFP arrangement; cycle results and equipment
-sizes are unchanged. Equipment nozzles are provisional points on reservation boxes.
+sizes are unchanged. Equipment nozzles are provisional points on reservation boxes. The [12 October machinery detail](turbine-equipment.md) adds casing connectors at these unchanged points.
 
 - [Two-level piping plan](../outputs/site-45-bends/turbine-piping-plan.png)
 - [Editable SVG](../outputs/site-45-bends/turbine-piping-plan.svg)
