@@ -1,0 +1,71 @@
+{
+  "date": "2026-10-12",
+  "decisions": [
+    "D-043",
+    "D-044",
+    "D-045",
+    "D-046",
+    "D-047",
+    "D-048",
+    "D-049",
+    "D-050"
+  ],
+  "parent_commit": "06a13ef26e593f81c2871db28ecd239191165a11",
+  "source_installation_baseline": "baselines/wistr-maintenance-2026-10-12",
+  "files": [
+    {
+      "path": "fast-salt-site.blend",
+      "source": "outputs/site-45-bends/fast-salt-site.blend",
+      "bytes": 64915496,
+      "sha256": "8a7629fb82b5421200f44dd9482fbd303640210f0c8839517f57c2765c14c472"
+    },
+    {
+      "path": "site-report.json",
+      "source": "outputs/site-45-bends/site-report.json",
+      "bytes": 2589603,
+      "sha256": "d70349c915f1fa384d866a47ee5ea840a78a868ca9b7e78d72d1b5a7c5d708d5"
+    },
+    {
+      "path": "turbine-piping.json",
+      "source": "outputs/site-45-bends/turbine-piping.json",
+      "bytes": 184648,
+      "sha256": "babdfd45c53d029c275cd38322d5cc6239b9ebf61ea05cd0e86aaaa63950a2c9"
+    },
+    {
+      "path": "site-process-draft.png",
+      "source": "outputs/site-45-bends/site-process-draft.png",
+      "bytes": 2202028,
+      "sha256": "4f046779e91178b9dd6144a9bad29b0e74f4a370d0630609374ad4c52599816b"
+    },
+    {
+      "path": "site-process-plan-draft.png",
+      "source": "outputs/site-45-bends/site-process-plan-draft.png",
+      "bytes": 2070895,
+      "sha256": "050902391016b66c63da33cf96605e28b98f517090576bfbbde02950b2392be9"
+    },
+    {
+      "path": "site-fresh-air-draft.png",
+      "source": "outputs/site-45-bends/site-fresh-air-draft.png",
+      "bytes": 2639359,
+      "sha256": "51e4a0e0991e31434a724f40f242b9b2a5aac6d35e6237e13684550d6e84eee9"
+    },
+    {
+      "path": "site-generator-air-detail.png",
+      "source": "outputs/site-45-bends/site-generator-air-detail.png",
+      "bytes": 2046508,
+      "sha256": "c402d8659939fd494de9e512d97c4cafb27ed83521d58b1ac3a62884b6cf7d24"
+    },
+    {
+      "path": "site-salt-distribution-draft.png",
+      "source": "outputs/site-45-bends/site-salt-distribution-draft.png",
+      "bytes": 2613628,
+      "sha256": "babc8a79c8019dc53bd43752ce7ce73f2021fd48b0d53364abe309ae8785c4f7"
+    },
+    {
+      "path": "site-fuel-bundle-detail.png",
+      "source": "outputs/site-45-bends/site-fuel-bundle-detail.png",
+      "bytes": 1546129,
+      "sha256": "130c57c61b2b5024fc40e0b1d76fe9b4178275971be927aa107a05b9df05df2d"
+    }
+  ]
+}

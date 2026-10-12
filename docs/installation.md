@@ -10,6 +10,10 @@ handling-and-plug baseline remains unchanged. Equipment and supports remain conc
 Accepted checkpoint: [12 October maintenance and utilities baseline](../baselines/wistr-maintenance-2026-10-12/).
 The earlier [service-bundle baseline](../baselines/wistr-service-bundles-2026-10-12/) remains preserved.
 
+## Current site fresh-air revision — D-049
+
+The composed site now relocates the exterior cold-air ring inside the reactor building, with shortened equipment branches and a retained doorway gap. See [the current site geometry and checks](site-study.md#internal-fresh-air-duct--d-049). The isolated installation file described below remains the retained input to that composition.
+
 ## Maintenance laydown and mobile sector canister — 12 October 2026
 
 D-042 removes the fixed sector-storage enclosure. A provisional upright canister

@@ -1,6 +1,6 @@
 # Turbine-hall main piping draft
 
-Cleanup note — 12 October 2026: superseded generated drafts have been removed. Current site plans and the saved scene are together in `outputs/site-45-bends/`. The saved site still represents the last accepted site arrangement; the next build imports the current under-cover-bundle installation. Historical output links below may require rebuilding.
+Cleanup note — 12 October 2026: superseded generated drafts have been removed. Current site plans and the saved scene are together in `outputs/site-45-bends/`. The current site imports the maintenance/utility installation and adds attached process buildings (D-043); the turbine layout remains unchanged. Historical output links below may require rebuilding.
 
 11 October 2026. First internal routing study on the D-031 **60 × 40 × 28 m**
 hall. This adds geometry to the motor-BFP arrangement; cycle results and equipment

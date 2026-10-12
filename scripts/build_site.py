@@ -27,11 +27,11 @@ def wall(b, root, label, axis, constant, lo, hi, height, material, opening=None)
     spans = [(lo, hi, 0, height)]
     if opening:
         a, c, bottom, top = opening
-        assert lo < a < c < hi and 0 <= bottom < top <= height
+        assert lo <= a < c <= hi and 0 <= bottom < top <= height
         spans = [(lo, a, 0, height), (c, hi, 0, height),
                  (a, c, 0, bottom), (a, c, top, height)]
     for i, (a, c, bottom, top) in enumerate(spans):
-        if top - bottom < .001:
+        if top - bottom < .001 or c-a < .001:
             continue
         size = (site.WALL, c-a, top-bottom) if axis == 'x' else (c-a, site.WALL, top-bottom)
         loc = (constant, (a+c)/2, (bottom+top)/2) if axis == 'x' else ((a+c)/2, constant, (bottom+top)/2)
@@ -46,11 +46,17 @@ def envelope(b, key, p, material):
     b.box('slab', root, (length, width, .35), (0, 0, -.175), 'floor')
     # Opposing service openings: turbine pipe bay on east, fuel receiving door on west.
     east = site.TURBINE_PIPE_BAY if key == 'turbine' else None
-    west = (-5.0, 3.0, 0, 9.0) if key == 'turbine' else (-7, -1, 0, 7)
+    west = (-5.0, 3.0, 0, 9.0) if key == 'turbine' else None
+    north = (.5,6.5,0,4.2) if key=='fuel_preparation' else ((-2,2,0,4.0) if key=='off_gas' else None)
+    south = None
+    if key in ('fuel_preparation','off_gas'):
+        cfg=site.PROCESS_ANNEX;link_x=cfg['shared_link_x']-x
+        low=cfg['link_floor_z']-site.PAD_Z
+        south=(max(-length/2,link_x-cfg['link_width']/2+.16),min(length/2,link_x+cfg['link_width']/2-.16),low,low+cfg['link_height'])
     wall(b, root, 'east', 'x', length/2-site.WALL/2, -width/2, width/2, height, material, east)
     wall(b, root, 'west', 'x', -length/2+site.WALL/2, -width/2, width/2, height, material, west)
-    wall(b, root, 'north', 'y', width/2-site.WALL/2, -length/2, length/2, height, material)
-    wall(b, root, 'south', 'y', -width/2+site.WALL/2, -length/2, length/2, height, material)
+    wall(b, root, 'north', 'y', width/2-site.WALL/2, -length/2, length/2, height, material, north)
+    wall(b, root, 'south', 'y', -width/2+site.WALL/2, -length/2, length/2, height, material, south)
     roof = b.box('roof', root, (length+.5, width+.5, site.ROOF), (0, 0, height+site.ROOF/2), material, .04)
     roof['site_roof'] = True
     # Architectural panel seams only; the structural system is not selected.
@@ -75,7 +81,7 @@ def compose(b, source_report):
     b.material('site_paving', '#DADDD8', roughness=.9)
     ground = b.assembly('site.ground', 'Site setting')
     b.box('backdrop', ground, (2000,2000,.1), (0,0,site.PAD_Z-.5), 'backdrop')
-    b.box('common_pad', ground, (190,110,.16), (-14,-5,site.PAD_Z-.1), 'site_paving', .08)
+    b.box('common_pad', ground, (190,140,.16), (-14,5,site.PAD_Z-.1), 'site_paving', .08)
     yard = site.SERVICE_YARD
     b.box('service_yard', ground, (*yard['size'],.018), (*yard['centre'],site.PAD_Z-.01), 'floor')
     # Clear approach outside the existing 18-degree access apron; no fuel-transfer process is implied.
@@ -83,10 +89,21 @@ def compose(b, source_report):
         b.box('yard_edge'+str(y), ground, (10,.08,.012), (30,y,site.PAD_Z+.005), 'crane')
     turbine = envelope(b, 'turbine', site.TURBINE, 'turbine_envelope')
     fuel = envelope(b, 'fuel_preparation', site.FUEL_PREPARATION, 'fuel_envelope')
+    b.material('offgas_envelope','#9AB8B3',roughness=.7)
+    envelope(b,'off_gas',site.OFF_GAS,'offgas_envelope')
+    envelope(b,'converter',site.CONVERTER,'fuel_envelope')
+    floor_label(b,'Converter label','SPENT-FUEL CONVERTER\n20 x 15 m / 8 m high',(11.5,55,site.PAD_Z+.03),.95)
+    from textual_graphics.site_process_buildings import build_process_annexes
+    b.process_annexes=build_process_annexes(b,site,installation,floor_label)
+    from textual_graphics.site_salt_distribution import build_salt_distribution
+    b.salt_distribution=build_salt_distribution(b,site,installation,b.process_annexes)
+    from textual_graphics.site_fuel_pressure import build_fuel_pressure
+    b.fuel_pressure=build_fuel_pressure(b,site,installation,b.process_annexes)
+    from textual_graphics.site_fresh_air import build_fresh_air
+    b.fresh_air=build_fresh_air(b,site,installation,source_report['services']['air'])
     from turbine_equipment import add_equipment
     add_equipment(b, ROOT, site)
     floor_label(b, 'Turbine reservation', 'TURBINE / GENERATOR', (site.TURBINE['centre'][0],site.TURBINE['centre'][1]-4,site.PAD_Z+.03), 1.1)
-    floor_label(b, 'Fuel reservation', 'FUEL PREPARATION\nProcess layout pending', (51,13,site.PAD_Z+.03), 1.1)
     floor_label(b, 'Yard label', 'SERVICE\nYARD', (30,0,site.PAD_Z+.03), .85)
     routes=[]
     root=b.assembly('site.secondary', 'Site connections')
@@ -150,23 +167,23 @@ def compose(b, source_report):
 
 
 def check_layout(routes):
-    radius=installation.AIR['concrete_outer_radius']
-    # Hot-ring insulation revision can enlarge the upper ring independently.
-    radius=max(radius,24.202)
+    # Both air headers are internal; use the current building wall envelope.
+    radius=installation.BUILDING['diameter']/2
     results=[]
-    for p in (site.TURBINE,site.FUEL_PREPARATION):
+    for p in (site.TURBINE,site.FUEL_PREPARATION,site.OFF_GAS,site.CONVERTER):
         x,y=p['centre']; length,width,height=p['size']
         dx=max(abs(x)-length/2,0); dy=max(abs(y)-width/2,0)
         gap=math.hypot(dx,dy)-radius
-        assert gap>10, (p['name'],gap)
-        results.append(dict(building=p['name'],outer_ring_to_wall_gap_m=gap))
+        assert gap>(10 if p is site.TURBINE else 1.5), (p['name'],gap)
+        results.append(dict(building=p['name'],reactor_wall_to_building_gap_m=gap))
     # The existing straight access corridor ends at radius 27; the new envelope starts at x=36.
     a=math.radians(installation.ACCESS['angle'])
     end=(installation.ACCESS['outer_radius']*math.cos(a),installation.ACCESS['outer_radius']*math.sin(a))
     assert end[0]+installation.ACCESS['width']/2 < 36
     # Stack to the north and intake to the south remain between the two new footprints.
-    for x,y,r in ((0,27,1.901),(0,-28,2)):
-        for p in (site.TURBINE,site.FUEL_PREPARATION):
+    stack_angle=math.radians(installation.STACKS['angles'][0])
+    for x,y,r in ((installation.STACKS['radius']*math.cos(stack_angle),installation.STACKS['radius']*math.sin(stack_angle),1.901),(0,-28,2)):
+        for p in (site.TURBINE,site.FUEL_PREPARATION,site.OFF_GAS,site.CONVERTER):
             cx,cy=p['centre'];lx,ly,_=p['size']
             assert math.hypot(max(abs(cx-x)-lx/2,0),max(abs(cy-y)-ly/2,0))>r+5
     water,steam=sorted(routes,key=lambda p:p['start'][2])
@@ -183,7 +200,7 @@ def check_layout(routes):
         checks=['Two 45-degree interbuilding bends per pipe; separate 20-degree reactor outlet alignment turn; sizes retained',
                 'Building centres aligned; steam/feedwater enter east wall at 90 degrees',
                 'Pipe jackets clear the turbine wall opening and common pad',
-                'Building footprints clear the reactor rings, stack and fresh-air intake',
+                'Building walls clear the reactor wall, stack and fresh-air intake',
                 'Existing reactor doorway approach remains clear'],
         limitations='Selected envelope checks only; no full plant clash, vehicle swept-path, structure, shielding, turbine capacity or process validation')
 
@@ -195,12 +212,21 @@ def presentation(b):
         obj.location=loc;obj.rotation_euler=(Vector((-8,0,0))-obj.location).to_track_quat('-Z','Y').to_euler()
     cams={'overview':camera(b,'Site overview',(-14,-155,115),(-14,-5,0),205),
           'plan':camera(b,'Site plan',(-14,-5,140),(-14,-5,0),205)}
+    cams['plan'].location=(-14,9,140)
     cams['plan'].rotation_euler=(0,0,0)
+    cams['process']=camera(b,'Attached process buildings',(77,100,82),(6,33,-1),115)
+    cams['process-plan']=camera(b,'Process buildings plan',(6,34,120),(6,34,0),120)
+    cams['process-plan'].rotation_euler=(0,0,0)
     cams['alignment']=camera(b,'Aligned reactor and power plant',(-32,0,145),(-32,0,0),150)
     cams['alignment'].rotation_euler=(0,0,0)
     cams['turbine']=camera(b,'Turbine equipment draft',(-120,-100,75),(*site.TURBINE['centre'],3),105)
     for view,cam in cams.items():
         col=b.collection('Site annotations.'+view)
+        if view in ('process','process-plan'):
+            text_on_camera('Title.'+view,'WISTR | Converter, refiner and off-gas buildings',-43,25.0,1.15,cam,col)
+            text_on_camera('Detail.'+view,'Duct: gold fuel IN / rose fuel OUT / teal coolant / purple off-gas / blue supply gas',-43,22.5,.65,cam,col,'#526575')
+            text_on_camera('Footer.'+view,'Provisional envelopes and tie-ins; process duties, treatment performance and supports remain open',-43,-25,.60,cam,col,'#526575')
+            continue
         if view=='alignment':
             text_on_camera('Title.alignment','REACTOR / TURBINE HALL | Aligned building centres',-69,40,1.4,cam,col)
             text_on_camera('Detail.alignment','Two 45-degree offset bends per pipe; shallow 20-degree outlet alignment turn',-69,37.5,.85,cam,col,'#526575')
@@ -213,7 +239,7 @@ def presentation(b):
             continue
         text_on_camera('Title.'+view,'FAST SALT SYSTEM | Site arrangement',-81,46,2.0,cam,col)
         text_on_camera('Subtitle.'+view,'Provisional building / equipment envelopes / existing WISTR installation',-81,42.5,1.05,cam,col,'#526575')
-        labels=[(-80,'TURBINE BUILDING','60 x 40 m / 28 m high'),(-20,'REACTOR BUILDING','42 m shell / external air rings'),(44,'FUEL PREPARATION','30 x 24 m / 14 m high')]
+        labels=[(-80,'TURBINE BUILDING','60 x 40 m / 28 m high'),(-20,'REACTOR BUILDING','42 m shell / attached process wings'),(44,'PROCESS BUILDINGS','Converter / refiner / off-gas')]
         for i,(x,title,detail) in enumerate(labels):
             text_on_camera(f'Label.{view}.{i}',title,x,-32,1.32,cam,col)
             text_on_camera(f'Detail.{view}.{i}',detail,x,-34.3,1.0,cam,col,'#526575')
@@ -227,18 +253,22 @@ def select(b,cams,view):
     for key in cams:
         col=b.collections['Site annotations.'+key];col.hide_render=col.hide_viewport=key!=view
     for obj in bpy.data.objects:
-        if obj.get('site_roof'):obj.hide_render=obj.hide_viewport=view in ('plan','alignment','turbine')
+        if obj.get('site_roof'):obj.hide_render=obj.hide_viewport=view in ('plan','alignment','turbine','process','process-plan')
     for obj in bpy.data.objects:
-        if obj.get('turbine_upper'):obj.hide_render=obj.hide_viewport=view in ('plan','alignment')
+        if obj.get('turbine_upper'):obj.hide_render=obj.hide_viewport=view in ('plan','alignment','process','process-plan')
         if obj.name.startswith('site.turbine.') and any('.'+k in obj.name for k in ['south','west','panel_joint']):
             obj.hide_render=obj.hide_viewport=view=='turbine'
     for key in ('Shell','Crane'):
         col=bpy.data.collections.get(key)
-        if col:col.hide_render=col.hide_viewport=view in ('plan','alignment')
+        if col:col.hide_render=col.hide_viewport=view in ('plan','alignment','process','process-plan')
     for obj in bpy.data.objects:
         if obj.get('air_plenum_part'):
-            hidden=(obj.get('air_plenum_lid',False) and view in ('plan','alignment')) or (view=='overview' and obj.get('air_plenum_front',False) and obj.get('air_plenum_service')=='hot')
+            hidden=(obj.get('air_plenum_lid',False) and view in ('plan','alignment','process','process-plan')) or (view=='overview' and obj.get('air_plenum_front',False) and obj.get('air_plenum_service')=='hot')
             obj.hide_render=obj.hide_viewport=hidden
+    # Inspection views open the nearer process walls; plan keeps all perimeter walls.
+    for ob in bpy.data.objects:
+        if ob.name.startswith(('site.fuel_preparation.','site.off_gas.','site.converter.')) and any('.'+key in ob.name for key in ('north','east')):
+            ob.hide_render=ob.hide_viewport=(view=='process')
     bpy.context.view_layer.update()
 
 
@@ -247,7 +277,7 @@ def main():
     parser.add_argument('--output',type=Path,default=ROOT/'outputs/site-study')
     parser.add_argument('--build-only',action='store_true')
     parser.add_argument('--with-piping',action='store_true',help='Add the checked provisional main-circuit routing')
-    parser.add_argument('--view',choices=['overview','plan','alignment','turbine'])
+    parser.add_argument('--view',choices=['overview','plan','alignment','turbine','process','process-plan'])
     args=parser.parse_args(sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else [])
     source=ROOT/site.SOURCE; report_source=ROOT/site.SOURCE_REPORT
     report=json.loads(report_source.read_text())
@@ -258,6 +288,14 @@ def main():
             bpy.data.objects.remove(obj,do_unlink=True)
     scene=bpy.context.scene
     b=SceneBuilder();routes=compose(b,report);checks=check_layout(routes)
+    from textual_graphics.site_process_buildings import check_process_annexes
+    b.process_annexes['checks']=check_process_annexes(b,site,installation,b.process_annexes)
+    from textual_graphics.site_salt_distribution import check_salt_distribution
+    b.salt_distribution['checks']=check_salt_distribution(b.salt_distribution,site,b.process_annexes)
+    from textual_graphics.site_fuel_pressure import check_fuel_pressure
+    b.fuel_pressure['checks']=check_fuel_pressure(b.fuel_pressure,site,b.process_annexes,b.salt_distribution)
+    from textual_graphics.site_fresh_air import check_fresh_air
+    b.fresh_air['checks']=check_fresh_air(b.fresh_air,site,installation,b.process_annexes,b.salt_distribution,b.fuel_pressure)
     piping=None
     if args.with_piping:
         from turbine_pipe_geometry import add_piping
@@ -276,7 +314,7 @@ def main():
     scene.render.resolution_x=1800;scene.render.resolution_y=1100;scene.render.resolution_percentage=100
     scene.render.image_settings.file_format='PNG';scene.view_settings.view_transform='AgX'
     scene.view_settings.exposure=.1
-    scene['site_scope']='Motor-BFP equipment reservations in resized turbine hall; retained reactor installation'
+    scene['site_scope']='Motor-BFP turbine hall, reactor, rectangular process-building reservations and fuel supply/return duct'
     scene['site_source_sha256']=hashlib.sha256(source.read_bytes()).hexdigest()
     scene['site_pad_datum']='Common access pad at reactor sub-floor -9.1 m; actual civil grade unresolved'
     for screen in bpy.data.screens:
@@ -287,9 +325,9 @@ def main():
     args.output.mkdir(parents=True,exist_ok=True)
     data=dict(title='Fast Salt System provisional site',units='metres',source=site.SOURCE,
               source_sha256=scene['site_source_sha256'],source_report_sha256=hashlib.sha256(report_source.read_bytes()).hexdigest(),
-              pad_z=site.PAD_Z,turbine=site.TURBINE,fuel_preparation=site.FUEL_PREPARATION,turbine_layout=json.loads((ROOT/'models/turbine-layout.json').read_text()),
-              secondary_connections=routes,validation=checks,internal_piping=piping,
-              exclusions=['Fuel-preparation process and throughput','Supplier equipment outlines, full piping and structures','Final heat sink and cooling-water pump layout','Civil grade and drainage','Equipment installation and transport qualification'])
+              pad_z=site.PAD_Z,turbine=site.TURBINE,fuel_preparation=site.FUEL_PREPARATION,off_gas=site.OFF_GAS,converter=site.CONVERTER,process_annexes=b.process_annexes,turbine_layout=json.loads((ROOT/'models/turbine-layout.json').read_text()),
+              secondary_connections=routes,validation=checks,internal_piping=piping,salt_distribution=b.salt_distribution,fuel_pressure=b.fuel_pressure,fresh_air=b.fresh_air,
+              exclusions=['Salt-preparation chemistry/throughput and off-gas treatment performance/emission limits','Supplier equipment outlines, full piping and structures','Final heat sink and cooling-water pump layout','Civil grade and drainage','Equipment installation and transport qualification'])
     if piping:
         (args.output/'turbine-piping.json').write_text(json.dumps(piping,indent=2)+'\n')
     (args.output/'site-report.json').write_text(json.dumps(data,indent=2)+'\n')
