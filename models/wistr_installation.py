@@ -101,11 +101,35 @@ PUMPS = {"count": 3, "local_position": (13.0, -6.0, FLOOR_Z + 4.51),
          "motor_rating_kw": 2000.0,
          "suction_run_z": FLOOR_Z + 1.9,
          "worksheet": "../fastSalt/calculations/steam-generator/Coolant pump estimate - Hurmet.md"}
-ABSORBER_MODULES = {"pair_angles": (0,105,225), "radius": 9.5,
-                   "pair_spacing": 2.1, "size": (.85,.9,2.5), "platform_z": -2.02,
-                   "support_radius": 9.8, "platform_size": (1.8,4.2), "deck_thickness": .08}
+# Double tank volume with uniform linear scaling; retain the control-box size.
+ABSORBER_TANK_SCALE = 2.0 ** (1.0/3.0)
+ABSORBER_MODULES = {
+    "size": (.85,.9,1.0*ABSORBER_TANK_SCALE+1.5),
+    "tank_reference_diameter": .64, "tank_reference_height": 1.0,
+    "tank_volume_multiplier": 2.0, "tank_linear_scale": ABSORBER_TANK_SCALE,
+    "tank_diameter": .64*ABSORBER_TANK_SCALE, "tank_height": 1.0*ABSORBER_TANK_SCALE,
+    "tank_base_z": .12, "control_height": 1.5,
+}
 
-AIR = {"hot_radius": 22.5,
+# D-038: lower deck and compact under-cover bundles; two stations per absorber.
+CATWALK = {"inner_radius": 4.95, "outer_radius": 7.35, "deck_z": -.60,
+           "module_radius": 6.60, "drop_radius": 4.50,
+           "column_angles": tuple(range(0,360,30))}
+
+# New reservoirs are distinct from the module's existing tank; all sizes are draft allowances.
+ABSORBER_RESERVOIRS = {
+    "diameter": .64*ABSORBER_TANK_SCALE, "height": ABSORBER_TANK_SCALE,
+    "insulation": .10, "cladding": .001, "bottom_above_deck": .55,
+    "tank_angle_offset": 5.0, "module_angle_offset": 15.0,
+    "pipe_insulation": .05,
+}
+
+# Compact routing control points are in installation_bundles.py.
+FUEL_SERVICES = {"sector_to_tank": (6,1,2,3,4,5)}
+
+from wistr_air_insulation import AIR_INSULATION
+
+AIR = {"insulation": AIR_INSULATION, "hot_radius": 22.5,
        "hot_z": 10.0,  # Entire 3 m ring below the crane runway.
        "hot_diameter": 2.4,  # Stack connector envelope; manifold itself is rectangular.
        "fresh_radius": 22.5, "fresh_z": FLOOR_Z+1.5, "fresh_diameter": 2.0,
@@ -114,15 +138,17 @@ AIR = {"hot_radius": 22.5,
        "concrete_outer_radius": BUILDING['diameter']/2+3.0,
        "concrete_height": 3.0, "concrete_skin": .25,
        "reactor_hot_cross_z": 10.0, "fresh_inside_riser_radius": 19.9,
-       "hot_inside_riser_radius": 19.9, "reactor_inside_riser_radius": 19.3,
+       "hot_inside_riser_radius": 19.7, "fuel_hot_riser_radius": 19.9,
+       "fuel_storage_cross_z": FLOOR_Z+7.0, "reactor_inside_riser_radius": 19.15,
        "intake_angle": 270.0, "intake_radius": 28.0,
        "low_branch_z": FLOOR_Z+.45,
        "generator_hot_diameter": .9, "generator_fresh_diameter": .7,
        "fuel_hot_diameter": .5, "fuel_fresh_diameter": .5}
 
 ASSUMPTIONS = [
+    "All ten hot-air branches, stack connector/barrel and reactor hot side collector carry a provisional 100 mm insulation allowance with 1 mm metal cladding. Material and thickness are not thermally sized. The upper concrete manifold grows 202 mm radially outward and 404 mm in height to accommodate an internal liner and the wrapped stack connection; cold air remains uninsulated.",
     "Reactor fresh air runs directly along the floor at the fresh-ring centre elevation (1.5 m above floor), with a single rise to the reactor side manifold. The 2 m duct leaves 0.5 m beneath its envelope; support design remains provisional.",
-    "Absorber pairs move to radius 9.5 m at 0, 105 and 225 degrees, retaining vessel-top platform elevation, to clear the new reactor side plenums and risers. External absorber service lines remain to route.",
+    "Twelve independent absorber reservoir/module stations sit on the shared catwalk, radii 4.95–7.35 m at Z=-0.60 m. Compact insulated absorber and heated maintenance bundles pass beneath liftable open-bottom insulation channels. Absorber salt drains have 1.60 m fall to the spider; gas lines are insulated but unheated. Local insulation strips and extended cover pickups remain provisional, as do frame sizing, heat-trace duty, remote disconnects and stair access.",
     "42 m equipment shell is a provisional expansion of the prior 36 m draft to accommodate insulated process piping. Exterior concrete air rings add 3 m per side, giving 48 m outer diameter; stack and intake move outward.",
     "Pipe bore, metal wall and insulation follow the conditional 11 October Hurmet calculation cases, not approved material or pressure specifications. Separate hollow metal and insulation meshes permit inspection; collector shells remain visual envelopes.",
     "Salt hot/cold: 1.425 m bore, 25 mm nominal wall, 400/350 mm radial insulation. Steam branch/header: 425/725 mm bore, 115/195 mm wall, 350 mm insulation. Water branch/header: 375/650 mm bore, 75/120 mm wall, 175 mm insulation.",

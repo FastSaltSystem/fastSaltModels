@@ -17,7 +17,7 @@ for height in (0,.05,.20,.40,.80):
   tr=tree(ob,height)
   for name,t in obstacles:assert not tr.overlap(t),(ob.name,name,height)
 # Check side-system solid surfaces against all coolant nozzle meshes.
-air=[o for o in bpy.data.objects if o.type=='MESH' and (o.name.startswith('reactor.hot_air_manifold') or o.name.startswith('reactor.cold_air_manifold') or o.name.startswith('reactor.air_ducts'))]
+air=[o for o in bpy.data.objects if o.type=='MESH' and (o.name.startswith('reactor.hot_air_manifold') or o.name.startswith('reactor.cold_air_manifold') or o.name.startswith('reactor.air_ducts') or o.name.startswith('reactor.hot_air_insulation'))]
 nozzles=[o for o in bpy.data.objects if o.type=='MESH' and (o.name.startswith('reactor.hot_outlet_') or o.name.startswith('reactor.cold_inlet_')) and 'cutter' not in o.name]
 ats=[(o.name,tree(o)) for o in air]
 for o in nozzles:

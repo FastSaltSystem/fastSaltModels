@@ -119,33 +119,6 @@ def secondary_headers(b,layout):
     return result
 
 
-def absorber_modules(b,layout):
-    p=layout.ABSORBER_MODULES;index=0
-    for pair,angle in enumerate(p['pair_angles'],1):
-        a=math.radians(angle);w,d=p['platform_size'];deck=p['deck_thickness']
-        support=b.assembly(f'equipment.absorber_pair_{pair}','Absorber supports',
-                           (p['support_radius']*math.cos(a),p['support_radius']*math.sin(a),p['platform_z']),angle)
-        bottom=layout.FLOOR_Z-p['platform_z']
-        steel_frame(b,support,'support',w,d,bottom,-deck,section=.20)
-        b.box('deck',support,(w,d,deck),(0,0,-deck/2),'rail')
-        for side in (-1,1):
-            b.beam(f'support.brace{side}',support,(side*(w/2-.1),-d/2+.1,bottom+.1),
-                   (side*(w/2-.1),d/2-.1,-deck-.3),.065,'rail')
-        support['support_bottom_z']=layout.FLOOR_Z;support['support_top_z']=p['platform_z']
-        support['module_count']=2
-        for sign in (-1,1):
-            index+=1;v=sign*p['pair_spacing']/2
-            x=p['radius']*math.cos(a)-v*math.sin(a)
-            y=p['radius']*math.sin(a)+v*math.cos(a)
-            root=b.assembly(f'equipment.absorber_module_{index}','Absorber modules',(x,y,p['platform_z']),angle)
-            root['scope']='External supply/control envelope; capacity and service routing provisional'
-            root['shared_support']=support.name
-            w0,d0,h=p['size']
-            b.cylinder('salt_vessel_envelope',root,.32,1.0,(0,0,.5),'absorber_module',vertices=32)
-            b.box('control_enclosure',root,(w0*.9,d0*.9,h-1.0),(0,0,1.0+(h-1.0)/2),'absorber_module',.025)
-            b.box('front_panel',root,(.03,d0*.65,.45),(-w0*.46,0,1.8),'panel')
-
-
 def check_services(b,layout,services):
     m=layout.MANIFOLDS
     for net in services['networks']:
@@ -270,13 +243,11 @@ def check_services(b,layout,services):
         if category=='Steam generators':
             assert abs(mesh_bottom(bpy.data.objects[root.name+'.casing'])-layout.FLOOR_Z)<1e-5
             assert not any('.support.' in o.name for o in root.children)
-        if category in ('Coolant pumps','Absorber supports'):
+        if category=='Coolant pumps':
             assert abs(root['support_bottom_z']-layout.FLOOR_Z)<1e-6
             legs=[o for o in root.children if '.support.column' in o.name]
             assert len(legs)==4
             assert all(abs(mesh_bottom(o)-layout.FLOOR_Z)<1e-5 for o in legs)
-        if category=='Absorber supports':
-            assert abs(root['support_top_z']-(layout.REACTOR['origin_z']+6.3))<1e-6
     for i in range(1,4):
         root=b.assemblies[f'equipment.steam_generator_{i}']
         a=math.radians(layout.STEAM_GENERATORS['angles'][i-1]);radial=Vector((math.cos(a),math.sin(a),0))
@@ -289,20 +260,15 @@ def check_services(b,layout,services):
                for i in range(1,4)
                for o in [bpy.data.objects[f'connections.loop_{i}.cold_suction']]
                for v in [o.matrix_world @ Vector(p.co[:3]) for p in o.data.splines[0].points])
-    supports=[o for o in b.assemblies.values() if o['category']=='Absorber supports']
-    assert len(supports)==3
-    for support in supports:
-        modules=[o for o in b.assemblies.values() if o.get('shared_support')==support.name]
-        assert len(modules)==2
-        w,d=layout.ABSORBER_MODULES['platform_size'];mw,md,_=layout.ABSORBER_MODULES['size']
-        assert abs(bounds_z(support.name+'.deck')[1]-layout.ABSORBER_MODULES['platform_z'])<1e-5
-        for module in modules:
-            pos=support.matrix_world.inverted() @ module.location
-            assert abs(pos.x)+mw/2<=w/2 and abs(pos.y)+md/2<=d/2
-            assert not any('.support.' in o.name for o in module.children)
+    if 'catwalk' in services:
+        assert not any(o['category']=='Absorber supports' for o in b.assemblies.values())
+        modules=[o for o in b.assemblies.values() if o['category']=='Absorber modules']
+        assert len(modules)==12
+        assert all(o['shared_support']=='equipment.reactor_catwalk' for o in modules)
+        assert all(abs(o.location.z-layout.CATWALK['deck_z'])<1e-5 for o in modules)
     assert 'building.reactor_foundation.well_support' not in bpy.data.objects
     return ['Fuel and coolant tank bottoms and support column feet meet the sub-floor',
-            'Generator casings meet floor; cold manifolds align with two-bend suction runs; absorber platforms match vessel top',
+            'Generator casings meet floor; cold manifolds align with two-bend suction runs; absorber modules share the reactor catwalk',
             'Pump foundations clear storage tanks, generator bases and outer wall',
             'Three 17 m generator casings; valve boxes seated on roofs; measured 5 m from valve tops to hoist body underside',
             'The single stack base meets the equipment floor elevation',
@@ -310,4 +276,4 @@ def check_services(b,layout,services):
             'Salt manifolds face reactor; steam/water manifolds face wall',
             'Both common headers connect all three generators and terminate outside building',
             'Feedwater rises inside and crosses the wall at the configured insulated clearance above the fresh-air ring',
-            'Six absorber modules seated two per enlarged shared deck; three braced frames bear on floor; no perimeter railings']
+            'Twelve absorber modules on shared catwalk; old paired stands absent; catwalk guardrails are local to reactor']

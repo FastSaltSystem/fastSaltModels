@@ -54,6 +54,7 @@ def build_air_system(b,layout,d):
   points=[(end_radius-.06,0,z),(q['stub_end']-.1,0,z)]
   if kind=='cold':points.reverse()
   arrow(b,'flow',flow,points,'air' if kind=='cold' else 'hot',.045)
+ build_hot_air_insulation(b,layout,d)
  return q
 
 
@@ -81,5 +82,30 @@ def check_air_system(b,layout,d):
  assert not any(o.name.startswith('reactor.hot_air_hood') for o in bpy.data.objects)
  return dict(dimensions=q,parameters=a,side_manifolds=True,open_supply_and_exhaust=True,
   hot_sleeve_separates_crossed_cold_passage=True,cold_port_does_not_cut_baffle=True,
-  hood_removed=True,thermal_or_airflow_analysis=False,
+  hood_removed=True,thermal_or_airflow_analysis=False,hot_air_insulation=a['insulation'],
   limitations=['Plenum sizes and rectangular-to-round transitions are provisional','No pressure-drop, natural-draft, structural opening or heat-removal qualification'])
+
+
+def build_hot_air_insulation(b,layout,d):
+ from .air_insulation import materials,tag
+ materials(b);a=layout.AIR_SYSTEM;spec=a['insulation'];q=air_dimensions(layout,d)
+ root=b.assembly('reactor.hot_air_insulation','Air collectors',angle=a['hot_angle'])
+ x0=q['manifold_inner'];x1=q['manifold_outer'];z=q['port_z'];skin=a['skin'];t=spec['thickness'];j=spec['cladding']
+ for layer,offset,thick,mat in [('insulation',0,t,'air_insulation'),('cladding',t,j,'air_cladding')]:
+  w=q['box_width'];h=q['box_height'];length=x1-x0
+  box=tag(b.box('plenum_'+layer,root,(length+2*(offset+thick),w+2*(offset+thick),h+2*(offset+thick)),((x0+x1)/2,0,z),mat),spec,layer)
+  b.cut(box,b.box('inside',root,(length+2*offset,w+2*offset,h+2*offset),((x0+x1)/2,0,z),None))
+  b.cut(box,b.box('mouth',root,(.5,q['mouth_width']+2*(skin+offset),q['mouth_height']+2*(skin+offset)),(x0,0,z),None))
+  cut=b.cylinder('outlet',root,a['duct_diameter']/2+offset,.5,(x1,0,z),None,vertices=64,bevel=0);cut.rotation_euler.y=math.pi/2;b.cut(box,cut)
+  # Blanket continues around the sealed hot crossover through the cold annulus.
+  radius=d['hot_baffle_inner_radius'];sx=radius-.5;ex=x0
+  w=q['mouth_width']+2*skin;h=q['mouth_height']+2*skin
+  sleeve=tag(b.box('sleeve_'+layer,root,(ex-sx,w+2*(offset+thick),h+2*(offset+thick)),((sx+ex)/2,0,z),mat),spec,layer)
+  b.cut(sleeve,b.box('bore',root,(ex-sx+.2,w+2*offset,h+2*offset),((sx+ex)/2,0,z),None))
+  b.cut(sleeve,b.cylinder('curved_end',root,radius,5,(0,0,z),None,vertices=128,bevel=0))
+  stub=tag(b.annulus('stub_'+layer,root,a['duct_diameter']/2+offset,a['duct_diameter']/2+offset+thick,0,1,mat,steps=64),spec,layer)
+  stub.location=(x1,0,z);stub.rotation_euler.y=math.pi/2
+ # Existing flow openings retain their bore; enlarge the surrounding well/baffle cutouts for the wrap.
+ for name in ('reactor.well.wall','reactor.baffle.vertical_sheet'):
+  b.cut(bpy.data.objects[name],b.box('insulated_wall_port',root,(ex-sx+.1,w+2*(t+j),h+2*(t+j)),((sx+ex)/2,0,z),None))
+ return root

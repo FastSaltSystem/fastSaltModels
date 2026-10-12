@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-12",
+  "decision": "D-038",
+  "parent_commit": "a99002f495b0c7b3c2b7acc1f7c52ecbb93414db",
+  "files": [
+    {
+      "path": "wistr-installation.blend",
+      "source": "outputs/installation-under-cover-bundles/wistr-installation.blend",
+      "bytes": 45263143,
+      "sha256": "bfa6e86c2fb3a810bc1e901092f8a9fb32b460998ee1a7e7c87fa5bab74440e7"
+    },
+    {
+      "path": "wistr-catwalk-draft.png",
+      "source": "outputs/installation-under-cover-bundles/wistr-catwalk-draft.png",
+      "bytes": 1365184,
+      "sha256": "17bea3ed2b43b6f9c9c7127edbeca800c8917b2c2617c0149cc8c7c11d92af43"
+    },
+    {
+      "path": "wistr-fuel-services-draft.png",
+      "source": "outputs/installation-under-cover-bundles/wistr-fuel-services-draft.png",
+      "bytes": 1276879,
+      "sha256": "0594e30110813d0b1541c832c9415be9717e653b6827daa5a0eaf58f7e8b4e98"
+    },
+    {
+      "path": "wistr-under-cover-detail.png",
+      "source": "outputs/installation-under-cover-bundles/wistr-under-cover-detail.png",
+      "bytes": 1448143,
+      "sha256": "cece2c8b029e5c94288ecdb21f29566e19f4a591b0de3737986dbdc7ba35ede1"
+    },
+    {
+      "path": "wistr-model-report.json",
+      "source": "outputs/installation-under-cover-bundles/wistr-model-report.json",
+      "bytes": 1751672,
+      "sha256": "e3960391c0293fc5e9dad20c5e2bd23ed7b5d81dbbd3296fa3ad1ef6a6585d3a"
+    }
+  ]
+}

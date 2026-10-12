@@ -56,7 +56,7 @@ def check_interference(layout, services):
     for o in bpy.context.scene.objects:
         if o.type=='CURVE' and (o.get('process_route') or o.name.startswith('connections.air.')):
             for s in o.data.splines:
-                D['routes'].append({'name':o.name,'process':bool(o.get('process_route')),'radius':o.data.bevel_depth,
+                D['routes'].append({'name':o.name,'process':bool(o.get('process_route')),'air_insulated':bool(o.get('air_insulated')),'radius':o.data.bevel_depth,
                     'points':[list(o.matrix_world @ Vector(p.co[:3])) for p in s.points]})
         if o.type=='MESH' and o.name.startswith('equipment.') and any(o.name.endswith('.'+t) for t in ['casing','closed_tank','closed_enclosure','deck','motor_envelope']):
             D['boxes'].append({'name':o.name,'matrix':[list(row) for row in o.matrix_world],'bounds':[list(q) for q in o.bound_box]})
@@ -64,7 +64,7 @@ def check_interference(layout, services):
      r['bounds']=bounds(r['points']);r['segs']=[(a,b,bounds([a,b])) for a,b in zip(r['points'],r['points'][1:])]
     results=[]
     for a,b in itertools.combinations(D['routes'],2):
-     if not a['process'] and not b['process']:continue
+     if not a['process'] and not b['process'] and not a['air_insulated'] and not b['air_insulated']:continue
      # Common-network branches intentionally meet their own headers/outlets.
      if a['name'].startswith('connections.secondary_headers.') and b['name'].startswith('connections.secondary_headers.') and a['name'].split('.')[-1].split('_')[0]==b['name'].split('.')[-1].split('_')[0]:continue
      rr=a['radius']+b['radius']
@@ -78,9 +78,13 @@ def check_interference(layout, services):
      if best[0]<rr+.1:results.append({'a':a['name'],'b':b['name'],'clearance':best[0]-rr,'p':best[1],'q':best[2]})
     obstacles=[]
     for a in D['routes']:
-     if not a['process']:continue
+     if not a['process'] and not a['air_insulated']:continue
      for box in D['boxes']:
       # Own equipment ports terminate on the physical envelope, checked separately.
+      if a['air_insulated']:
+       component=a['name'].split('.')[2]
+       own_air=component.replace('generator_','steam_generator_').replace('fuel_tank_','fuel_storage_')
+       if box['name'].startswith('equipment.'+own_air+'.'):continue
       own='connections.loop_' in a['name'] and a['name'].split('.')[1][-1]
       if own and box['name'].startswith(('equipment.coolant_pump_'+own+'.','equipment.steam_generator_'+own+'.')):continue
       if 'secondary_headers' in a['name'] and '_branch_' in a['name'] and box['name'].startswith('equipment.steam_generator_'+a['name'][-1]+'.'):continue
@@ -109,6 +113,6 @@ def check_interference(layout, services):
     services['interference_screen']={'process_route_count':sum(r['process'] for r in D['routes']),
         'equipment_boxes_checked':len(D['boxes']), 'unresolved_clashes':violations,
         'near_clearances':remaining+obstacles,'endpoint_overbounds':exceptions,
-        'scope':'Capsule centreline segments versus other process/air routes and selected equipment boxes; common-network junctions and own equipment attachments excluded; not a full plant clash or maintenance qualification'}
-    return ['Insulated process routes screened against other process/air routes and selected equipment envelopes; no unresolved clashes',
+        'scope':'Process and insulated hot-air capsule centreline segments versus other process/air routes and selected equipment boxes; common-network junctions and own equipment attachments excluded; not a full plant clash or maintenance qualification'}
+    return ['Insulated process and hot-air routes screened against other process/air routes and selected equipment envelopes; no unresolved clashes',
             'Three pump endpoint-sphere overbounds distinguished from disjoint side/bottom pipe mouth geometry']

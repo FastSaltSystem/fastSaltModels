@@ -513,3 +513,14 @@ the working manifest; use a full reactor build after changing air or vessel geom
 Current fitted mesh estimate: **2099 kg per cassette**, plus **298 kg** for all twelve thermal inserts. Additive volumes and provisional densities; unfinished details omitted.
 
 For section views, individual closed frame members remain separate instead of cutting an overlapping aggregate. Evaluated fitted-cover bounds were checked in the isolated and installed orientations to guard against Boolean artefacts.
+
+
+### Hot-air collector insulation allowance
+
+The working reactor now wraps the hot side plenum, sealed crossover and stub in
+100 mm provisional insulation with 1 mm metal cladding, coordinated with the
+[installation hot-air insulation](installation.md#hot-air-insulation-allowance--11-october-2026).
+The well/baffle openings accommodate the wrap while retaining the duct's flow
+opening. This is a visual allowance; cold-annulus obstruction, thermal bridges,
+heat loss and flow distribution require analysis. The committed 11 October
+checkpoint remains unchanged.

@@ -1,0 +1,786 @@
+{
+  "building": {
+    "length": 60.0,
+    "width": 40.0,
+    "height": 28.0,
+    "centre": [
+      -66.0,
+      0
+    ],
+    "pad_z": -9.1,
+    "upper_deck_z": 12,
+    "crane_underside_z": 25,
+    "minimum_DA_water_level_z": 14,
+    "electrical_annex": [
+      20,
+      10,
+      7
+    ],
+    "north_withdrawal_apron_m": 7,
+    "south_withdrawal_apron_m": 12
+  },
+  "items": [
+    {
+      "name": "C1",
+      "kind": "condenser",
+      "min": [
+        2,
+        17,
+        0.5
+      ],
+      "size": [
+        7,
+        16,
+        9
+      ]
+    },
+    {
+      "name": "C2",
+      "kind": "condenser",
+      "min": [
+        11,
+        17,
+        0.5
+      ],
+      "size": [
+        7,
+        16,
+        9
+      ]
+    },
+    {
+      "name": "C3",
+      "kind": "condenser",
+      "min": [
+        20,
+        17,
+        0.5
+      ],
+      "size": [
+        7,
+        16,
+        9
+      ]
+    },
+    {
+      "name": "RH1",
+      "kind": "reheater",
+      "min": [
+        37,
+        17,
+        0.5
+      ],
+      "size": [
+        3.25,
+        16,
+        3.25
+      ]
+    },
+    {
+      "name": "RH2",
+      "kind": "reheater",
+      "min": [
+        42.25,
+        17,
+        0.5
+      ],
+      "size": [
+        3.25,
+        16,
+        3.25
+      ]
+    },
+    {
+      "name": "RH3",
+      "kind": "reheater",
+      "min": [
+        47.5,
+        17,
+        0.5
+      ],
+      "size": [
+        3.25,
+        16,
+        3.25
+      ]
+    },
+    {
+      "name": "RH4",
+      "kind": "reheater",
+      "min": [
+        52.75,
+        17,
+        0.5
+      ],
+      "size": [
+        3.25,
+        16,
+        3.25
+      ]
+    },
+    {
+      "name": "LP1",
+      "kind": "heater",
+      "min": [
+        4.25,
+        7,
+        0.5
+      ],
+      "size": [
+        3.25,
+        7,
+        3.25
+      ]
+    },
+    {
+      "name": "LP2",
+      "kind": "heater",
+      "min": [
+        8.75,
+        7,
+        0.5
+      ],
+      "size": [
+        3.25,
+        7,
+        3.25
+      ]
+    },
+    {
+      "name": "LP3",
+      "kind": "heater",
+      "min": [
+        13.25,
+        7,
+        0.5
+      ],
+      "size": [
+        2.25,
+        7,
+        2.25
+      ]
+    },
+    {
+      "name": "HP1",
+      "kind": "heater",
+      "min": [
+        41,
+        6,
+        0.5
+      ],
+      "size": [
+        3.25,
+        8,
+        3.25
+      ]
+    },
+    {
+      "name": "HP2",
+      "kind": "heater",
+      "min": [
+        45.5,
+        6,
+        0.5
+      ],
+      "size": [
+        3.5,
+        8,
+        3.5
+      ]
+    },
+    {
+      "name": "HP3",
+      "kind": "heater",
+      "min": [
+        50,
+        4,
+        0.5
+      ],
+      "size": [
+        3.25,
+        10,
+        3.25
+      ]
+    },
+    {
+      "name": "HP4",
+      "kind": "heater",
+      "min": [
+        54.5,
+        2,
+        0.5
+      ],
+      "size": [
+        3.5,
+        12,
+        3.5
+      ]
+    },
+    {
+      "name": "BFP1",
+      "kind": "pump",
+      "min": [
+        18,
+        2,
+        0.5
+      ],
+      "size": [
+        4,
+        10,
+        4
+      ]
+    },
+    {
+      "name": "BFP2",
+      "kind": "pump",
+      "min": [
+        24,
+        2,
+        0.5
+      ],
+      "size": [
+        4,
+        10,
+        4
+      ]
+    },
+    {
+      "name": "BFP3",
+      "kind": "pump",
+      "min": [
+        30,
+        2,
+        0.5
+      ],
+      "size": [
+        4,
+        10,
+        4
+      ]
+    },
+    {
+      "name": "CEP1",
+      "kind": "pump",
+      "min": [
+        0.85,
+        10,
+        0.5
+      ],
+      "size": [
+        1.8,
+        4,
+        3
+      ]
+    },
+    {
+      "name": "CEP2",
+      "kind": "pump",
+      "min": [
+        0.85,
+        5.25,
+        0.5
+      ],
+      "size": [
+        1.8,
+        4,
+        3
+      ]
+    },
+    {
+      "name": "CEP3",
+      "kind": "pump",
+      "min": [
+        0.85,
+        0.5,
+        0.5
+      ],
+      "size": [
+        1.8,
+        4,
+        3
+      ]
+    },
+    {
+      "name": "IP turbine",
+      "kind": "turbine",
+      "min": [
+        44,
+        18,
+        12
+      ],
+      "size": [
+        6.5,
+        6,
+        6
+      ]
+    },
+    {
+      "name": "HP turbine",
+      "kind": "turbine",
+      "min": [
+        51.5,
+        18,
+        12
+      ],
+      "size": [
+        6.5,
+        6,
+        6
+      ]
+    },
+    {
+      "name": "550 MVA",
+      "kind": "generator",
+      "min": [
+        30,
+        18,
+        12
+      ],
+      "size": [
+        12,
+        6,
+        6
+      ]
+    },
+    {
+      "name": "LP casing 1",
+      "kind": "turbine",
+      "min": [
+        2,
+        26,
+        12
+      ],
+      "size": [
+        8,
+        8,
+        7
+      ]
+    },
+    {
+      "name": "LP casing 2",
+      "kind": "turbine",
+      "min": [
+        11,
+        26,
+        12
+      ],
+      "size": [
+        8,
+        8,
+        7
+      ]
+    },
+    {
+      "name": "LP casing 3",
+      "kind": "turbine",
+      "min": [
+        20,
+        26,
+        12
+      ],
+      "size": [
+        8,
+        8,
+        7
+      ]
+    },
+    {
+      "name": "350 MVA",
+      "kind": "generator",
+      "min": [
+        30,
+        27,
+        12
+      ],
+      "size": [
+        12,
+        6,
+        6
+      ]
+    },
+    {
+      "name": "DA1",
+      "kind": "storage",
+      "min": [
+        18,
+        4.5,
+        13.5
+      ],
+      "size": [
+        25,
+        4.5,
+        4.5
+      ]
+    },
+    {
+      "name": "DA2",
+      "kind": "storage",
+      "min": [
+        18,
+        10.5,
+        13.5
+      ],
+      "size": [
+        25,
+        4.5,
+        4.5
+      ]
+    },
+    {
+      "name": "BFP electrical annex",
+      "kind": "electrical",
+      "min": [
+        20,
+        -10,
+        0
+      ],
+      "size": [
+        20,
+        10,
+        7
+      ]
+    }
+  ],
+  "service": [
+    {
+      "name": "C1 pull",
+      "kind": "service",
+      "min": [
+        2,
+        33,
+        0.5
+      ],
+      "size": [
+        7,
+        13,
+        9
+      ]
+    },
+    {
+      "name": "C2 pull",
+      "kind": "service",
+      "min": [
+        11,
+        33,
+        0.5
+      ],
+      "size": [
+        7,
+        13,
+        9
+      ]
+    },
+    {
+      "name": "C3 pull",
+      "kind": "service",
+      "min": [
+        20,
+        33,
+        0.5
+      ],
+      "size": [
+        7,
+        13,
+        9
+      ]
+    },
+    {
+      "name": "RH1 pull",
+      "kind": "service",
+      "min": [
+        37,
+        33,
+        0.5
+      ],
+      "size": [
+        3.25,
+        13,
+        3.25
+      ]
+    },
+    {
+      "name": "RH2 pull",
+      "kind": "service",
+      "min": [
+        42.25,
+        33,
+        0.5
+      ],
+      "size": [
+        3.25,
+        13,
+        3.25
+      ]
+    },
+    {
+      "name": "RH3 pull",
+      "kind": "service",
+      "min": [
+        47.5,
+        33,
+        0.5
+      ],
+      "size": [
+        3.25,
+        13,
+        3.25
+      ]
+    },
+    {
+      "name": "RH4 pull",
+      "kind": "service",
+      "min": [
+        52.75,
+        33,
+        0.5
+      ],
+      "size": [
+        3.25,
+        13,
+        3.25
+      ]
+    },
+    {
+      "name": "LP1 pull",
+      "kind": "service",
+      "min": [
+        4.25,
+        1,
+        0.5
+      ],
+      "size": [
+        3.25,
+        6,
+        3.25
+      ]
+    },
+    {
+      "name": "LP2 pull",
+      "kind": "service",
+      "min": [
+        8.75,
+        1,
+        0.5
+      ],
+      "size": [
+        3.25,
+        6,
+        3.25
+      ]
+    },
+    {
+      "name": "LP3 pull",
+      "kind": "service",
+      "min": [
+        13.25,
+        1,
+        0.5
+      ],
+      "size": [
+        2.25,
+        6,
+        2.25
+      ]
+    },
+    {
+      "name": "HP1 pull",
+      "kind": "service",
+      "min": [
+        41,
+        -1,
+        0.5
+      ],
+      "size": [
+        3.25,
+        7,
+        3.25
+      ]
+    },
+    {
+      "name": "HP2 pull",
+      "kind": "service",
+      "min": [
+        45.5,
+        -1,
+        0.5
+      ],
+      "size": [
+        3.5,
+        7,
+        3.5
+      ]
+    },
+    {
+      "name": "HP3 pull",
+      "kind": "service",
+      "min": [
+        50,
+        -5,
+        0.5
+      ],
+      "size": [
+        3.25,
+        9,
+        3.25
+      ]
+    },
+    {
+      "name": "HP4 pull",
+      "kind": "service",
+      "min": [
+        54.5,
+        -9,
+        0.5
+      ],
+      "size": [
+        3.5,
+        11,
+        3.5
+      ]
+    },
+    {
+      "name": "Pump laydown",
+      "kind": "service",
+      "min": [
+        35.5,
+        2,
+        0.5
+      ],
+      "size": [
+        4,
+        10,
+        4
+      ]
+    },
+    {
+      "name": "BFP front access",
+      "kind": "service",
+      "min": [
+        18,
+        12,
+        0
+      ],
+      "size": [
+        21.5,
+        2,
+        5
+      ]
+    },
+    {
+      "name": "Cross aisle",
+      "kind": "service",
+      "min": [
+        0.5,
+        14,
+        0.0
+      ],
+      "size": [
+        59.0,
+        3,
+        5
+      ]
+    },
+    {
+      "name": "CEP access",
+      "kind": "service",
+      "min": [
+        2.65,
+        0.5,
+        0
+      ],
+      "size": [
+        1.2,
+        13.5,
+        5
+      ]
+    }
+  ],
+  "aprons": [
+    {
+      "name": "north_apron",
+      "min": [
+        0,
+        40
+      ],
+      "size": [
+        60.0,
+        7
+      ]
+    },
+    {
+      "name": "south_west_apron",
+      "min": [
+        0,
+        -12
+      ],
+      "size": [
+        18,
+        12
+      ]
+    },
+    {
+      "name": "south_east_apron",
+      "min": [
+        40,
+        -12
+      ],
+      "size": [
+        20.0,
+        12
+      ]
+    }
+  ],
+  "verification": {
+    "equipment_boxes": 30,
+    "reserved_service_boxes": 18,
+    "equipment_overlaps": [],
+    "old_envelope_violations": [
+      "C1",
+      "C2",
+      "C3",
+      "RH1",
+      "RH2",
+      "RH3",
+      "RH4",
+      "LP1",
+      "LP2",
+      "LP3",
+      "HP1",
+      "HP2",
+      "HP3",
+      "HP4",
+      "BFP1",
+      "BFP2",
+      "BFP3",
+      "CEP1",
+      "CEP2",
+      "CEP3",
+      "LP casing 1",
+      "LP casing 2",
+      "LP casing 3",
+      "350 MVA",
+      "DA1"
+    ],
+    "minimum_turbine_to_crane_vertical_clearance_m": 6,
+    "checks": [
+      "Rotated BFP envelopes retain size; 2 m between trains and reserved front-access strip",
+      "West-wall condensate pumps precede LP heaters with a reserved 1.2 m access strip",
+      "BFPs between LP and HP heater banks; reheaters grouped east; LP/condenser train west; generators aligned side by side; HP/IP east of its generator",
+      "External tube-pull footprints contained in reserved aprons",
+      "3D equipment non-overlap",
+      "reserved ground service and extraction volumes do not overlap equipment",
+      "all main-hall equipment clears inside wall planes",
+      "condenser-to-turbine separation >=2 m",
+      ">=5 m equipment-top clearance below reserved crane underside"
+    ],
+    "limitations": [
+      "Arbitrary equipment envelopes except tube packing; not vendor certified",
+      "Wall panels removed for tube extraction; panel structure/transport paths not designed",
+      "Foundations, columns, decks, stairs and full egress not modeled",
+      "Pipes, insulation, thermal expansion, valves and supports not routed",
+      "Crane capacity/reach and rotating-equipment rotor handling not verified",
+      "Auxiliary condenser/cooling-water equipment, final heat sink and electrical one-line incomplete",
+      "Larger rectangle is a workable reservation for this arrangement, not a minimum-building optimization"
+    ]
+  }
+}

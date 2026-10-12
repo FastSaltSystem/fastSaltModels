@@ -2,10 +2,230 @@
 
 [Repository overview](../README.md)
 
-Current working model: [42 m insulated-piping Blender draft](../outputs/installation-insulated/wistr-installation.blend).
+Current working model: [under-cover service-bundle draft](../outputs/installation-under-cover-bundles/wistr-installation.blend).
 The isolated reactor is imported at full scale from the current working model,
 with six insulation covers and side air plenums. The preserved 2026-10-08
 handling-and-plug baseline remains unchanged. Equipment and supports remain conceptual.
+
+Accepted checkpoint: [12 October service-bundle baseline](../baselines/wistr-service-bundles-2026-10-12/).
+
+## Under-cover service bundles and lower catwalk — 12 October 2026
+
+D-038 supersedes D-037's raised service boxes and routing elevations. Twelve
+reservoirs and twelve independent modules remain. Only the 50 mm absorber salt
+drains are heat traced; their paired 25 mm gas lines share compact insulation.
+Tank-top gas connections are insulated without separate heat tracing. Six heated,
+insulated maintenance bundles each contain three independent 25/50 mm pairs.
+Heater tape adds no separate bulky enclosure. Bundle insulation is a provisional
+50 mm allowance; reservoir insulation remains 100 mm with 1 mm cladding.
+
+The catwalk is **1.10 m lower**, at **Z=−0.60 m**. Reservoir bottoms are at
+Z=−0.05 m, giving **1.60 m fall** to the spider stubs. External salt drains have
+no uphill sections; inherited internal paths retain their horizontal portions.
+This checks geometry, not drain time or a qualified operating procedure.
+
+Connected bundles run beneath the six insulation cassettes in **open-bottom
+channels**. The covers can lift before cap-side tubing is disconnected. Local
+raised insulation strips restore the nominal 512 mm insulation depth above the
+channels: the channel roof is 480 mm above the cover base, leaving 32 mm of the
+original blocks, with 480 mm added above locally. Header members and channel-edge
+webs provide a conceptual load path around interrupted lower grids. Cover pickup
+stems and guides extend upward 550 mm to clear those strips. These changes need
+new mass, structural and thermal assessments; earlier standalone cover results
+do not qualify this revision. Pressure caps, vessel and tube plugs are unchanged.
+
+Checks cover all 72 individual external service tubes, continuous drain geometry,
+selected bundle/frame/process/air surface intersections, and five sampled vertical
+positions of a representative cover against connected tubing and jackets. They
+are selective geometric checks, not a continuous crane sweep or maintenance
+procedure validation. Remote connectors, tube supports, expansion accommodation,
+heater duty and controls remain to develop.
+
+This revision is applied to the installation's imported cassette copies. The
+isolated reactor, standalone cover study and site composition remain earlier
+snapshots until explicitly refreshed.
+
+[Blender scene](../outputs/installation-under-cover-bundles/wistr-installation.blend) ·
+[Catwalk draft](../outputs/installation-under-cover-bundles/wistr-catwalk-draft.png) ·
+[Maintenance bundles](../outputs/installation-under-cover-bundles/wistr-fuel-services-draft.png) ·
+[Covers hidden for inspection](../outputs/installation-under-cover-bundles/wistr-under-cover-detail.png) ·
+[Geometry report](../outputs/installation-under-cover-bundles/wistr-model-report.json).
+Build with `--draft --output outputs/installation-under-cover-bundles --views catwalk fuel-services`.
+Render the inspection view with `blender --background --python scripts/render_under_cover_bundles.py`.
+
+## Paired absorber reservoirs and raised catwalk — 12 October 2026
+
+D-037 provides two independent reservoir/module stations for each absorber:
+12 new heated salt-reservoir envelopes and 12 existing-style control modules.
+The centre and outer spider pairs remain separate. Each 50 mm spider tube now
+connects to its own reservoir bottom. Each 25 mm spider tube connects directly
+to its own module, which also receives a new 25 mm line from the reservoir top.
+There are 24 spider connections and 12 additional tank-top connections.
+
+The catwalk rises **1.70 m**, from Z=−1.20 to **+0.50 m**, and its outer radius
+increases from 7.15 to **7.35 m**. The inner radius remains 4.95 m. Tanks and
+modules sit at radius 6.60 m: reservoirs at ±5° and modules at ±15° from each
+absorber direction. The seats retain a **1.09 m inner walking band**. Access
+stairs, structural sizes and handling sweeps remain to design.
+
+Reservoir bottoms sit 0.55 m above the deck, at Z=1.05 m. External drain tubes
+fall continuously to actual spider stubs at Z≈−1.65 m: **2.70 m total fall**.
+The sloping under-deck runs connect approximate control elevations −0.45 m
+outboard and −0.75 m inboard, before turning down. Small control lines fan out
+farther outward to avoid the existing fuel-service routes. The existing internal
+50 mm tube centrelines are checked for no upward step toward the absorber;
+their horizontal portions remain horizontal. This is a geometric drainage
+check, not a drain-time or pressure/gas-management calculation.
+
+New reservoir sizing is deliberately provisional: the draft reuses the module's
+**0.80635 m diameter × 1.25992 m height** (0.64340 m³ gross envelope). It does not
+establish the necessary absorber inventory or usable tank capacity. Existing
+module tanks retain those dimensions as well. New reservoirs show electric
+heater bands beneath **100 mm insulation and 1 mm cladding**, with heater
+terminal boxes. These are visualization allowances, not thermal sizing results.
+Separate service-line insulation uses a provisional **50 mm radial allowance**;
+the close-pitch spider bundle uses a common removable insulated enclosure.
+That enclosure sits over the spider service insert; the main sector insulation
+cassettes and pressure parts are unchanged. Remove the enclosure and jumpers
+before lifting covers or the spider. Heating duty, controls, final connections,
+pipe supports and thermal expansion remain to develop.
+
+The updated checks cover independent station connectivity, actual spider
+endpoints, sampled rounded drain paths, separated pipe-jacket clearance,
+selected catwalk frame/equipment/process/air envelopes, and the existing 36
+fuel-service lines against the new insulated routes. They do not establish a
+complete maintenance sweep or engineering qualification.
+
+[Installation Blender scene](../outputs/installation-absorber-reservoirs/wistr-installation.blend) ·
+[Catwalk draft](../outputs/installation-absorber-reservoirs/wistr-catwalk-draft.png) ·
+[Fuel-service context](../outputs/installation-absorber-reservoirs/wistr-fuel-services-draft.png) ·
+[Geometry report](../outputs/installation-absorber-reservoirs/wistr-model-report.json).
+Build with `--draft --output outputs/installation-absorber-reservoirs --views catwalk fuel-services`.
+[Paired-station cutaway](../outputs/installation-absorber-reservoirs/wistr-absorber-detail.png)
+shows the drain routes with the walkway and common covers removed, and one tank
+jacket removed to expose its heater bands. Reproduce with
+`blender --background --python scripts/render_absorber_detail.py`; this also sets
+the complete installation scene to open on the catwalk overview.
+
+Earlier installation and site snapshots are preserved; the site composition is
+not refreshed automatically.
+
+## Doubled absorber-tank volume — 12 October 2026
+
+D-036 doubles the geometric volume of all six cylindrical tanks on the absorber
+modules. Uniform linear scaling by **2^(1/3) = 1.259921** preserves their aspect
+ratio: diameter **0.640 → 0.80635 m**, cylinder height **1.000 → 1.25992 m**.
+Nominal cylindrical envelope volume is **0.32170 → 0.64340 m³ per tank**. Usable
+salt capacity still depends on the eventual wall, internals and fill allowance.
+The edge bevel scales by the same factor.
+
+The tanks retain their bottom elevation and pipe connections. Control boxes and
+front panels rise **259.9 mm**, keeping their previous dimensions. The wider
+tanks fit the existing module footprint and bearing pads, so catwalk dimensions
+and routing are retained. The outer guardrail has about **122 mm** radial
+clearance from each tank envelope; module loads/support ratings remain to size.
+
+[Revised close-up](../outputs/installation-absorber-tanks-v2/wistr-catwalk-draft.png) ·
+[Fuel-service context](../outputs/installation-absorber-tanks-v2/wistr-fuel-services-draft.png) ·
+[Dimensions and checks](../outputs/installation-absorber-tanks-v2/wistr-model-report.json).
+Build with `--draft --output outputs/installation-absorber-tanks-v2 --views catwalk fuel-services`.
+Earlier catwalk and fuel-service snapshots are preserved.
+
+## Sector-to-maintenance-tank connections — 12 October 2026
+
+D-035 adds **36 external tubes**, keeping all three 25/50 mm pairs on each sector
+separate and assigning one maintenance tank to each sector. This is a provisional
+layout assignment, not a transfer procedure or tank-internal design:
+
+| Sector | Maintenance tank |
+| --- | --- |
+| 1 | 6 |
+| 2 | 1 |
+| 3 | 2 |
+| 4 | 3 |
+| 5 | 4 |
+| 6 | 5 |
+
+Each route starts at the actual imported sector plug stub. The tubes rise through
+six-hole passages in the existing core-service insulation inserts, turn outward,
+drop inside the catwalk and sweep beneath the deck before approaching six separate
+roof nozzles on the corresponding tank's reactor-facing end. The two tube sizes
+run at separate elevations to avoid crossings; their 2 mm walls remain inherited
+visual assumptions. Magenta identifies 25 mm tubes, copper 50 mm tubes; colors do
+not establish flow direction. No common fuel manifold is introduced.
+
+Visible union allowances mark disconnects at the plug, outside the insulation
+cover and at the tank. Remove the cap-side jumpers before handling insulation,
+sector caps or core sectors. The core-service inserts have six bores and the tank
+lids have matching six-port passages; the tank bodies remain closed envelopes.
+Valve selection, remote connector details, tube heating/insulation, supports,
+drainability and maintenance sweeps remain to develop.
+
+- [Service-routing view](../outputs/installation-fuel-services/wistr-fuel-services-draft.png)
+- [Full installation](../outputs/installation-fuel-services/wistr-equipment-draft.png)
+- [Blender model](../outputs/installation-fuel-services/wistr-installation.blend)
+- [Route coordinates, assignments and checks](../outputs/installation-fuel-services/wistr-model-report.json)
+
+The saved model opens on the service-routing camera with the reactor, catwalk,
+six tanks and connecting tubes visible. Remote equipment is hidden for clarity.
+The full installation render retains that surrounding equipment. The previous
+catwalk-only model and all site snapshots remain preserved; the site composition
+has not yet been refreshed with this installation revision.
+
+Verification: 36 unique source ports, six distinct tank assignments and retained
+25/50 mm ODs pass. Static checks found no intersections with the other new fuel
+lines, absorber routes, existing process/air pipes, catwalk rails, selected frame
+members and equipment boxes. The closest screened bare-tube gap is about 20 mm;
+this is not an insulation or thermal-movement allowance. Full cover/sector
+removal sweeps and pipe-support design remain open.
+
+Implementation: `src/textual_graphics/installation_fuel_services.py`; parameters:
+`FUEL_SERVICES` in `models/wistr_installation.py`. Build using `--draft --output
+outputs/installation-fuel-services --views fuel-services equipment`.
+
+## Reactor catwalk and absorber connections — 12 October 2026
+
+The owner requested expanded-metal access around the vessel top and approved
+one absorber module opposite each absorber, replacing the three paired stands.
+The new shared annular frame is independent of the vessel pressure boundary.
+
+- Deck radii **4.95–7.15 m**, nominal width **2.20 m**, walking surface Z=**−1.20 m**.
+  This sits 0.82 m above the vessel rim, clearing the large hot coolant pipes and
+  side air collector boxes. Inner/outer guardrails are local to this catwalk;
+  building-circumference railings remain absent.
+- Six modules at radius **6.60 m**, angles **45°, 105°, 165°, 225°, 285°, 345°**,
+  numbered to match absorbers 1–6. Dedicated bearing pads and beams carry the
+  modules, leaving approximately **1.16 m** clear inside the seat plates.
+- Open diamond-lattice panels represent expanded metal. Ring beams, radial
+  joists, twelve columns and knee braces are provisional visual sections.
+  Equipment weight, deck rating, structural loads and connections are not sized.
+- Each absorber retains **two 25 mm and two 50 mm OD tubes**, with the existing
+  illustrative 2 mm wall. All **24** external lines start at the imported stubs'
+  exact coordinates. Each bundle rises through its insulation insert, turns
+  outward, drops just inside the catwalk, runs below the deck and enters the base
+  of its corresponding module. Walking surfaces remain free of cross-piping.
+- Visible union envelopes identify removable spider-side jumpers. Disconnect
+  these before lifting the inserts/covers or spider. The absorber thermal inserts
+  receive bored service passages; core-service inserts remain as before. Detailed
+  remote connectors, tube supports, heat tracing and insulation remain to design.
+- Access stair/egress, complete crane sweeps and structural qualification remain
+  open. This draft establishes arrangement and connectivity, not operating approval.
+
+[Close-up](../outputs/installation-catwalk/wistr-catwalk-draft.png) ·
+[Installation view](../outputs/installation-catwalk/wistr-equipment-draft.png) ·
+[Model/check report](../outputs/installation-catwalk/wistr-model-report.json).
+The saved model opens on the close-up; surrounding installation equipment is
+hidden in that view. The equipment camera/build view shows the complete arrangement.
+The earlier `installation-insulated` and `site-45-bends` snapshots are preserved;
+the site snapshot has not yet been regenerated with this reactor-building revision.
+
+Verification: all 24 stub endpoints and tube sizes match; selected tube/column
+checks against existing process and air routes pass. Same-bundle tubes retain at
+least 22.5 mm nominal surface separation (before coupling allowances). The
+installation equipment counts and existing selected interference checks also pass.
+
+Builder module: `src/textual_graphics/installation_catwalk.py`. Build with
+`--draft --output outputs/installation-catwalk --views catwalk equipment`.
 
 ## Build and view
 
@@ -368,3 +588,47 @@ and other air branches. Existing process-route checks also screen its clearance
 to insulated process piping. This is geometry verification, not airflow sizing.
 
 The revised-route check found 0.500 m floor clearance and a minimum 0.266 m clearance to the fourth fuel-storage tank envelope. No clashes were found in the selected equipment, air-route and process-route checks.
+
+
+## Hot-air insulation allowance — 11 October 2026
+
+The working model adds a **provisional 100 mm insulation layer and 1 mm metal
+cladding** to all ten equipment hot-air branches, the stack connector and stack
+barrel. The reactor's hot side collector, wall crossover and stub use the same
+allowance in the isolated reactor and imported installation. The lower fresh-air
+route is retained. The shared values live in `models/wistr_air_insulation.py`.
+
+The duct branches have separate hollow metal, insulation and cladding meshes;
+the illustrative branch sheet wall is 3 mm. Existing reactor-stub dimensions
+remain unchanged. The insulation sits outside the nominal duct dimensions, and
+hidden route guides use the complete jacket diameter for interference checks.
+The stack retains its schematic internal representation. Valve mechanisms,
+removable insulation blankets at actuators, support thermal bridges, expansion
+joints and detailed jacket seams remain to design.
+
+The upper concrete manifold has a liner on all four internal faces. It grows
+202 mm radially outward and 404 mm in total height, providing a 2.500 m clear
+radial width and 2.702 m clear height after lining. Its 2.602 m jacketed stack
+connection fits within that height. Hot risers are adjusted for the larger
+jackets; the two exhaust branches beside the sector-storage enclosure first rise
+above it before reaching the wall. The earlier accepted checkpoint is unchanged.
+
+This is an envelope allowance, **not a calculated insulation requirement**. Hot-air
+normal/transient temperatures, ambient conditions, allowable surface temperature,
+insulation material properties, heat loss and natural-draft performance are still
+needed before selecting a thickness. No new thermal result is claimed.
+
+Build the reactor with `scripts/build_reactor.py` and the installation with
+`scripts/build_wistr.py`. To add this allowance once to a pre-existing working
+reactor, `scripts/refresh_reactor_air_insulation.py` preserves its other geometry,
+checks the air system and refreshes the source manifest. Subsequent allowance
+changes require a full reactor rebuild.
+
+Validation of this draft: eleven insulated route guides (ten equipment branches plus the stack connector), all three branch layers and bend envelopes passed checks. Expanded process/hot-air route and selected equipment-envelope checks found no unresolved clashes. The reactor insulation meshes passed closed-mesh and selected coolant-nozzle clearance checks. Junction blankets and cladding around flanges/actuators still need detailing.
+
+
+## External site context — 11 October 2026
+
+The separate [site study](site-study.md) places provisional turbine and fuel-preparation
+buildings around this installation, retaining its current geometry and secondary
+pipe interfaces. The installation source remains the detailed component-level view.

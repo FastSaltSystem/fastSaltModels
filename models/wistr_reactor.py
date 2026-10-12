@@ -97,7 +97,10 @@ SEPARATOR_SUPPORTS = {
     "link_clearance": .03,
     "inlet_clearance": .03,
 }
+from wistr_air_insulation import AIR_INSULATION
+
 AIR_SYSTEM = {
+    "insulation": AIR_INSULATION,
     "skin": .008, "duct_diameter": 2.0, "duct_wall": .02,
     "hot_angle": 90.0, "cold_angle": 210.0,
 }

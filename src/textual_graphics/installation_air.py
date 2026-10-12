@@ -3,6 +3,7 @@ import json
 import math
 import bpy
 from mathutils import Vector
+from .air_insulation import insulated_air_route,materials,tag
 
 
 def polar(radius,angle,z):
@@ -12,6 +13,8 @@ def polar(radius,angle,z):
 
 def air_networks(b,layout,repo):
     p=layout.AIR
+    materials(b)
+    spec=p['insulation'];ins=spec['thickness'];jacket=spec['cladding']
     root=b.assembly('connections.air','Air distribution')
     result={'scope':'Provisional cooling-air routing envelopes; no airflow or heat-removal validation',
             'branches':[], 'reactor_stub_ports':{},
@@ -21,28 +24,45 @@ def air_networks(b,layout,repo):
     result['ring_sections']={}
     inner=p['concrete_inner_radius'];outer=p['concrete_outer_radius'];skin=p['concrete_skin']
     rings={}
+    liners={}
     half_gap=math.degrees(math.asin(layout.ACCESS['ring_gap_width']/2/inner))
     gap=(layout.ACCESS['angle']-half_gap,layout.ACCESS['angle']+half_gap)
     result['fresh_access_gap_degrees']=list(gap)
     for kind in ('hot','fresh'):
-        z=p[kind+'_z'];bottom=z-p['concrete_height']/2;top=z+p['concrete_height']/2
-        result['ring_sections'][kind]={'inner_radius':inner,'outer_radius':outer,
+        ring_outer=outer+2*(ins+jacket) if kind=='hot' else outer
+        ring_height=p['concrete_height']+4*(ins+jacket) if kind=='hot' else p['concrete_height']
+        z=p[kind+'_z'];bottom=z-ring_height/2;top=z+ring_height/2
+        result['ring_sections'][kind]={'inner_radius':inner,'outer_radius':ring_outer,
             'bottom':bottom,'top':top,'skin':skin,
-            'clear_width':outer-inner-2*skin,'clear_height':p['concrete_height']-2*skin}
+            'clear_width':ring_outer-inner-2*skin,'clear_height':ring_height-2*skin}
         rings[kind]={part:[] for part in ('floor','roof','inner_web','outer_web')}
         segments=[(False,0,180),(True,180,360)] if kind=='hot' else [(False,0,gap[0]),(False,gap[1],180),(True,180,360)]
         for front,start,end in segments:
-            for name,ri,ro,z0,z1 in [('floor',inner,outer,bottom,bottom+skin),
-                                    ('roof',inner,outer,top-skin,top),
+            for name,ri,ro,z0,z1 in [('floor',inner,ring_outer,bottom,bottom+skin),
+                                    ('roof',inner,ring_outer,top-skin,top),
                                     ('inner_web',inner,inner+skin,bottom+skin,top-skin),
-                                    ('outer_web',outer-skin,outer,bottom+skin,top-skin)]:
+                                    ('outer_web',ring_outer-skin,ring_outer,bottom+skin,top-skin)]:
                 obj=b.annulus(f'{kind}_plenum.{name}.{start}',root,ri,ro,z0,z1,
                               'concrete',start=start,end=end,steps=128)
                 obj['air_plenum_part']=True;obj['air_plenum_service']=kind
                 obj['air_plenum_front']=front;obj['air_plenum_lid']=name=='roof'
                 rings[kind][name].append(obj)
+            if kind=='hot':
+                liners.setdefault(kind,{part:[] for part in ('floor','roof','inner_web','outer_web')})
+                # Insulate the hot-air face of the concrete ring, preserving its clear width with a small outward/height allowance.
+                ri=inner+skin;ro=ring_outer-skin;z0=bottom+skin;z1=top-skin
+                layers=[('insulation',ins,0,'air_insulation'),('cladding',jacket,ins,'air_cladding')]
+                for layer,t,offset,mat in layers:
+                    for part,a,c,low,high in [
+                        ('floor',ri,ro,z0+offset,z0+offset+t),
+                        ('roof',ri,ro,z1-offset-t,z1-offset),
+                        ('inner_web',ri+offset,ri+offset+t,z0+ins+jacket,z1-ins-jacket),
+                        ('outer_web',ro-offset-t,ro-offset,z0+ins+jacket,z1-ins-jacket)]:
+                        obj=tag(b.annulus(f'hot_plenum.{layer}.{part}.{start}',root,a,c,low,high,mat,start=start,end=end,steps=128),spec,layer)
+                        obj['air_plenum_part']=True;obj['air_plenum_service']='hot';obj['air_plenum_front']=front;obj['air_plenum_lid']=part=='roof'
+                        liners[kind][part].append(obj)
             # Thin colored floor finish identifies each air passage in the open-top views.
-            obj=b.annulus(f'{kind}_plenum.color_key.{start}',root,inner+skin,outer-skin,
+            obj=b.annulus(f'{kind}_plenum.color_key.{start}',root,inner+skin,ring_outer-skin,
                           bottom+skin+.005,bottom+skin+.015,
                           'exhaust_air' if kind=='hot' else 'fresh_air',start=start,end=end,steps=128)
             obj['air_plenum_part']=True;obj['air_plenum_service']=kind
@@ -57,22 +77,27 @@ def air_networks(b,layout,repo):
         cap['air_plenum_part']=True;cap['air_plenum_service']='fresh';cap['air_plenum_front']=False
 
     def branch(component,kind,points,diameter):
-        obj=b.rounded_pipe(component+'.'+kind,root,points,diameter/2,
-                           'exhaust_air' if kind=='hot' else 'fresh_air',bend=1.1)
+        obj=(insulated_air_route(b,component+'.'+kind,root,points,diameter,spec) if kind=='hot'
+             else b.rounded_pipe(component+'.'+kind,root,points,diameter/2,'fresh_air',bend=1.1))
         obj.data.use_fill_caps=False  # Open duct mouths inside the hollow plenum.
         obj['service']='Cooling exhaust air' if kind=='hot' else 'Fresh cooling air'
         obj['flow_direction']='equipment to header' if kind=='hot' else 'header to equipment'
         obj['scope']='Provisional external cooling connection; not a process-fluid nozzle'
         result['branches'].append({'component':component,'service':kind,'object':obj.name,
-                                   'diameter':diameter,'points':[list(q) for q in points]})
+                                   'diameter':diameter,'outside_diameter':diameter+2*(ins+jacket) if kind=='hot' else diameter,'points':[list(q) for q in points]})
         return obj
 
     def equipment_branches(component,hot_port,fresh_port,hot_diameter,fresh_diameter,roof_outlet=False,fresh_lead=None):
         angle=math.degrees(math.atan2(hot_port[1],hot_port[0]))
-        wall=polar(p['hot_inside_riser_radius'],angle,hot_port[2])
-        rise=polar(p['hot_inside_riser_radius'],angle,p['hot_z'])
+        riser_radius=p['fuel_hot_riser_radius'] if component.startswith('fuel_tank_') else p['hot_inside_riser_radius']
+        wall=polar(riser_radius,angle,hot_port[2])
+        rise=polar(riser_radius,angle,p['hot_z'])
         if roof_outlet:
             hot_points=[hot_port,(hot_port[0],hot_port[1],p['hot_z']),rise,polar(p['hot_radius'],angle,p['hot_z'])]
+        elif component in ('fuel_tank_5','fuel_tank_6'):
+            lead=Vector(hot_port)+Vector(polar(.9,angle,0))
+            cross=p['fuel_storage_cross_z']
+            hot_points=[hot_port,tuple(lead),(lead.x,lead.y,cross),(wall[0],wall[1],cross),rise,polar(p['hot_radius'],angle,p['hot_z'])]
         else:
             hot_points=[hot_port,wall,rise,polar(p['hot_radius'],angle,p['hot_z'])]
         branch(component,'hot',hot_points,hot_diameter)
@@ -126,7 +151,7 @@ def air_networks(b,layout,repo):
     stack_angle=layout.STACKS['angles'][0]
     exhaust=[polar(p['hot_radius'],stack_angle,p['hot_z']),
              polar(layout.STACKS['radius'],stack_angle,p['hot_z'])]
-    b.tube('stack_connection',root,exhaust,p['hot_diameter']/2,'exhaust_air').data.use_fill_caps=False
+    insulated_air_route(b,'stack_connection',root,exhaust,p['hot_diameter'],spec,rounded=False)
     result['stack_connection']=[list(q) for q in exhaust]
     intake=[polar(p['fresh_radius'],p['intake_angle'],p['fresh_z']),
             polar(p['intake_radius'],p['intake_angle'],p['fresh_z'])]
@@ -159,10 +184,12 @@ def air_networks(b,layout,repo):
         kind=route['service'];points=route['points'];diameter=route['diameter']
         angle=math.degrees(math.atan2(points[-1][1],points[-1][0]))%360
         targets=rings[kind]['inner_web']+([shell] if 0<angle<180 else [])
-        opening(targets,angle,p[kind+'_z'],diameter,inner)
+        if kind=='hot':targets+=liners[kind]['inner_web']
+        opening(targets,angle,p[kind+'_z'],route['outside_diameter'],inner)
         route['wall_penetration']=list(polar(inner-layout.BUILDING['wall_thickness']/2,angle,p[kind+'_z']))
-    opening(rings['hot']['outer_web'],stack_angle,p['hot_z'],p['hot_diameter'],outer-skin/2)
+    opening(rings['hot']['outer_web']+liners['hot']['outer_web'],stack_angle,p['hot_z'],p['hot_diameter']+2*(ins+jacket),outer+2*(ins+jacket)-skin/2)
     opening(rings['fresh']['outer_web'],p['intake_angle'],p['fresh_z'],p['fresh_diameter'],outer-skin/2)
+    result['hot_air_insulation']=dict(spec,insulated_branch_count=10,stack_connector=True,concrete_ring_internal_lining=True,ring_clear_width=outer-inner-2*skin,ring_clear_height=p['concrete_height']-2*skin+2*(ins+jacket))
     return result
 
 
@@ -229,14 +256,15 @@ def check_air_networks(b,layout,air):
     crane_bottom=layout.CRANE['runway_height']-.3
     assert air['ring_sections']['hot']['top']<crane_bottom
     for route in air['branches']:
-        points=route['points'];half=route['diameter']/2;kind=route['service']
+        points=route['points'];half=route['outside_diameter']/2;kind=route['service']
         inner_wall=layout.BUILDING['diameter']/2-layout.BUILDING['wall_thickness']
         assert all(math.hypot(*q[:2])+half<inner_wall for q in points[:-1]), route['component']
         assert abs(points[-2][2]-points[-1][2])<1e-6
         assert abs(route['wall_penetration'][2]-p[kind+'_z'])<1e-6
         section=air['ring_sections'][kind]
-        assert section['bottom']+section['skin']<points[-1][2]-half
-        assert section['top']-section['skin']>points[-1][2]+half
+        lining=sum(p['insulation'][k] for k in ('thickness','cladding')) if kind=='hot' else 0
+        assert section['bottom']+section['skin']+lining<points[-1][2]-half
+        assert section['top']-section['skin']-lining>points[-1][2]+half
     assert p['reactor_hot_cross_z']-1.0>layout.GENERATOR_TOP_Z
     assert p['reactor_hot_cross_z']+1.0<layout.CRANE['runway_height']-.3
     assert p['fresh_inside_riser_radius']-.35>layout.SECONDARY['header_radius']+layout.SECONDARY['water_header_diameter']/2
@@ -246,6 +274,7 @@ def check_air_networks(b,layout,air):
                                       'reactor_hot_cross_above_generator_m':p['reactor_hot_cross_z']-1-layout.GENERATOR_TOP_Z,
                                       'reactor_hot_cross_below_crane_m':layout.CRANE['runway_height']-.3-p['reactor_hot_cross_z']-1}
     air['reactor_floor_supply_check']=check_floor_supply(layout)
+    air['hot_air_insulation_check']=check_hot_insulation(layout)
     return ['Reactor fresh-air branch follows the floor with one rise at the reactor; equipment and air-route clearances checked',
             'Three fresh-air inlets on perpendicular side faces with normal approaches, away from pumps',
             'Three generator exhaust ducts start vertically from roof-mounted butterfly-valve boxes',
@@ -279,3 +308,24 @@ def check_floor_supply(layout):
     assert all(gap>=-.001 for gap,name in clearances),sorted(clearances)[:8]
     return {'floor_clearance_m':floor_gap,'nearest_envelopes':[{'clearance_m':gap,'object':name} for gap,name in sorted(clearances)[:5]],
             'scope':'Duct centreline capsules versus oriented equipment boxes and other air routes; process routes screened separately; supports and airflow not sized'}
+
+
+def check_hot_insulation(layout):
+    p=layout.AIR;spec=p['insulation']
+    routes=[o for o in bpy.context.scene.objects if o.get('air_insulated')]
+    assert len(routes)==11,len(routes)
+    for guide in routes:
+        radius=guide['bare_diameter_m']/2
+        assert abs(guide.data.bevel_depth-radius-spec['thickness']-spec['cladding'])<1e-6
+        assert guide['minimum_bend_radius_m']>guide.data.bevel_depth
+        for name,thickness in [('metal',spec['branch_wall']),('insulation',spec['thickness']),('cladding',spec['cladding'])]:
+            obj=bpy.data.objects[guide.name+'.'+name]
+            assert abs(obj['radial_thickness_m']-thickness)<1e-7
+    assert bpy.data.objects.get('reactor.hot_air_insulation.plenum_insulation')
+    assert bpy.data.objects.get('reactor.hot_air_insulation.stub_insulation')
+    assert bpy.data.objects.get('building.stack_1.insulation')
+    for part in ('floor','roof','inner_web','outer_web'):
+        assert bpy.data.objects.get('connections.air.hot_plenum.insulation.'+part+'.0')
+    return {'insulated_routes':len(routes),'radial_insulation_m':spec['thickness'],'cladding_m':spec['cladding'],
+            'reactor_hot_collector':True,'hot_concrete_ring_lined':True,'stack_barrel_wrapped':True,
+            'scope':'Geometric layer thicknesses, bend envelopes and coverage; no thermal qualification'}
