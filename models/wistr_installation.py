@@ -5,6 +5,8 @@ Keep stated dimensions distinct from illustrative choices when revising this fil
 Z is up; plan +Y points toward the top of the source drawing.
 """
 
+from textual_graphics.shared_coolant import ENGINEERING, coolant as shared_coolant
+
 FLOOR_Z = -9.1  # Top of the existing sub-floor slab; old deck datum remains Z=0.
 
 BUILDING = {
@@ -74,9 +76,9 @@ MAINTENANCE = {
     "scope": "Provisional handling envelopes; platform loads, canister shielding/cooling, cart capacity and lifting procedure unresolved",
 }
 # Hurmet calculation cases; bore / nominal metal wall / radial insulation in metres.
+COOLANT_LEG_TAGS = ("SG-101", "SG-102", "SG-103")  # identity order for 180, 60, 300 degree placements
 PIPE_SPECS = {
-    "hot": {"bore": 1.425, "wall": .025, "insulation": .400},
-    "cold": {"bore": 1.425, "wall": .025, "insulation": .350},
+    **shared_coolant.pipe_specs(ENGINEERING),
     "steam_branch": {"bore": .425, "wall": .115, "insulation": .350},
     "steam_header": {"bore": .725, "wall": .195, "insulation": .350},
     "water_branch": {"bore": .375, "wall": .075, "insulation": .175},
@@ -105,7 +107,7 @@ BUILDING["total_height"] = (CRANE["runway_height"] + CRANE["wall_top_above_runwa
 # Manifold elevations below are relative to casing bottom.
 MANIFOLDS = {"collector_scale": 1.5, "side_offset": 3.4, "half_length": 1.4,
              "hot_z": 15.5, "cold_z": 1.9, "steam_z": 15.5, "water_z": 3.5,
-             "salt_diameter": 1.475, "steam_diameter": .655, "water_diameter": .525,
+             "salt_diameter": PIPE_SPECS["hot"]["bare_od"], "steam_diameter": .655, "water_diameter": .525,
              "collector_bare_diameters": {"hot": 2.1, "cold": 2.1, "steam": 1.2, "water": .75}}
 SECONDARY = {"header_radius": 18.5, "exit_radius": 26.0, "exit_angle": 200.0,
              "steam_header_diameter": 1.815, "water_header_diameter": 1.240,
@@ -113,10 +115,7 @@ SECONDARY = {"header_radius": 18.5, "exit_radius": 26.0, "exit_angle": 200.0,
 PUMPS = {"count": 3, "local_position": (13.0, -6.0, FLOOR_Z + 4.51),
          "casing_diameter": 2.8, "casing_height": 1.8,
          "motor_width": 2.8, "motor_depth": 2.4, "motor_height": 3.2, "motor_bottom": FLOOR_Z + 5.9,
-         "mass_flow_kg_s": 7566.47718, "density_kg_m3": 1637.93125,
-         "sg_pressure_drop_pa": 190872.791, "allowance_factor": 1.5,
-         "pump_efficiency": .8, "motor_efficiency": .96,
-         "motor_rating_kw": 2000.0,
+         **shared_coolant.pump_inputs(ENGINEERING),
          "suction_run_z": FLOOR_Z + 1.9,
          "worksheet": "../fastSalt/calculations/steam-generator/Coolant pump estimate - Hurmet.md"}
 # Double tank volume with uniform linear scaling; retain the control-box size.

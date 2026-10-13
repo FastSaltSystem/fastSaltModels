@@ -84,14 +84,23 @@ def reactor_foundation(b,integration):
     assert abs(integration['well_floor_bottom']-bottom)<1e-6
 
 
-def steam_generator(b,index,angle):
-    p=layout.STEAM_GENERATORS
-    root=b.assembly(f'equipment.steam_generator_{index}','Steam generators',(*xy(p['radius'],angle),p['casing_bottom']),angle+p['rotation_offset'])
+def steam_generator(b,index,angle,resolved=None):
+    from textual_graphics.coolant_scene import yaw
+    c=resolved['components'][f'leg_{index}.generator'] if resolved else None
+    p=c['parameters']['generator'] if c else layout.STEAM_GENERATORS
+    m=c['parameters']['manifolds'] if c else layout.MANIFOLDS
+    specs=c['parameters']['pipe_specs'] if c else layout.PIPE_SPECS
+    floor_z=c['parameters']['floor_z'] if c else layout.FLOOR_Z
+    position=c['world_position_m'] if c else (*xy(p['radius'],angle),p['casing_bottom'])
+    rotation=yaw(c) if c else angle+p['rotation_offset']
+    root=b.assembly(f'equipment.steam_generator_{index}','Steam generators',position,rotation)
+    if c:
+        root['model_component']=f'leg_{index}.generator';root['model_parent']=c['parent'];root['pid_tag']=c['pid_tag']
     width,height=p['width'],p['height']
     root['casing_dimensions_m']=[width,width,height]
     if p['frame_height']>0:
-        steel_frame(b,root,'support',4.0,4.0,layout.FLOOR_Z-p['casing_bottom'],0)
-    root['support_bottom_z']=layout.FLOOR_Z;root['support_top_z']=p['casing_bottom']
+        steel_frame(b,root,'support',4.0,4.0,floor_z-p['casing_bottom'],0)
+    root['support_bottom_z']=floor_z;root['support_top_z']=p['casing_bottom']
     b.box('casing',root,(width,width,height),(0,0,height/2),'equipment',.075)
     # Keep this iteration a simple equipment envelope with visible side manifolds.
     for side in (-1,1):
@@ -100,14 +109,13 @@ def steam_generator(b,index,angle):
                   (side*(width/2-.04),tangent*(width/2-.04),height/2),'rail')
     cover=p['cover_thickness']
     b.box('top_cover',root,(width,width,cover),(0,0,height+cover/2),'equipment')
-    m=layout.MANIFOLDS
     for kind,side,z,diameter,material in [
         ('hot',-1,m['hot_z'],m['salt_diameter'],'hot'),
         ('cold',-1,m['cold_z'],m['salt_diameter'],'cold'),
         ('water',1,m['water_z'],m['water_diameter'],'water'),
         ('steam',1,m['steam_z'],m['steam_diameter'],'steam')]:
         y=side*m['side_offset']; h=m['half_length']
-        spec=layout.PIPE_SPECS[kind if kind in ('hot','cold') else kind+'_branch']
+        spec=specs[kind if kind in ('hot','cold') else kind+'_branch']
         cr=m['collector_bare_diameters'][kind]/2
         metal=half_pipe_collector(b,root,kind+'_manifold_metal',side,width/2,h,z,spec['bare_od']/2,
                                  m['side_offset'],-1 if kind=='hot' else 1,'rail',collector_radius=cr)
@@ -345,6 +353,7 @@ def report(b,output,integration,services):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--coolant-model',type=Path,help='Use a resolved coolant TOML document instead of executing its authoring builder')
     parser.add_argument('--draft',action='store_true')
     parser.add_argument('--build-only',action='store_true',help='Save the scene and report without rendering')
     parser.add_argument('--output',type=Path,default=ROOT/'outputs/wistr',help='Output directory')
@@ -355,9 +364,13 @@ def main():
     scene=bpy.context.scene;scene.unit_settings.system='METRIC';scene.unit_settings.scale_length=1
     b=SceneBuilder();palette(b)
     integration=reactor_placement(layout,ROOT)
-    route_coolant(b,layout,integration)
+    from coolant_assembly import build_model
+    from textual_graphics.assembly_model import document,read,write
+    coolant=read(args.coolant_model) if args.coolant_model else document(build_model(layout,integration,ROOT))
+    write(coolant,output/'coolant.resolved.toml')
+    route_coolant(b,layout,integration,coolant)
     building(b,integration);reactor_foundation(b,integration)
-    for i,angle in enumerate(layout.STEAM_GENERATORS['angles'],1): steam_generator(b,i,angle)
+    for i,angle in enumerate(layout.STEAM_GENERATORS['angles'],1): steam_generator(b,i,angle,coolant)
     fuel_storage(b);auxiliary_equipment(b);stacks(b);crane(b)
     from textual_graphics.installation_catwalk import build_catwalk, connect_absorbers
     services=secondary_headers(b,layout)

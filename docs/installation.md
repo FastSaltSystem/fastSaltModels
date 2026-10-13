@@ -10,6 +10,10 @@ handling-and-plug baseline remains unchanged. Equipment and supports remain conc
 Accepted checkpoint: [12 October maintenance and utilities baseline](../baselines/wistr-maintenance-2026-10-12/).
 The earlier [service-bundle baseline](../baselines/wistr-service-bundles-2026-10-12/) remains preserved.
 
+## Coolant assembly authoring — 13 October 2026
+
+The three main coolant legs now use a Python authoring model, detached resolved document and optional TOML exchange before Blender geometry creation. Existing equipment and routes are retained. See [the structure and build instructions](assembly-models.md). The normal installation builder writes its resolved coolant document alongside the scene; `--coolant-model` accepts a previously generated TOML file.
+
 ## Current site fresh-air revision — D-049
 
 The composed site now relocates the exterior cold-air ring inside the reactor building, with shortened equipment branches and a retained doorway gap. See [the current site geometry and checks](site-study.md#internal-fresh-air-duct--d-049). The isolated installation file described below remains the retained input to that composition.
@@ -797,3 +801,8 @@ Validation of this draft: eleven insulated route guides (ten equipment branches 
 The separate [site study](site-study.md) places provisional turbine and fuel-preparation
 buildings around this installation, retaining its current geometry and secondary
 pipe interfaces. The installation source remains the detailed component-level view.
+
+
+### Shared coolant engineering source — D-053
+
+Main salt pipe dimensions and pump inputs now come from the sibling hub's [shared engineering model](../../fastSalt/design/engineering/README.md), also consumed by the P&ID. Geometry and equipment placement remain in Python. The full installation requires that hub (or `FAST_SALT_HUB`); missing/stale sources fail rather than reverting to copied values. This source migration preserves the current equipment, dimensions and routes.
