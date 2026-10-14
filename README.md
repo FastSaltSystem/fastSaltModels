@@ -13,7 +13,9 @@ The sibling [fastSalt project hub](../fastSalt/README.md) owns shared design doc
 | Five-level T-grid cover — current draft | [Design and sections](docs/tgrid-insulation-cover.md) | [Parameters](models/wistr_tgrid_cover.py), [builder](scripts/build_tgrid_cover.py) |
 | Rigid-block cover alternative | [Comparison and structural screening](docs/rigid-insulation-cover.md) | [Parameters](models/wistr_rigid_cover.py), [builder](scripts/build_rigid_cover.py) |
 | Overall installation | [Layout, cameras, and assumptions](docs/installation.md) | [Parameters](models/wistr_installation.py), [builder](scripts/build_wistr.py) |
-| Compact shared-wall tank enclosure — latest draft | [Layout and checks](docs/compact-services-draft.md) | [Parameters](models/wistr_compact_services_draft.py), [builder](scripts/build_compact_services_draft.py) |
+| Attached control annex — latest site draft | [Placement, views and checks](docs/control-annex.md) | [Parameters](models/wistr_control_annex.py), [builder](scripts/build_control_annex.py) |
+| Coolant P&ID, exterior nitrogen and lowered transfer piping — source draft | [Coverage and checks](docs/coolant-pid-3d.md) | [Parameters](models/wistr_coolant_pid_draft.py), [builder](scripts/build_coolant_pid_draft.py) |
+| Compact shared-wall tank enclosure — preceding draft | [Layout and checks](docs/compact-services-draft.md) | [Parameters](models/wistr_compact_services_draft.py), [builder](scripts/build_compact_services_draft.py) |
 | Shared-wall service annex and coolant silo — preceding draft | [Layout and checks](docs/attached-services-draft.md) | [Parameters](models/wistr_attached_services_draft.py), [builder](scripts/build_attached_services_draft.py) |
 | Attached coolant tank bay and three-item laydown — preceding draft | [Layout and checks](docs/tank-bay-draft.md) | [Parameters](models/wistr_tank_bay_draft.py), [builder](scripts/build_tank_bay_draft.py) |
 | Site with turbine and fuel preparation | [Site envelopes and interfaces](docs/site-study.md) | [Parameters](models/wistr_site.py), [builder](scripts/build_site.py) |
@@ -25,7 +27,9 @@ The isolated reactor includes the developed sector handling and removable tube p
 
 ## Open existing models
 
-Latest layout variant: [compact shared-wall tank enclosure](outputs/site-compact-services/fast-salt-compact-services.blend), with a [plan and cutaway guide](docs/compact-services-draft.md).
+Latest complete site: [attached control annex](outputs/site-control-annex/fast-salt-control-annex.blend), with [exterior, interior and site views](docs/control-annex.md).
+
+Preceding layout variant: [coolant P&ID and lowered transfer piping](outputs/site-coolant-pid/fast-salt-coolant-pid.blend), with a [coverage and review guide](docs/coolant-pid-3d.md).
 
 Preceding layout variant: [attached coolant tank bay](outputs/site-tank-bay-draft/fast-salt-tank-bay.blend), with a separate [three-item maintenance placement](outputs/site-tank-bay-draft/maintenance-laydown.blend). See [the draft guide](docs/tank-bay-draft.md) for the composition workflow and remaining access/handling checks.
 

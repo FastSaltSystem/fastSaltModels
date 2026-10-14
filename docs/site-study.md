@@ -1,5 +1,11 @@
 # Fast Salt System site draft
 
+Latest D-069 draft: [attached control annex, complete site and checks](control-annex.md).
+
+Current D-068 draft adds an exterior nitrogen header serving all three service rooms. See [layout, P&ID coverage and review views](coolant-pid-3d.md).
+
+Current coolant-services draft: [P&ID coverage, gas connections and lowered transfer piping](coolant-pid-3d.md), 14 October 2026.
+
 Latest architectural draft: [compact shared-wall tank enclosure and joined coolant preparation](compact-services-draft.md), 14 October 2026.
 
 Preceding architectural draft: [combined shared-wall annex, coolant silo and separate coolant preparation](attached-services-draft.md), 14 October 2026.
