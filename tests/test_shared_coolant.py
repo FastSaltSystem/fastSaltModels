@@ -45,6 +45,44 @@ class SharedTests(unittest.TestCase):
                 self.assertEqual(route['spec']['wall'],.03)
             self.assertEqual(graphics['metadata']['shared_engineering']['model_sha256'],model['shared_provenance']['model_sha256'])
 
+    def test_adopted_duty_matches_checked_results_and_both_views(self):
+        import json
+        results=json.loads((HUB/'calculations/steam-generator/coolant-pump-itemized-results.json').read_text())['hurmet_checks']
+        pressure=json.loads((HUB/'calculations/reactor/coolant-pressure-results.json').read_text())['hurmet_checks']
+        view=pid.load(pid.ROOT/'coolant-system.toml')
+        doc=document(build_model(layout,reactor_interface(layout,ROOT)))
+        for i in (1,2,3):
+            actual=doc['components'][f'leg_{i}.pump']['duty']
+            record=view['equipment'][f'P-{100+i}']
+            for field,key,scale in [('flow_m3_s','PumpVolumeFlow',1),('pressure_rise_pa','PumpRise',1000),
+                                    ('hydraulic_kw','HydraulicPerPump',1),('shaft_kw','ShaftPerPump',1),
+                                    ('electrical_kw','ElectricalPerPump',1)]:
+                self.assertAlmostEqual(actual[field],results[key]*scale)
+                self.assertEqual(actual[field],record[field])
+            self.assertEqual(actual['motor_rating_kw'],2000)
+            self.assertAlmostEqual(record['suction_pressure_bar_g'],pressure['BaseSuction'])
+            self.assertAlmostEqual(record['discharge_pressure_bar_g'],pressure['BaseDischarge'])
+        self.assertEqual(view['equipment']['R-101']['core_height_m'],3.4)
+        self.assertEqual(view['equipment']['R-101']['mass_flow_kg_s'],18500)
+        self.assertEqual(view['lines']['L-101']['temperature_C'],616.85)
+
+    def test_full_loop_loss_change_reaches_both_views(self):
+        from types import SimpleNamespace
+        changed=deepcopy(layout.ENGINEERING)
+        changed['cases']['normal']['pump_pressure_rise']['value']*=1.1
+        other=SimpleNamespace(**{k:getattr(layout,k) for k in dir(layout) if k.isupper()})
+        other.ENGINEERING=changed
+        before=document(build_model(layout,reactor_interface(layout,ROOT)))
+        after=document(build_model(other,reactor_interface(other,ROOT)))
+        view=coolant.pid_projection(changed)
+        for i in (1,2,3):
+            a=after['components'][f'leg_{i}.pump']['duty'];b=before['components'][f'leg_{i}.pump']['duty']
+            self.assertAlmostEqual(a['electrical_kw'],1.1*b['electrical_kw'])
+            self.assertEqual(a['electrical_kw'],view['equipment'][f'P-{100+i}']['electrical_kw'])
+        self.assertEqual(before['connections'],after['connections'])
+        changed['cases']['normal']['total_mass_flow']['value']=19000
+        with self.assertRaisesRegex(ValueError,'three leg flows'):coolant.validate(changed)
+
     def test_reordered_tables_keep_physical_assignment(self):
         from types import SimpleNamespace
         changed=deepcopy(layout.ENGINEERING)

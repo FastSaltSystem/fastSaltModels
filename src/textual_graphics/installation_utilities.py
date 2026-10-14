@@ -75,7 +75,8 @@ def build_transfer(b,layout):
     angle=math.degrees(math.atan2(ty,tx));direction=Vector(polar(1,angle,0));tank_r=math.hypot(tx,ty)
     z=p['pipe_z'];root=b.assembly('connections.coolant_transfer','Utility piping')
     pump=b.assembly('equipment.coolant_transfer_pump','Coolant transfer',polar(p['pump_radius'],angle,z),angle)
-    pump['scope']='Small motor-driven transfer pump envelope; flow, head, NPSH and materials not selected'
+    pump['scope']='Reversible positive-displacement pump envelope; duty and detailed construction not selected'
+    pump['pump_kind']=p['pump_kind'];pump['reversible']=p['reversible'];pump['pid_tag']=p['pid_tag']
     b.box('base',pump,(1.05,.65,.10),(0,0,layout.FLOOR_Z-z+.05),'rail',.02)
     for yy in (-.20,.20):b.box(f'foot{yy}',pump,(.50,.10,.22),(0,yy,-.20),'rail')
     casing=b.cylinder('casing',pump,.18,.45,(0,0,0),'cold',vertices=48)
@@ -95,6 +96,7 @@ def build_transfer(b,layout):
     routes=[]
     for name,points in [('reactor_to_pump',suction),('pump_to_storage',discharge)]:
         o=service_line(b,name,root,points,spec)
+        o['flow_direction']='bidirectional'
         routes.append({'name':o.name,'points':points,'diameter':p['outside_diameter'],'jacket_diameter':spec['jacket_od']})
     # Separate actual vessel/baffle/well openings in this installation copy only.
     tools=b.assembly('utilities.penetrations','Utility tools')
@@ -105,7 +107,8 @@ def build_transfer(b,layout):
     tank=bpy.data.objects['equipment.coolant_storage.closed_tank']
     cut(b,'storage_bottom',tools,[(tx,ty,tz-.10),(tx,ty,tz+.10)],p['outside_diameter']/2+.002,[tank])
     # Low cylinder is a visual envelope: do not imply it is a fully hollow pressure vessel.
-    return {'routes':routes,'pump':pump.name,'reactor_port':list(tap),'pump_inlet':list(inlet),'pump_outlet':list(outlet),
+    return {'routes':routes,'pump':pump.name,'pump_kind':p['pump_kind'],'reversible':p['reversible'],
+        'port_naming':'pump_inlet/pump_outlet are legacy geometry keys for reactor_side/storage_side; roles swap for refill','reactor_port':list(tap),'pump_inlet':list(inlet),'pump_outlet':list(outlet),
         'storage_port':[tx,ty,tz],'tank_insulation_m':c['insulation'],'tank_support_height_m':c['support_height'],
         'scope':p['scope']+'; openings/sleeves shown, seals and thermal movement not detailed'}
 

@@ -39,10 +39,10 @@ def build_model(layout,integration,repo=None):
         paths=[root/'models/wistr_installation.py',root/'models/coolant_assembly.py',root/'src/textual_graphics/assembly_model.py',root/layout.REACTOR['baseline']/'reactor-study-report.json']
         model.metadata['sources']={str(p.relative_to(root)):{'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in paths if p.exists()}
     model.component('coolant')
-    model.component('reactor','interface',parent='coolant',pid_tag=legs[0]['reactor'])
+    model.component('reactor','interface',parent='coolant',pid_tag=legs[0]['reactor'],core_height_m=shared_coolant.value(engineering,'core_height'),mass_flow_kg_s=shared_coolant.value(engineering,'total_mass_flow'))
     for t in integration['terminals']:
         model.port('reactor',t['name'].split('.',1)[1],t['point'],t['direction'])
-    p=layout.PUMPS;flow=p['mass_flow_kg_s']/p['density_kg_m3'];hydraulic=flow*p['sg_pressure_drop_pa']*p['allowance_factor']/1000
+    p=layout.PUMPS;duty=shared_coolant.pump_duty(engineering)
     if layout.STEAM_GENERATORS['count']!=len(layout.STEAM_GENERATORS['angles']) or p['count']!=len(layout.STEAM_GENERATORS['angles']):raise ValueError('Equipment count disagrees with leg layout')
     chosen=[]
     if len(legs)!=len(layout.STEAM_GENERATORS['angles']):raise ValueError('Shared leg count differs from graphics layout')
@@ -51,7 +51,7 @@ def build_model(layout,integration,repo=None):
         leg=model.component(f'leg_{i}',parent='coolant',rotation_deg=(0,0,angle),blender_name=f'connections.loop_{i}',index=i)
         px,py,pz=p['local_position'];pr=p['casing_diameter']/2;bottom=pz-p['casing_height']/2
         pump=model.component(f'leg_{i}.pump','pump',parent=leg,position=p['local_position'],parameters=dict(p),pid_tag=shared['pump'],blender_name=f'equipment.coolant_pump_{i}',floor_z=layout.FLOOR_Z,
-            duty=dict(flow_m3_s=flow,pressure_rise_pa=p['sg_pressure_drop_pa']*p['allowance_factor'],hydraulic_kw=hydraulic,shaft_kw=hydraulic/p['pump_efficiency'],electrical_kw=hydraulic/p['pump_efficiency']/p['motor_efficiency'],motor_rating_kw=p['motor_rating_kw']))
+            duty=dict(duty))
         suction=model.port(pump,'suction',(0,0,-p['casing_height']/2),(0,0,-1));discharge=model.port(pump,'discharge',(-pr,0,0),(-1,0,0))
         sg=layout.STEAM_GENERATORS
         gen=model.component(f'leg_{i}.generator','steam_generator',parent=leg,position=(sg['radius'],0,sg['casing_bottom']),rotation_deg=(0,0,sg['rotation_offset']),pid_tag=shared['generator'],blender_name=f'equipment.steam_generator_{i}',

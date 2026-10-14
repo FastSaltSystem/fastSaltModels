@@ -56,7 +56,8 @@ REACTOR = {
 ACCESS = {"angle": 18.0, "width": 4.5, "height": 6.5,
           "ring_gap_width": 5.5, "inner_radius": 16.5, "outer_radius": 27.0}
 COOLANT_STORAGE = {"position": (14.0, -6.5, FLOOR_Z+.90), "radius": 2.0, "height": 8.0, "support_height": .90, "insulation": .350, "cladding": .001}
-COOLANT_TRANSFER = {"outside_diameter": .050, "wall": .003, "insulation": .050,
+COOLANT_TRANSFER = {"pump_kind": "positive_displacement", "reversible": True, "pid_tag": "P-401",
+                    "outside_diameter": .050, "wall": .003, "insulation": .050,
                     "vessel_tap_radius": 2.90, "pump_radius": 12.40,
                     "pipe_z": FLOOR_Z+.40,
                     "scope": "Heated transfer line; provisional wall, insulation, pump and penetrations; not hydraulically sized"}
@@ -117,7 +118,7 @@ PUMPS = {"count": 3, "local_position": (13.0, -6.0, FLOOR_Z + 4.51),
          "motor_width": 2.8, "motor_depth": 2.4, "motor_height": 3.2, "motor_bottom": FLOOR_Z + 5.9,
          **shared_coolant.pump_inputs(ENGINEERING),
          "suction_run_z": FLOOR_Z + 1.9,
-         "worksheet": "../fastSalt/calculations/steam-generator/Coolant pump estimate - Hurmet.md"}
+         "worksheet": "../fastSalt/" + ENGINEERING["sources"]["pump"]["path"]}
 # Double tank volume with uniform linear scaling; retain the control-box size.
 ABSORBER_TANK_SCALE = 2.0 ** (1.0/3.0)
 ABSORBER_MODULES = {
@@ -180,7 +181,7 @@ ASSUMPTIONS = [
     "Pipe bore, metal wall and insulation follow the conditional 11 October Hurmet calculation cases, not approved material or pressure specifications. Separate hollow metal and insulation meshes permit inspection; collector shells remain visual envelopes.",
     "Salt hot/cold: 1.425 m bore, 25 mm nominal wall, 400/350 mm radial insulation. Steam branch/header: 425/725 mm bore, 115/195 mm wall, 350 mm insulation. Water branch/header: 375/650 mm bore, 75/120 mm wall, 175 mm insulation.",
     "Three 4 x 4 x 17 m generators remain on the floor, centres at radius 14 m. Low salt ports rise to 1.9 m and water ports to 3.5 m above floor to clear insulation and the reactor fresh-air duct. Salt collectors face reactor; secondary collectors face wall.",
-    "Pumps remain provisional 2 MW vertical centrifugal envelopes with bottom suction and side discharge. Raised open frames leave space for insulated suction bends. No hydraulic losses, pump selection or support loads are recalculated.",
+    "Pumps remain provisional 2 MW vertical centrifugal envelopes with bottom suction and side discharge. Raised open frames leave space for insulated suction bends. Duty metadata adopts D-061 itemized losses; these retained envelopes do not select a pump or qualify support loads.",
     "The current working reactor with six fitted insulation covers and side air plenums is imported at full scale using a generated hash manifest. Preserved baselines remain unchanged. Installed coolant sleeves retain their conditional bore/wall adaptation.",
     "External salt insulation begins at the reactor connection terminals, outside the concrete well. Vessel and in-well cooling surfaces are not insulated by this revision.",
     "Collector insulation follows the pipe-service radial allowance; D-shaped collector sizes and pressure walls remain provisional and require separate pressure design.",
