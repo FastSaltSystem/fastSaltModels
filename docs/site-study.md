@@ -1,5 +1,11 @@
 # Fast Salt System site draft
 
+Latest architectural draft: [compact shared-wall tank enclosure and joined coolant preparation](compact-services-draft.md), 14 October 2026.
+
+Preceding architectural draft: [combined shared-wall annex, coolant silo and separate coolant preparation](attached-services-draft.md), 14 October 2026.
+
+Earlier layout variant (14 October): [attached coolant tank bay and three-item laydown](tank-bay-draft.md). The earlier source arrangements below remain reproducible.
+
 Cleanup note — 12 October 2026: superseded generated drafts have been removed. Current site plans and the saved scene are together in `outputs/site-45-bends/`. The current site now imports the maintenance/utility installation and adds the D-043 process buildings. Historical output links below may require rebuilding.
 
 The accepted site and service checkpoint is preserved in [the named baseline](../baselines/fast-salt-site-2026-10-12/), including the model, selected views, reports and file hashes. Routine outputs remain ignored.

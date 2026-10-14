@@ -1,5 +1,7 @@
 # Fast Salt System installation
 
+Latest layout variant (14 October): [compact shared-wall tank enclosure and joined coolant preparation](compact-services-draft.md), retaining the [three-item laydown](tank-bay-draft.md). The earlier source arrangements below remain reproducible.
+
 [Repository overview](../README.md)
 
 Current working model: [under-cover service-bundle draft](../outputs/installation-under-cover-bundles/wistr-installation.blend).

@@ -1,5 +1,7 @@
 # Coolant storage tank — provisional fit study
 
+Follow-up: the owner selected an [attached tank-bay draft](tank-bay-draft.md) beside coolant preparation. The findings below document why the earlier interior location was unsuitable.
+
 14 October 2026. Owner-selected size: **8.2 m bare diameter × 16 m bare height**, subject to future SG/inventory revisions (D-058). Current installation/site scenes retain the earlier 4 × 8 m tank. The [selected envelope](../../fastSalt/design/engineering/coolant-storage.toml) is separate from the unresolved location.
 
 ![Proposed tank at the existing location](../outputs/coolant-storage-fit/coolant-storage-fit.png)
