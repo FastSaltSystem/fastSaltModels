@@ -4,11 +4,11 @@
 
 ## Review
 
-- [Complete Blender site](../outputs/site-control-annex/fast-salt-control-annex.blend)
-- [Annex exterior and adjacent connections](../outputs/site-control-annex/exterior.png)
-- [Interior cutaway](../outputs/site-control-annex/cutaway.png)
-- [Whole-site context](../outputs/site-control-annex/site.png)
-- [Geometry checks and source hashes](../outputs/site-control-annex/control-annex-checks.json)
+- Complete scene: generate `outputs/site-control-annex/fast-salt-control-annex.blend` locally (see Build below). Published previews: [gallery](../results/README.md).
+- [Annex exterior and adjacent connections](../results/2026-10-15/control-annex/exterior.png)
+- [Interior cutaway](../results/2026-10-15/control-annex/cutaway.png)
+- [Whole-site context](../results/2026-10-15/control-annex/site.png)
+- [Geometry checks and source hashes](../results/2026-10-15/control-annex/control-annex-checks.json)
 
 ## Arrangement
 

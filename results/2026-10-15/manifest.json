@@ -1,0 +1,32 @@
+{
+  "snapshot_date": "2026-10-15",
+  "repository": "fastSaltModels",
+  "source_commit": "f56570032a5e6bffd6cdd597fa54bfe5244dfb81",
+  "status": "Selected preliminary review results; not an issued design",
+  "files": [
+    {
+      "file": "control-annex/site.png",
+      "source": "outputs/site-control-annex/site.png",
+      "bytes": 2004563,
+      "sha256": "dc4e467f8a9cd2aef6687e55b68f61dc116a5d450fd5e0cdc020c1792a47bf0c"
+    },
+    {
+      "file": "control-annex/exterior.png",
+      "source": "outputs/site-control-annex/exterior.png",
+      "bytes": 2037267,
+      "sha256": "912422001c43a8b68bb4be62b6c7f729418e8840e2f598b913703e97899aec9d"
+    },
+    {
+      "file": "control-annex/cutaway.png",
+      "source": "outputs/site-control-annex/cutaway.png",
+      "bytes": 1898866,
+      "sha256": "a41dc87b4da2374bd868361cc01aaff4a1140d32ec96e583fc97b9b769ab8da2"
+    },
+    {
+      "file": "control-annex/control-annex-checks.json",
+      "source": "outputs/site-control-annex/control-annex-checks.json",
+      "bytes": 1451,
+      "sha256": "8ac4bca885e9d0dcafd77c3aeb12fd9a37371bf47e31d123dd6470d09d24b5ef"
+    }
+  ]
+}
