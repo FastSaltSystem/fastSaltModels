@@ -1,5 +1,7 @@
 # WISTR reactor study
 
+Current absorber update (15 October 2026): [chamber-bottom revision and capacity/P&ID review](absorber-system-review.md). Absorber bottoms now align with the active-core bottom; earlier dimensions below describe prior snapshots.
+
 All shell commands and code paths below are relative to the `fastSaltModels` repository root.
 
 [Repository overview](../README.md)

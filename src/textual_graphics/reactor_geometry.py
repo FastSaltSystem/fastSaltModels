@@ -81,9 +81,9 @@ def build_core(b,layout,d):
                          d['hot_plenum_z']-p['downcomer_roof_thickness'],d['hot_plenum_z'],.002,'reflector')
         separator['role']='sector_separator'
         tank=b.assembly(f'reactor.absorber_{i+1}','Absorber tanks',angle=i*60)
-        start=.10; end=d['reflector_radius']; height=d['hot_plenum_z']-d['bottom_reflector_z']
+        start=.10; end=d['reflector_radius']; height=d['hot_plenum_z']-d['core_z']
         b.box('rectangular_tank',tank,(end-start,p['absorber_tank_width'],height),
-              ((start+end)/2,0,(d['hot_plenum_z']+d['bottom_reflector_z'])/2),'absorber')
+              ((start+end)/2,0,(d['hot_plenum_z']+d['core_z'])/2),'absorber')
 
 
 def build_supports(b,layout,d):
