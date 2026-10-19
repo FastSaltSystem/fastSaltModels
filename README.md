@@ -1,80 +1,68 @@
-# fastSaltModels
+# Fast Salt System models
 
-Python-authored WISTR reactor and Fast Salt System installation models rendered with Blender. This repository was formerly named `TextualGraphics`; its Git history and baseline files are retained. The internal Python package remains `textual_graphics`.
+Python and Blender models of the WISTR reactor, its maintenance equipment, and the surrounding power plant. This repository contains the editable geometry and selected visual checkpoints for the [Fast Salt System](https://github.com/FastSaltSystem/fastSalt).
 
-The sibling [fastSalt project hub](../fastSalt/README.md) owns shared design documentation, calculations, publications, and decisions. Start with its [project status](../fastSalt/STATUS.md) for current priorities.
+**[Browse the model gallery](results/README.md)** · **[Open a saved Blender model](#open-a-model)** · **[Contribute](CONTRIBUTING.md)**
 
-## Choose the work
+![Provisional plant layout with the reactor building, turbine hall and control annex](results/2026-10-15/control-annex/site.png)
 
-| Work | Instructions | Definition and builder |
-| --- | --- | --- |
-| Detailed WISTR reactor | [Reactor study, handling, controls, and checks](docs/reactor-study.md) | [Parameters](models/wistr_reactor.py), [builder](scripts/build_reactor.py) |
-| Removable reactor insulation cover | [Six-sector cassette and sliding-hook study](docs/insulation-cover.md) | [Parameters](models/wistr_insulation_cover.py), [builder](scripts/build_insulation_cover.py) |
-| Five-level T-grid cover — current draft | [Design and sections](docs/tgrid-insulation-cover.md) | [Parameters](models/wistr_tgrid_cover.py), [builder](scripts/build_tgrid_cover.py) |
-| Rigid-block cover alternative | [Comparison and structural screening](docs/rigid-insulation-cover.md) | [Parameters](models/wistr_rigid_cover.py), [builder](scripts/build_rigid_cover.py) |
-| Overall installation | [Layout, cameras, and assumptions](docs/installation.md) | [Parameters](models/wistr_installation.py), [builder](scripts/build_wistr.py) |
-| Attached control annex — latest site draft | [Placement, views and checks](docs/control-annex.md) | [Parameters](models/wistr_control_annex.py), [builder](scripts/build_control_annex.py) |
-| Coolant P&ID, exterior nitrogen and lowered transfer piping — source draft | [Coverage and checks](docs/coolant-pid-3d.md) | [Parameters](models/wistr_coolant_pid_draft.py), [builder](scripts/build_coolant_pid_draft.py) |
-| Compact shared-wall tank enclosure — preceding draft | [Layout and checks](docs/compact-services-draft.md) | [Parameters](models/wistr_compact_services_draft.py), [builder](scripts/build_compact_services_draft.py) |
-| Shared-wall service annex and coolant silo — preceding draft | [Layout and checks](docs/attached-services-draft.md) | [Parameters](models/wistr_attached_services_draft.py), [builder](scripts/build_attached_services_draft.py) |
-| Attached coolant tank bay and three-item laydown — preceding draft | [Layout and checks](docs/tank-bay-draft.md) | [Parameters](models/wistr_tank_bay_draft.py), [builder](scripts/build_tank_bay_draft.py) |
-| Site with turbine and fuel preparation | [Site envelopes and interfaces](docs/site-study.md) | [Parameters](models/wistr_site.py), [builder](scripts/build_site.py) |
-| Horseshoe fuel-handling study | [Dimensioned plan and reference basis](docs/fuel-handling-study.md) | [Parameters](models/fuel_handling_layout.py), [drawing generator](scripts/draw_fuel_handling_plan.py) |
-| Python assembly authoring and TOML exchange | [Model structure, examples and checks](docs/assembly-models.md) | [Coolant authoring](models/coolant_assembly.py), [resolver](scripts/resolve_coolant.py) |
-| PMS examples and motion | [Adapter, playback, supported objects, and tests](docs/pms-adapter.md) | [Python package](src/textual_graphics/) |
+*Control-annex site draft, 14 October 2026; published in the 15 October review snapshot. Roofs and walls are selectively hidden to show equipment. Building envelopes and equipment details are provisional.*
 
-The isolated reactor includes the developed sector handling and removable tube plugs. The workshop installation imports the current working reactor with six fitted insulation covers and side air plenums at full scale, with three insulated coolant pairs routed to the illustrative steam-generator envelopes. The current 42 m draft uses conditional Hurmet pipe bore/wall/insulation dimensions; the installation copy of its nozzle sleeves is adapted to match. The current installation adds catwalk-level laydown bays for one insulation cover and sector cap, with a mobile sector canister/cart replacing fixed sector storage. It uses an internal insulated hot-air header for generators and fuel tanks, a direct reactor exhaust to an aligned stack, and, in the current composed site, an internal floor-level steel fresh-air duct with three outdoor intakes, centered generator-side valve boxes, and a complete wall-column layout. The [site draft](docs/site-study.md) now includes [illustrative motor-BFP machinery detail](docs/turbine-equipment.md) in a provisional 60 × 40 × 28 m turbine hall with electrical annex and withdrawal aprons; adjacent off-gas and fuel refining/recycling buildings are 5 m tall, with a separate 20 × 15 × 8 m converter envelope beyond them. The shared reactor duct carries fuel supply and return together in a common heated, insulated jacket alongside coolant and gas lines. Six low, commonly insulated and heat-traced fuel pairs now link a fuel valve-box reservation to all six maintenance tanks, with a separate coolant line to the storage-tank bottom. Three pressure servers now service the maintenance-tank pairs via 25 mm gas tubes; paired gas headers use the shared duct, and the nitrogen skid feeds the off-gas building from its new position beside it. A [main internal piping draft](docs/turbine-piping.md) adds steam, reheat, condensate and feedwater routes with explicit clearance and maintenance limitations. Airflow sizing and external plant equipment remain to develop.
+## Start here
 
-## Open existing models
-
-Latest complete site: [attached control annex](outputs/site-control-annex/fast-salt-control-annex.blend), with [exterior, interior and site views](docs/control-annex.md).
-
-Preceding layout variant: [coolant P&ID and lowered transfer piping](outputs/site-coolant-pid/fast-salt-coolant-pid.blend), with a [coverage and review guide](docs/coolant-pid-3d.md).
-
-Preceding layout variant: [attached coolant tank bay](outputs/site-tank-bay-draft/fast-salt-tank-bay.blend), with a separate [three-item maintenance placement](outputs/site-tank-bay-draft/maintenance-laydown.blend). See [the draft guide](docs/tank-bay-draft.md) for the composition workflow and remaining access/handling checks.
-
-For ongoing work, open [the reactor scene](outputs/reactor-study/wistr-reactor-study.blend) or [the current installation draft](outputs/installation-under-cover-bundles/wistr-installation.blend) in Blender. These links refer to locally generated outputs, which are excluded from Git and must be generated on a fresh checkout.
-
-For a reproducible review snapshot, use the preserved baselines below. The latest visual checkpoint is the 2026-10-12 turbine equipment snapshot below. Commit `0d981f2` preserves the earlier reactor handling and tube-plug baseline.
-
-| Baseline | Contents |
+| I want to… | Go to |
 | --- | --- |
-| [2026-10-12 turbine equipment](baselines/turbine-equipment-2026-10-12/) | Accepted machinery detail, complete site, three equipment views, checked reports and hash manifest |
-| [2026-10-12 site and services](baselines/fast-salt-site-2026-10-12/) | Accepted complete site, process connections, internal fresh-air duct, low generator inlets, checked report and hash manifest |
-| [2026-10-12 maintenance and utilities](baselines/wistr-maintenance-2026-10-12/) | Accepted installation, maintenance/utility views, geometry report and hash manifest |
-| [2026-10-12 service bundles](baselines/wistr-service-bundles-2026-10-12/) | Accepted installation scene, normal/inspection views, geometry report and hash manifest |
-| [2026-10-11 insulated installation](baselines/wistr-insulated-installation-2026-10-11/) | Reactor, installation and standalone cover scenes, draft views, reports and hash manifest |
-| [2026-10-08 handling and plugs](baselines/wistr-reactor-handling-2026-10-08/) | Latest preserved reactor scene, geometry report, lifting animation, and hash manifest |
-| [2026-10-07 tubing](baselines/wistr-reactor-tubing-2026-10-07/) | Earlier tubing and service-routing snapshot |
-| [2026-10-07 initial reactor](baselines/wistr-reactor-2026-10-07/) | Initial snapshot with the historical 3.6 m core; tag `wistr-reactor-baseline-2026-10-07` |
+| See the plant, reactor, insulation and turbine equipment | [Model gallery with dated captions](results/README.md) |
+| Understand the system and its P&IDs | [Project hub](https://github.com/FastSaltSystem/fastSalt) |
+| Rotate and inspect a saved model | [Opening a Blender checkpoint](#open-a-model) |
+| Modify a component or rebuild a scene | [Model source guides](#edit-and-build) |
+| Suggest or contribute a change | [Contribution workflow](CONTRIBUTING.md) |
 
-Routine outputs were cleaned on 12 October 2026: only the latest installation, reactor, T-grid cover and site outputs, plus the PMS examples, remain. Earlier working-output links in historical design notes may no longer resolve; committed baselines remain intact.
+## Open a model
 
-## Build and verify
+The gallery can be read without installing software. To rotate or inspect the geometry, install Blender and download a saved `.blend` file using **Download raw file** on its GitHub file page, then open it in Blender. These scenes were developed with Blender 5.2; other versions have not been verified here.
 
-Run commands from this repository root. Blender's Python supplies the required Blender modules; the static models do not require a PMS simulation. Build the standalone cassette and prepare its fitted asset first, as described in the [reactor integration guide](docs/reactor-study.md#build-the-current-revision).
+| Saved checkpoint | What it contains |
+| --- | --- |
+| [Complete site with turbine equipment — 12 October](baselines/turbine-equipment-2026-10-12/fast-salt-site.blend) | Reactor installation, turbine machinery and piping; approximately 65 MB. Predates the later tank bay and control annex. |
+| [Reactor and insulation — 11 October](baselines/wistr-insulated-installation-2026-10-11/reactor/wistr-reactor-study.blend) | Isolated reactor with fitted insulation and side air connections. |
+| [Maintenance installation — 12 October](baselines/wistr-maintenance-2026-10-12/wistr-installation.blend) | Maintenance and utility layout at that checkpoint. |
+| [All preserved baselines](baselines/) | Earlier revisions, reports and hash manifests. |
+
+Use the middle mouse button to orbit, the wheel to zoom, and Shift + middle mouse to pan. The Outliner controls which collections are visible. Cutaway views deliberately hide parts of the model.
+
+The more recent control-annex **images** are published in the gallery. Its complete scene is generated locally at `outputs/site-control-annex/fast-salt-control-annex.blend`; it is not included in this review snapshot. The earlier downloadable model is labeled by its own date.
+
+## Edit and build
+
+Keep the two repositories beside each other when following workflows that consume shared inputs:
 
 ```sh
-/Applications/Blender.app/Contents/MacOS/Blender \
-  --background --factory-startup --python-exit-code 1 \
-  --python scripts/build_reactor.py
+git clone https://github.com/FastSaltSystem/fastSalt.git
+git clone https://github.com/FastSaltSystem/fastSaltModels.git
 ```
 
-For the installation, substitute `scripts/build_wistr.py`. The detailed guides describe selected views and draft rendering. Builders produce scenes, images, and geometry-check reports in `outputs/`.
+Run Blender scripts from the `fastSaltModels` root using Blender's Python. The static geometry does not require a PMS simulation. Some composed scenes read intermediate `.blend` files: follow the linked guide's prerequisite builds rather than assuming a fresh checkout contains `outputs/`.
 
-```sh
-/Applications/Blender.app/Contents/MacOS/Blender \
-  --background --factory-startup --python-exit-code 1 \
-  --python tests/test_blender_adapter.py
-```
+| Work | Guide | Editable definition / builder |
+| --- | --- | --- |
+| WISTR reactor, sectors, handling and services | [Reactor study](docs/reactor-study.md) | [Parameters](models/wistr_reactor.py) / [builder](scripts/build_reactor.py) |
+| Current five-level insulation cassette | [T-grid insulation](docs/tgrid-insulation-cover.md) | [Parameters](models/wistr_tgrid_cover.py) / [builder](scripts/build_tgrid_cover.py) |
+| Reactor-building installation | [Installation](docs/installation.md) | [Parameters](models/wistr_installation.py) / [builder](scripts/build_wistr.py) |
+| Site and turbine equipment | [Site study](docs/site-study.md), [turbine detail](docs/turbine-equipment.md) | [Site definition](models/wistr_site.py) / [builder](scripts/build_site.py) |
+| Coolant P&ID tags and nitrogen routing | [Coolant coverage](docs/coolant-pid-3d.md) | [Parameters](models/wistr_coolant_pid_draft.py) / [builder](scripts/build_coolant_pid_draft.py) |
+| Attached control annex | [Annex guide](docs/control-annex.md) | [Parameters](models/wistr_control_annex.py) / [builder](scripts/build_control_annex.py) |
+| Python assemblies and TOML exchange | [Assembly models](docs/assembly-models.md) | [Coolant authoring](models/coolant_assembly.py) / [resolver](scripts/resolve_coolant.py) |
+| PMS examples and motion | [PMS adapter](docs/pms-adapter.md) | [Python package](src/textual_graphics/) |
 
-## File ownership
+Other design variants remain in [docs](docs/) and the Git history. The former repository name was `TextualGraphics`; the Python package is still `textual_graphics`.
 
-- `models/`: editable Python definitions and assumptions.
-- `scripts/` and `src/`: scene generation, checks, and PMS adapters.
-- `references/`: preserved source drawings.
-- `baselines/`: preserved review snapshots and manifests; create a new snapshot for a new baseline.
-- `outputs/`: generated working files and renders, excluded from Git.
-- `docs/`: detailed usage and model notes.
+## Files and review status
 
-These models provide geometry and visualization. Mass properties, load capacity, and agreement with university analysis models remain separate engineering work. Source assumptions and the scope of existing geometry checks are documented in the guides and reports.
+- `models/`, `src/`, `scripts/`: editable geometry, builders and checks.
+- `docs/`, `references/`: model explanations and preserved source drawings.
+- `baselines/`: deliberately saved Blender checkpoints.
+- `results/`: selected dated previews with provenance, viewable on GitHub.
+- `outputs/`: local generated scenes and renders, ignored by Git.
+
+The models describe visual geometry. Geometry checks do not establish structural, thermal, neutronics or equipment performance. Captions retain the date and scope of each view; the gallery is not one synchronized engineering release. Code and document licensing choices remain pending in the project hub.

@@ -1,0 +1,37 @@
+{
+  "footprint_m2": 500,
+  "operator_area_m2": 180,
+  "shared_boundary_length_m": 4.0,
+  "reactor_shell_plan_clearance_m": 1.627,
+  "turbine_service_volumes_checked": 18,
+  "turbine_aprons_checked": 3,
+  "nearby_pipes": [
+    [
+      "connections.secondary_headers.water_common_header",
+      3.5074
+    ],
+    [
+      "coolant.pid.routes.H-401",
+      16.6029
+    ]
+  ],
+  "nearby_meshes_checked": [
+    "site.fresh_air.floor.180",
+    "site.fresh_air.inner.180",
+    "site.fresh_air.outer.180",
+    "site.fresh_air.roof.180",
+    "site.turbine.east.0",
+    "site.turbine.south.0"
+  ],
+  "collisions": [],
+  "vestibule_opening_checked": true,
+  "pid_objects_unchanged": 121,
+  "main_circulation_unchanged": true,
+  "scope": "Provisional 500 m2 footprint, 180 m2 operator area. Independent slab and control-side barrier reservation; structural independence, shared-wall detail, fire/seismic/missile/shielding design, HVAC, electrical separation and complete egress remain unresolved.",
+  "source_hashes": {
+    "outputs/site-coolant-pid/fast-salt-coolant-pid.blend": "39f50452011244d78c2510a92da8c7ac4673cb73b9ecab36fe8bcaae282ae953",
+    "scripts/build_control_annex.py": "605605ebee2aa0f5291235b97a584a513e5c98e397aab3ffa131bc2aa2aee7be",
+    "models/wistr_control_annex.py": "b29a5a0951c77e72ea31124715c7051ccdd42cd3431484dfbfeb711c352f5dea",
+    "models/turbine_layout.py": "195911825746acb05c154d184eb33c3fb3af732814cc9bcad09af0de668e3755"
+  }
+}
